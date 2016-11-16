@@ -5,10 +5,10 @@ class User < ApplicationRecord
   before_validation :downcase_case_insensitive_attributes
 
   # associations
-  has_many :course_users
+  has_many :course_users, dependent: :destroy
   has_many :courses, through: :course_users
 
-  has_many :memberships
+  has_many :memberships, dependent: :destroy
   has_many :study_groups, through: :memberships
 
   # validations

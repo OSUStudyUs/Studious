@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161116222011) do
+ActiveRecord::Schema.define(version: 20161116231318) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,23 @@ ActiveRecord::Schema.define(version: 20161116222011) do
     t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "flash_card_sets", force: :cascade do |t|
+    t.integer  "study_group_id",                 null: false
+    t.boolean  "public",         default: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.index ["study_group_id"], name: "index_flash_card_sets_on_study_group_id", using: :btree
+  end
+
+  create_table "flash_cards", force: :cascade do |t|
+    t.integer  "flash_card_set_id", null: false
+    t.string   "question",          null: false
+    t.string   "answer"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["flash_card_set_id"], name: "index_flash_cards_on_flash_card_set_id", using: :btree
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -64,6 +81,8 @@ ActiveRecord::Schema.define(version: 20161116222011) do
 
   add_foreign_key "course_users", "courses"
   add_foreign_key "course_users", "users"
+  add_foreign_key "flash_card_sets", "study_groups"
+  add_foreign_key "flash_cards", "flash_card_sets"
   add_foreign_key "memberships", "study_groups"
   add_foreign_key "memberships", "users"
   add_foreign_key "study_groups", "courses"

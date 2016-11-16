@@ -2,6 +2,8 @@ class StudyGroup < ApplicationRecord
   # associations
   belongs_to :course
 
+  has_many :flash_card_sets, dependent: :nullify
+
   # validations
   validates :course, presence: true
 
