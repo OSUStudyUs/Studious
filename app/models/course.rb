@@ -6,9 +6,9 @@ class Course < ApplicationRecord
   has_many :study_groups
 
   # validations
-  validates :department, presense: true
+  validates :department, presence: true
 
-  validates :number, presense: true
+  validates :number, presence: true
 
-  validates :name, presense: true
+  validates :name, presence: true
 end

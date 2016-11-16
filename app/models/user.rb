@@ -2,7 +2,7 @@ class User < ApplicationRecord
   has_secure_password
 
   # hooks
-  before_action :downcase_case_insensitive_attributes, on: :create
+  before_validation :downcase_case_insensitive_attributes
 
   # associations
   has_many :course_users

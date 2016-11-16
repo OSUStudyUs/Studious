@@ -4,7 +4,7 @@ class CourseUser < ApplicationRecord
   belongs_to :user
 
   #validations
-  validates :course, presense: true
+  validates :course, presence: true
 
   validates :user, presence: true
 end
