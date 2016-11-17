@@ -1,0 +1,2 @@
+web: rails s -p 8080
+cra: npm start
