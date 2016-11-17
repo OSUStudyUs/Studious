@@ -1,2 +1,2 @@
-web: rails s -p 8080
-cra: npm start
+rails: rails s -p 8080
+create-react-app: npm start
