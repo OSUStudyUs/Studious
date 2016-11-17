@@ -1,24 +1,12 @@
-# README
+# Project 6
+### Studious
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Roles
+* Overall Project Manager: Kyle Thompson [@kylekthompson](https://github.com/kylekthompson)
+* Coding Manager: Alex Tareshawty [@atareshawty](https://github.com/atareshawty)
+* Testing Manager: Sean Whitehurst [@seanpwhitehurst](https://github.com/seanpwhitehurst)
+* Documentation: Mary Zhou [@mz43065](https://github.com/mz43065)
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Contributions
+Please list who did what for each part of the project.
+Also list if people worked together (pair programmed) on a particular section.
