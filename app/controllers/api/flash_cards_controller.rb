@@ -1,4 +1,4 @@
-class FlashCardsController < ApplicationController
+class Api::FlashCardsController < ApplicationController
   def create
   end
 

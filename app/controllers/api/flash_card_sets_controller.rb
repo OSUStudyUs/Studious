@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+class Api::FlashCardSetsController < ApplicationController
   def index
   end
 
