@@ -1,0 +1,2 @@
+rails: rails s -p 8080
+create-react-app: npm start
