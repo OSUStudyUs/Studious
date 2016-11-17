@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# bin/prod-server: Start our production server
+
+npm run build
+
+bundle exec puma -C config/puma.rb

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get '*path', to: 'index#index'
+
   resources :users, only: [:index, :create, :update, :destroy]
   resources :users, only: [:show] do
     resources :flash_card_sets, only: [:create]
