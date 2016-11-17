@@ -11,6 +11,8 @@ class User < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_many :study_groups, through: :memberships
 
+  has_many :flash_card_sets, dependent: :destroy
+
   # validations
   validates :first_name, presence: true
 
