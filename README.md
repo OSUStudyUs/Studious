@@ -7,7 +7,7 @@
 First run `gem install foreman`
 
 ### Rails Stuff
-Make sure you've `bundle installed`'d and run any necessary migrations
+Make sure you've `bundle install`'d and run any necessary migrations
 
 ### Node/React Stuff
 `npm install`
