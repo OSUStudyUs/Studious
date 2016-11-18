@@ -1,4 +1,7 @@
 class Api::UsersController < ApplicationController
+  before_action :authenticate_user, except: [:create]
+  before_action :ensure_correct_user!, except: [:index, :create]
+
   def index
     @users = User.all
 
@@ -54,5 +57,13 @@ class Api::UsersController < ApplicationController
 
   def update_params
     create_params
+  end
+
+  def ensure_correct_user!
+    user = current_user
+
+    unless user && user.id == params[:id].to_i
+      head 401
+    end
   end
 end
