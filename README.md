@@ -3,9 +3,6 @@
 
 ## Setup
 
-### [Foreman](https://github.com/ddollar/foreman)
-First run `gem install foreman`
-
 ### Rails Stuff
 Make sure you've `bundle install`'d and run any necessary migrations
 
