@@ -17,7 +17,7 @@ class Api::UsersController < ApplicationController
     if @user.save
       render :show, status: 201
     else
-      render json: { errors: @user.errors.to_json }, status: 409
+      render json: { errors: @user.errors }, status: 409
     end
   end
 
@@ -27,7 +27,7 @@ class Api::UsersController < ApplicationController
     if @user.update_attributes update_params
       render :show, status: 200
     else
-      render json: { errors: @user.errors.to_json }, status: 409
+      render json: { errors: @user.errors }, status: 409
     end
   end
 
