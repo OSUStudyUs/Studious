@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CourseUsersController, type: :controller do
+RSpec.describe Api::CourseUsersController, type: :controller do
 
   describe "GET #create" do
     it "returns http success" do

@@ -38,9 +38,9 @@ class Api::UsersController < ApplicationController
     user = User.find params[:id]
 
     if user.destroy
-      head status: 204
+      head 204
     else
-      render json: { errors: [ "User could not be destroyed" ] }, status: 500
+      render json: { errors: ["User could not be destroyed"] }, status: 500
     end
   end
 

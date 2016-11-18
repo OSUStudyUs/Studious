@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FlashCardSetsController, type: :controller do
+RSpec.describe Api::StudyGroupsController, type: :controller do
 
   describe "GET #index" do
     it "returns http success" do

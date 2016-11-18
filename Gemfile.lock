@@ -43,6 +43,7 @@ GEM
     builder (3.2.2)
     byebug (9.0.6)
     concurrent-ruby (1.0.2)
+    database_cleaner (1.5.3)
     diff-lcs (1.2.5)
     dotenv (2.1.1)
     erubis (2.7.0)
@@ -161,6 +162,7 @@ PLATFORMS
 DEPENDENCIES
   bcrypt (~> 3.1.7)
   byebug
+  database_cleaner
   dotenv
   factory_girl_rails
   ffaker
