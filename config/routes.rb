@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get '*path', to: 'index#index'
-
   namespace :api do
     post 'user_token' => 'user_token#create'
 
@@ -27,4 +25,6 @@ Rails.application.routes.draw do
 
     resources :flash_cards, only: [:update, :destroy]
   end
+
+  get '*path', to: 'index#index'
 end
