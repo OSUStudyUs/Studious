@@ -29,6 +29,24 @@ class User < ApplicationRecord
 
   validates :password_confirmation, presence: true
 
+  # Knock Customization
+  def self.from_token_request(request)
+    email = request.params[:auth] && request.params[:auth][:email]&.downcase
+    self.find_by_email email
+  end
+
+  def self.from_token_payload(payload)
+    self.find_by_email payload["sub"].downcase
+  end
+
+  def to_token_payload
+    payload = Hash.new
+
+    payload[:sub] = self.email
+
+    payload
+  end
+
   private
   def downcase_case_insensitive_attributes
     self.email.downcase!
