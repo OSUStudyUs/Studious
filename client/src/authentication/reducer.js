@@ -4,7 +4,7 @@ import {
 
 const initialState = {
   isAuthenticated: false,
-  isFetching: true
+  errorMessage: false
 };
 
 const authentication = (state = initialState, { type, payload }) => {
@@ -13,26 +13,23 @@ const authentication = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isAuthenticated: false,
-        isFetching: false,
         errorMessage: payload.errorMessage
       };
     case LOGIN_REQUEST:
       return {
         ...state,
-        isAuthenticated: false,
-        isFetching: true
+        isAuthenticated: false
       };
     case LOGIN_SUCCESS:
       return {
         ...state,
         isAuthenticated: true,
-        isFetching: false
+        errorMessage: null
       };
     case LOGOUT_SUCCESS:
       return {
         ...state,
-        isAuthenticated: false,
-        isFetching: false
+        isAuthenticated: false
       };
     default:
       return state;

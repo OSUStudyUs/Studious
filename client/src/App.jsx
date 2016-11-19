@@ -41,8 +41,7 @@ const App = ({ dispatch, isAuthenticated, errorMessage, ...rest }) => {
     {
       ({ router }) => (
         <div className="App">
-          {typeof errorMessage !== 'undefined' && <p>{errorMessage}</p>}
-          <Navbar dispatch={dispatch} isAuthenticated={isAuthenticated} />
+          <Navbar dispatch={dispatch} isAuthenticated={isAuthenticated} errorMessage={errorMessage} />
           <MatchWhenNotLoggedIn component={LandingPage} dispatch={dispatch} isAuthenticated={isAuthenticated} pattern="/" />
           <MatchWhenAuthorized component={Home} dispatch={dispatch} isAuthenticated={isAuthenticated} pattern="/" />
         </div>

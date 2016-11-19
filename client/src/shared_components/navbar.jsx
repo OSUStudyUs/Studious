@@ -5,14 +5,14 @@ import './navbar.css';
 const { actions, components } = auth;
 const { Login, Logout } = components;
 
-const Navbar = ({ dispatch, isAuthenticated }) => (
+const Navbar = ({ dispatch, errorMessage, isAuthenticated }) => (
   <div className="Navbar">
     <div className="Navbar-title">
       Studious
     </div>
     {!isAuthenticated &&
       <div className="Navbar-auth">
-        <Login onLogin={(creds) => actions.loginUser(creds)(dispatch)} />
+        <Login errorMessage={errorMessage} onLogin={(creds) => actions.loginUser(creds)(dispatch)} />
       </div>
     }
     {isAuthenticated &&
@@ -25,6 +25,7 @@ const Navbar = ({ dispatch, isAuthenticated }) => (
 
 Navbar.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string,
   isAuthenticated: PropTypes.bool.isRequired
 };
 
