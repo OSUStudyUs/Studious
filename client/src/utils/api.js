@@ -1,7 +1,6 @@
 import 'whatwg-fetch';
 
-// TODO: actually check environment variable
-const baseUrl = 'http://localhost:8080';
+const baseUrl = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8080';
 
 const request = (url, { method, body }) =>
   fetch(`${baseUrl}/api${url}`, {
