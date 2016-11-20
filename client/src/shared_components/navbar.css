@@ -5,6 +5,11 @@
   width: 100%;
 }
 
+.Navbar-auth {
+  align-items: center;
+  display: flex;
+}
+
 .Navbar-title {
   flex: 1;
   text-align: left;
