@@ -12,4 +12,11 @@ RSpec.describe FlashCardSet, type: :model do
   it "is valid when it has flash_cards" do
     expect(FactoryGirl.create(:flash_card_set, :with_flash_cards)).to be_valid
   end
+
+  it "destroys its FlashCards when destroyed" do
+    flash_card_set = FactoryGirl.create(:flash_card_set, :with_flash_cards)
+    expect {
+      FlashCardSet.destroy(flash_card_set.id)
+    }.to change(FlashCard, :count).by -5
+  end
 end
