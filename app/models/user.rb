@@ -19,7 +19,7 @@ class User < ApplicationRecord
   validates :last_name, presence: true
 
   validates :email, presence: true
-  validates :email, unique: true
+  validates :email, uniqueness: true
   validates :email, format: {
     with: /\A[^@\s]+@[^@\s]+\z/,
     message: "must be an email address"
@@ -50,6 +50,6 @@ class User < ApplicationRecord
 
   private
   def downcase_case_insensitive_attributes
-    self.email.downcase!
+    self.email.downcase! unless self.email.nil?
   end
 end
