@@ -23,31 +23,22 @@ export default class Login extends Component {
   }
 
   handleClick() {
-    const { email, password } = this.refs;
+    let { email, password } = this.refs;
 
-    if (!isEmail(email.value.trim()) && password.value.trim().length <= 0) {
-      this.setState({
-        invalidEmail: true,
-        invalidPassword: true
-      });
-    } else if (!isEmail(email.value.trim())) {
-      this.setState({
-        invalidEmail: true,
-        invalidPassword: false
-      })
-    } else if (password.value.trim().length <= 0) {
-      this.setState({
-        invalidEmail: false,
-        invalidPassword: true
-      });
-    } else {
-      this.setState({
-        invalidEmail: false,
-        invalidPassword: false
-      });
+    email = email.value.trim();
+    password = password.value.trim();
+
+    const invalidEmail = !isEmail(email), invalidPassword = password.length <= 0;
+
+    this.setState({
+      invalidEmail,
+      invalidPassword
+    });
+
+    if (!invalidEmail && !invalidPassword) {
       this.props.onLogin({
-        email: email.value.trim(),
-        password: password.value.trim()
+        email: email,
+        password: password
       });
     }
   }
