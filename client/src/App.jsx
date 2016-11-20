@@ -1,10 +1,15 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Match, Redirect } from 'react-router';
+import { bindActionCreators } from 'redux';
 
 import './App.css';
 import { Home, LandingPage, Navbar } from './shared_components';
+import authentication from './authentication';
 
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(authentication.actions, dispatch)
+});
 
 const mapStateToProps = ({ authentication }) => ({
   isAuthenticated: authentication.isAuthenticated,
@@ -35,15 +40,15 @@ const MatchWhenNotLoggedIn = ({ component: Component, pattern, ...rest }) => {
   )
 };
 
-const App = ({ dispatch, isAuthenticated, errorMessage, ...rest }) => {
+const App = ({ actions, isAuthenticated, errorMessage, ...rest }) => {
   return (
   <BrowserRouter>
     {
       ({ router }) => (
         <div className="App">
-          <Navbar dispatch={dispatch} isAuthenticated={isAuthenticated} errorMessage={errorMessage} />
-          <MatchWhenNotLoggedIn component={LandingPage} dispatch={dispatch} isAuthenticated={isAuthenticated} pattern="/" />
-          <MatchWhenAuthorized component={Home} dispatch={dispatch} isAuthenticated={isAuthenticated} pattern="/" />
+          <Navbar actions={actions} isAuthenticated={isAuthenticated} errorMessage={errorMessage} />
+          <MatchWhenNotLoggedIn component={LandingPage} isAuthenticated={isAuthenticated} pattern="/" />
+          <MatchWhenAuthorized component={Home} isAuthenticated={isAuthenticated} pattern="/" />
         </div>
       )
     }
@@ -51,9 +56,9 @@ const App = ({ dispatch, isAuthenticated, errorMessage, ...rest }) => {
 )};
 
 App.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  actions: PropTypes.object.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string
 };
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

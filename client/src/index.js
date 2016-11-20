@@ -11,7 +11,11 @@ import reducers from './root_reducer';
 import App from './App';
 
 const logger = createLogger();
-const store = createStore(reducers, applyMiddleware(thunk, promise, logger));
+const store = createStore(reducers, applyMiddleware(
+  thunk,
+  promise,
+  process.env.NODE_ENV === 'production' ? null : logger
+));
 
 render(
   <Provider store={store}>

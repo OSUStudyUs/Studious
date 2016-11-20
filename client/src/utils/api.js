@@ -6,11 +6,11 @@ const request = (url, { method, body }) =>
   fetch(`${baseUrl}/api${url}`, {
     headers: { // eslint-disable-line quote-props
       Accept: 'application/json, text/html',
-      'Access-Control-Allow-Origin': '*',
       Authorization: localStorage.userToken && `Bearer ${localStorage.userToken}`,
       'Content-Type': 'application/json'
     },
     method,
+    mode: 'cors',
     body: JSON.stringify(body)
   })
     .then((response) => {
