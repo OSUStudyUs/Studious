@@ -34,4 +34,12 @@ class StudyGroup < ApplicationRecord
 
     return successful
   end
+
+  def has_member?(user)
+    !self.memberships.where(user: user).empty?
+  end
+
+  def has_admin?(user)
+    !self.memberships.where(user: user, role: :admin).empty?
+  end
 end
