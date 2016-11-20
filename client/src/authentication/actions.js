@@ -42,7 +42,6 @@ export const loginUser = (credentials) =>
     dispatch(requestLogin(credentials));
     return api.post('/user_token', { auth: { ...credentials }})
       .then(({ jwt }) => {
-        localStorage.setItem('userToken', jwt);
         dispatch(receiveLogin(jwt));
       })
       .catch(() => dispatch(failedLogin('Email or password is incorrect')));
@@ -51,6 +50,5 @@ export const loginUser = (credentials) =>
 export const logoutUser = () =>
   (dispatch) => {
     dispatch(requestLogout());
-    localStorage.removeItem('userToken');
     dispatch(receiveLogout());
   }

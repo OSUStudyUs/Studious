@@ -4,7 +4,8 @@ import {
 
 const initialState = {
   isAuthenticated: false,
-  errorMessage: null
+  errorMessage: null,
+  token: null
 };
 
 const authentication = (state = initialState, { type, payload }) => {
@@ -24,12 +25,14 @@ const authentication = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isAuthenticated: true,
-        errorMessage: null
+        errorMessage: null,
+        token: payload.token
       };
     case LOGOUT_SUCCESS:
       return {
         ...state,
-        isAuthenticated: false
+        isAuthenticated: false,
+        token: null
       };
     default:
       return state;
