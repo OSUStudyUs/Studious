@@ -43,6 +43,8 @@ class User < ApplicationRecord
     payload = Hash.new
 
     payload[:sub] = self.email
+    payload[:firstName] = self.first_name
+    payload[:lastName] = self.last_name
 
     payload
   end
