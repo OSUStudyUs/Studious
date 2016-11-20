@@ -4,7 +4,7 @@ import {
 
 const initialState = {
   isAuthenticated: false,
-  errorMessage: false
+  errorMessage: null
 };
 
 const authentication = (state = initialState, { type, payload }) => {
