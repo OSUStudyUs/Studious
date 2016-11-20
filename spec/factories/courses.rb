@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :course do
-    department "MyString"
-    number 1
-    name "MyString"
+    department "CSE"
+    number 3901
+    name "Web Apps"
   end
 end
