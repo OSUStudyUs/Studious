@@ -8,6 +8,8 @@ class Membership < ApplicationRecord
 
   validates :study_group, presence: true
 
+  validates :role, presence: true
+
   # attributes
   enum role: [:member, :admin]
 end
