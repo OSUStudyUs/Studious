@@ -1,0 +1,13 @@
+.Input-label {
+  margin-right: 4px;
+}
+
+.Input-input--invalid {
+  box-shadow: 0 0 3px #B3434d;
+  color: #B3434d;
+}
+
+.Input-input--valid {
+  box-shadow: 0 0 3px #458746;
+  color: #485746;
+}
