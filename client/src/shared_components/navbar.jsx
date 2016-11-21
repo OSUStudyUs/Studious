@@ -5,28 +5,28 @@ import { bindActionCreators } from 'redux';
 import auth from '../authentication';
 
 import './navbar.css';
-const { actions, components, selectors } = auth;
+const { components, selectors } = auth;
 const { Login, Logout } = components;
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions, dispatch)
+  actions: bindActionCreators(auth.actions, dispatch)
 });
 
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   isAuthenticated: selectors.isAuthenticated(state),
-  errorMessage: selectors.errorMessage(state),
+  loginError: selectors.loginError(state),
   user: selectors.user(state)
 });
 
-const Navbar = ({ actions, errorMessage, isAuthenticated, user }) => (
+const Navbar = ({ actions, loginError, isAuthenticated, user }) => (
   <div className="Navbar">
     <div className="Navbar-title">
       Studious
     </div>
     {!isAuthenticated &&
       <div className="Navbar-auth">
-        <Login errorMessage={errorMessage} onLogin={(creds) => actions.loginUser(creds)} />
+        <Login errorMessage={loginError} onLogin={(creds) => actions.loginUser(creds)} />
       </div>
     }
     {isAuthenticated &&
@@ -40,7 +40,7 @@ const Navbar = ({ actions, errorMessage, isAuthenticated, user }) => (
 
 Navbar.propTypes = {
   actions: PropTypes.object.isRequired,
-  errorMessage: PropTypes.string,
+  loginError: PropTypes.string,
   isAuthenticated: PropTypes.bool.isRequired,
   user: PropTypes.object
 };
