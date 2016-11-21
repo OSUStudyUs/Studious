@@ -1,3 +1,4 @@
 import api from './api';
+import jwt from './jwt';
 
-export { api };
+export { api, jwt };

@@ -27,7 +27,7 @@ class Api::UsersController < ApplicationController
     @user = User.new create_params
 
     if @user.save
-      render :show, status: 201
+      render json: { jwt: Knock::AuthToken.new(payload: @user.to_token_payload).token }, status: 201
     else
       render json: { errors: @user.errors }, status: 409
     end

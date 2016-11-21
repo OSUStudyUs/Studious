@@ -1,35 +1,51 @@
 import {
-  LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_SUCCESS
+  LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_SUCCESS, SIGNUP_FAILURE, SIGNUP_REQUEST, SIGNUP_SUCCESS
 } from './actions';
+import { jwt } from '../utils';
 
 const initialState = {
-  isAuthenticated: false,
-  errorMessage: null
+  isAuthenticated: jwt.getToken() !== undefined && jwt.getToken() !== null,
+  loginError: null,
+  signupError: null,
+  token: jwt.getToken()
 };
 
 const authentication = (state = initialState, { type, payload }) => {
   switch (type) {
     case LOGIN_FAILURE:
       return {
-        ...state,
         isAuthenticated: false,
-        errorMessage: payload.errorMessage
+        loginError: payload.loginError
       };
     case LOGIN_REQUEST:
       return {
-        ...state,
         isAuthenticated: false
       };
     case LOGIN_SUCCESS:
       return {
-        ...state,
         isAuthenticated: true,
-        errorMessage: null
+        loginError: null,
+        token: payload.token
       };
     case LOGOUT_SUCCESS:
       return {
-        ...state,
-        isAuthenticated: false
+        isAuthenticated: false,
+        token: null
+      };
+    case SIGNUP_FAILURE:
+      return {
+        isAuthenticated: false,
+        signupErrors: payload.signupErrors
+      };
+    case SIGNUP_REQUEST:
+      return {
+        isAuthenticated: false,
+        ...payload
+      };
+    case SIGNUP_SUCCESS:
+      return {
+        isAuthenticated: true,
+        token: payload.token
       };
     default:
       return state;
