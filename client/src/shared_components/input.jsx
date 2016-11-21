@@ -85,6 +85,6 @@ export default class Input extends Component {
           />
         </span>
       </div>
-    )
+    );
   }
 }

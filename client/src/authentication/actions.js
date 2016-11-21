@@ -1,4 +1,4 @@
-import { api } from '../utils';
+import { api, jwt } from '../utils';
 
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -65,8 +65,8 @@ export const loginUser = (credentials) =>
   (dispatch) => {
     dispatch(requestLogin(credentials));
     return api.post('/user_token', { auth: { ...credentials }})
-      .then(({ jwt }) => {
-        localStorage.setItem('userToken', jwt);
+      .then(({ jwt: token }) => {
+        jwt.setToken(token);
         dispatch(receiveLogin(jwt));
       })
       .catch(() => dispatch(failedLogin('Email or password is incorrect')));
@@ -76,7 +76,8 @@ export const signupUser = (user) =>
   (dispatch) => {
     dispatch(requestSignup(user));
     return api.post('/users', { user })
-      .then(({ jwt }) => {
+      .then(({ jwt: token }) => {
+        jwt.setToken(token);
         dispatch(receiveSignup(jwt));
       })
       .catch((errors) => {
@@ -87,6 +88,6 @@ export const signupUser = (user) =>
 export const logoutUser = () =>
   (dispatch) => {
     dispatch(requestLogout());
-    localStorage.removeItem('userToken');
+    jwt.removeToken();
     dispatch(receiveLogout());
   };

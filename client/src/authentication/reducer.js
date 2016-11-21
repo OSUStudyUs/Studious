@@ -1,12 +1,13 @@
 import {
   LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_SUCCESS, SIGNUP_FAILURE, SIGNUP_REQUEST, SIGNUP_SUCCESS
 } from './actions';
+import { jwt } from '../utils';
 
 const initialState = {
-  isAuthenticated: false,
+  isAuthenticated: jwt.getToken() !== undefined && jwt.getToken() !== null,
   loginError: null,
   signupError: null,
-  token: null
+  token: jwt.getToken()
 };
 
 const authentication = (state = initialState, { type, payload }) => {

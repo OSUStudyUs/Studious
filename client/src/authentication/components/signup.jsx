@@ -15,8 +15,7 @@ const passwordsMatch = (existingPass) => (newPass) => newPass === existingPass;
 const mapDispatchToProps = (dispatch) => ({
   signupUser: bindActionCreators(actions.signupUser, dispatch)
 });
-const mapStateToProps = (state, ownProps) => ({
-  ...ownProps,
+const mapStateToProps = (state) => ({
   errors: selectors.signupErrors(state)
 });
 

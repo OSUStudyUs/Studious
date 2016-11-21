@@ -65,7 +65,7 @@
   "scripts": {
     "start": "node client/scripts/start.js",
     "build": "node client/scripts/build.js",
-    "lint": "eslint .",
+    "lint": "eslint client/src/**/*.{js,jsx}",
     "test": "node client/scripts/test.js --env=jsdom"
   },
   "jest": {

@@ -12,8 +12,7 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(auth.actions, dispatch)
 });
 
-const mapStateToProps = (state, ownProps) => ({
-  ...ownProps,
+const mapStateToProps = (state) => ({
   isAuthenticated: selectors.isAuthenticated(state),
   loginError: selectors.loginError(state),
   user: selectors.user(state)

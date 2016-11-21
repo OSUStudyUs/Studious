@@ -1,6 +1,9 @@
 import { camelCase } from 'change-case';
 import 'whatwg-fetch';
 
+import jwt from './jwt';
+
+const getToken = jwt.getToken;
 const baseUrl = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8080';
 
 const request = (url, { method, body }) =>
@@ -8,7 +11,7 @@ const request = (url, { method, body }) =>
     fetch(`${baseUrl}/api${url}`, {
       headers: { // eslint-disable-line quote-props
         Accept: 'application/json, text/html',
-        Authorization: localStorage.userToken && `Bearer ${localStorage.userToken}`,
+        Authorization: getToken() && `Bearer ${getToken()}`,
         'Content-Type': 'application/json'
       },
       method,

@@ -8,9 +8,8 @@ import authentication from './authentication';
 
 const { selectors } = authentication;
 
-const mapStateToProps = (state, ownProps) => (
+const mapStateToProps = (state) => (
   {
-    ...ownProps,
     isAuthenticated: selectors.isAuthenticated(state)
   }
 );
@@ -36,10 +35,10 @@ const MatchWhenNotLoggedIn = ({ component: Component, pattern, ...rest }) => {
         }
     }}
     />
-  )
+  );
 };
 
-const App = ({ isAuthenticated, ...rest }) => {
+const App = ({ isAuthenticated }) => {
   return (
   <BrowserRouter>
     {
@@ -52,7 +51,8 @@ const App = ({ isAuthenticated, ...rest }) => {
       )
     }
   </BrowserRouter>
-)};
+  );
+};
 
 App.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired
