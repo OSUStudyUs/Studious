@@ -50,6 +50,6 @@ class User < ApplicationRecord
 
   private
   def downcase_case_insensitive_attributes
-    self.email.downcase! unless self.email.nil?
+    self.email&.downcase!
   end
 end

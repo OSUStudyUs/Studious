@@ -25,14 +25,13 @@ class StudyGroup < ApplicationRecord
         )
 
         unless membership.save
-          successful = false
-          raise ActiveRecord::Rollback, "Call tech support!"
           self.errors[:membership] = membership.errors
+          successful = false
         end
       end
     end
 
-    return successful
+    successful
   end
 
   def has_member?(user)
