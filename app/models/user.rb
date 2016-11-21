@@ -19,6 +19,7 @@ class User < ApplicationRecord
   validates :last_name, presence: true
 
   validates :email, presence: true
+  validates :email, uniqueness: true
   validates :email, format: {
     with: /\A[^@\s]+@[^@\s]+\z/,
     message: "must be an email address"
@@ -30,15 +31,38 @@ class User < ApplicationRecord
   validates :password_confirmation, presence: true
 
   # Knock Customization
+  # Public: finds the user from a request
+  #
+  # request - the request object (from a controller call)
+  #
+  # Returns the user represented by the auth params in the request or nil
+  #
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/18/16 - Kyle Thompson - initial implementation
   def self.from_token_request(request)
     email = request.params[:auth] && request.params[:auth][:email]&.downcase
     self.find_by_email email
   end
 
+  # Public: finds the user from a token payload
+  #
+  # payload - the JWT payload
+  #
+  # Returns the user represented by the payload or nil
+  #
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/18/16 - Kyle Thompson - initial implementation
   def self.from_token_payload(payload)
     self.find_by_email payload["sub"].downcase
   end
 
+  # Public: converts the user to a JWT payload
+  #
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/18/16 - Kyle Thompson - initial implementation
   def to_token_payload
     payload = Hash.new
 
@@ -48,7 +72,12 @@ class User < ApplicationRecord
   end
 
   private
+  # Private: make all case insensitive attributes lowercase
+  #
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/16/16 - Kyle Thompson - initial implementation
   def downcase_case_insensitive_attributes
-    self.email.downcase!
+    self.email&.downcase!
   end
 end
