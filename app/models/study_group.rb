@@ -11,9 +11,20 @@ class StudyGroup < ApplicationRecord
   validates :name, presence: true
 
   # helper methods
+
+  # Public: saves the study group for the first time and creates an admin membership for whoever created it
+  #
+  # user - the user who created the Study Group
+  #
+  # Returns whether or not the save was successful
+  #
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/20/16 - initial implementation
   def save_for(user)
     successful = true
 
+    # everything inside of this block is atomic (ensures both the membership and study group are created)
     StudyGroup.transaction do
       successful = self.save
 
@@ -34,10 +45,28 @@ class StudyGroup < ApplicationRecord
     successful
   end
 
+  # Public: checks to see if the user is a member of this study group
+  #
+  # user - the user who may or may not be a member
+  #
+  # Returns true is the user is a member of the study group; false if not
+  #
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/20/16 - initial implementation
   def has_member?(user)
     !self.memberships.where(user: user).empty?
   end
 
+  # Public: checks to see if the user is an admin of this study group
+  #
+  # user - the user who may or may not be an admin
+  #
+  # Returns true is the user is an admin of the study group; false if not
+  #
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/20/16 - initial implementation
   def has_admin?(user)
     !self.memberships.where(user: user, role: :admin).empty?
   end
