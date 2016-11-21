@@ -2,18 +2,27 @@ class Api::UsersController < ApplicationController
   before_action :authenticate_user, except: [:create]
   before_action :ensure_correct_user!, except: [:index, :create]
 
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/18/16 - Kyle Thompson - initial implementation
   def index
     @users = User.all
 
     render :index, status: 200
   end
 
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/18/16 - Kyle Thompson - initial implementation
   def show
     @user = User.find params[:id]
 
     render :show, status: 200
   end
 
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/18/16 - Kyle Thompson - initial implementation
   def create
     @user = User.new create_params
 
@@ -24,6 +33,9 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/18/16 - Kyle Thompson - initial implementation
   def update
     @user = User.find params[:id]
 
@@ -34,6 +46,9 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/18/16 - Kyle Thompson - initial implementation
   def destroy
     user = User.find params[:id]
 
@@ -45,6 +60,9 @@ class Api::UsersController < ApplicationController
   end
 
   private
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/18/16 - Kyle Thompson - initial implementation
   def create_params
     params.require(:user).permit(
       :email,
@@ -55,10 +73,18 @@ class Api::UsersController < ApplicationController
     )
   end
 
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/18/16 - Kyle Thompson - initial implementation
   def update_params
     create_params
   end
 
+  # Private: enforces authorization such that the current_user can only modify/see themselves
+  #
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/18/16 - Kyle Thompson - initial implementation
   def ensure_correct_user!
     user = current_user
 

@@ -9,6 +9,11 @@ class FlashCardSet < ApplicationRecord
   validate :ensure_user_or_study_group_is_present
 
   private
+  # Private: ensures that a FlashCardSet belongs to a user or study group
+  #
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/17/16 - Kyle Thompson - initial implementation
   def ensure_user_or_study_group_is_present
     unless self.user || self.study_group
       errors.add :user, "or Study Group must be present"

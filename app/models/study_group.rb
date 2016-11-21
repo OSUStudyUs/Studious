@@ -20,7 +20,7 @@ class StudyGroup < ApplicationRecord
   #
   # Author: Kyle Thompson
   # Revisions:
-  #   1: 11/20/16 - initial implementation
+  #   1: 11/20/16 - Kyle Thompson - initial implementation
   def save_for(user)
     successful = true
 
@@ -53,7 +53,7 @@ class StudyGroup < ApplicationRecord
   #
   # Author: Kyle Thompson
   # Revisions:
-  #   1: 11/20/16 - initial implementation
+  #   1: 11/20/16 - Kyle Thompson - initial implementation
   def has_member?(user)
     !self.memberships.where(user: user).empty?
   end
@@ -66,7 +66,7 @@ class StudyGroup < ApplicationRecord
   #
   # Author: Kyle Thompson
   # Revisions:
-  #   1: 11/20/16 - initial implementation
+  #   1: 11/20/16 - Kyle Thompson - initial implementation
   def has_admin?(user)
     !self.memberships.where(user: user, role: :admin).empty?
   end
