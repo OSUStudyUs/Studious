@@ -7,4 +7,10 @@ class CourseUser < ApplicationRecord
   validates :course, presence: true
 
   validates :user, presence: true
+
+  validates :user, uniqueness: {
+    scope: :course,
+    message: "can only join course once"
+  }
+
 end
