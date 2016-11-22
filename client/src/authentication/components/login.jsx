@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import isEmail from 'validator/lib/isEmail';
-import classNames from 'classnames';
-import keycode from 'keycode';
 
 import './login.css';
+import Input from '../../shared_components/input';
 
 export default class Login extends Component {
 
@@ -14,68 +13,53 @@ export default class Login extends Component {
 
   constructor() {
     super();
-    this.state = {
-      invalidEmail: false,
-      invalidPassword: false
-    };
-    this.handleCheckForEnter = this.handleCheckForEnter.bind(this);
+    this.handleEnter = this.handleEnter.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick() {
-    let { email, password } = this.refs;
+    const refs = Object.keys(this.refs).map((ref) => ({
+      name: ref,
+      ref: this.refs[ref]
+    }));
 
-    email = email.value.trim();
-    password = password.value.trim();
+    refs.forEach(({ ref }) => ref.forceValidation());
+    if (refs.every(({ ref }) => ref.isValid())) {
+      const creds = refs.reduce((prev, { name, ref }) => {
+        prev[name] = ref.value();
+        return prev;
+      }, {});
 
-    const invalidEmail = !isEmail(email), invalidPassword = password.length <= 0;
-
-    this.setState({
-      invalidEmail,
-      invalidPassword
-    });
-
-    if (!invalidEmail && !invalidPassword) {
-      this.props.onLogin({
-        email: email,
-        password: password
-      });
+      this.props.onLogin(creds);
     }
   }
 
-  handleCheckForEnter({ keyCode }) {
-    if (keycode(keyCode) === 'enter') {
-      this.handleClick();
-    }
+  handleEnter() {
+    this.handleClick();
   }
 
   render() {
     const { errorMessage } = this.props;
-    const { invalidEmail, invalidPassword } = this.state;
-    const emailClass = classNames({
-      'Login-input': true,
-      'Login-invalidEmail': invalidEmail
-    });
-    const passwordClass = classNames({
-      'Login-input': true,
-      'Login-invalidPassword': invalidPassword
-    });
 
     return (
       <div className="Login">
-        <input
-          className={emailClass}
-          onKeyDown={this.handleCheckForEnter}
-          placeholder="user@example.com"
+        <Input
+          hint="Valid email address ex (test.user@example.com)"
+          label=""
+          onEnter={this.handleEnter}
+          placeholder="test.user@example.com"
           ref="email"
-          type="text"
+          type="email"
+          validate={isEmail}
         />
-        <input
-          className={passwordClass}
-          onKeyDown={this.handleCheckForEnter}
+        <Input
+          hint="Your password"
+          label=""
+          onEnter={this.handleEnter}
           placeholder="********"
           ref="password"
           type="password"
+          validate={(str) => str.length > 0}
         />
         <button onClick={this.handleClick}>Login</button>
         {errorMessage && <p className="Login-errorMessage">{errorMessage}</p>}
