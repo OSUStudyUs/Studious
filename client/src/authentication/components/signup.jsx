@@ -32,6 +32,7 @@ class Signup extends Component {
       password: null
     };
     this.handleClick = this.handleClick.bind(this);
+    this.handleEnter = this.handleEnter.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
 
@@ -41,6 +42,7 @@ class Signup extends Component {
       ref: this.refs[ref]})
     );
 
+    refs.forEach(({ ref }) => ref.forceValidation());
     if (refs.every(({ ref }) => ref.isValid())) {
       const newUser = refs.reduce((prev, { name, ref }) => {
         prev[name] = ref.value();
@@ -49,6 +51,10 @@ class Signup extends Component {
 
       this.props.signupUser(newUser);
     }
+  }
+
+  handleEnter() {
+    this.handleClick();
   }
 
   handlePasswordChange(password) {
@@ -65,6 +71,7 @@ class Signup extends Component {
           <Input
             hint="Your name must have only letters in it"
             label="First Name"
+            onEnter={this.handleEnter}
             ref="firstName"
             type="text"
             validate={validateOnlyLetters}
@@ -77,6 +84,7 @@ class Signup extends Component {
           <Input
             hint="Your name must have only letters in it"
             label="Last Name"
+            onEnter={this.handleEnter}
             ref="lastName"
             type="text"
             validate={validateOnlyLetters}
@@ -89,6 +97,7 @@ class Signup extends Component {
           <Input
             hint="Valid email address ex (test.user@example.com)"
             label="Email"
+            onEnter={this.handleEnter}
             ref="email"
             type="email"
             validate={isEmail}
@@ -102,6 +111,7 @@ class Signup extends Component {
             hint="Password must have 2 uppercase, 1 special (!@#$&amp;*), 2 digits, 3 lowercase and length between 8 and 55"
             label="Password"
             onChange={this.handlePasswordChange}
+            onEnter={this.handleEnter}
             ref="password"
             type="password"
             validate={strongPassword}
@@ -113,6 +123,7 @@ class Signup extends Component {
         <Input
           hint="Passwords must match"
           label="Password"
+          onEnter={this.handleEnter}
           ref="passwordConfirmation"
           type="password"
           validate={passwordsMatch(password)}

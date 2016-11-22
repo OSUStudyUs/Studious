@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import 'hint.css/hint.min.css';
+import keycode from 'keycode';
 
 import './input.css';
 
@@ -10,6 +11,8 @@ export default class Input extends Component {
     hint: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     onChange: PropTypes.func,
+    onEnter: PropTypes.func,
+    placeholder: PropTypes.string,
     position: PropTypes.string,
     type: PropTypes.string,
     validate: PropTypes.func.isRequired
@@ -24,6 +27,7 @@ export default class Input extends Component {
     };
     this.handleBlur = this.handleBlur.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleCheckForEnter = this.handleCheckForEnter.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
   }
 
@@ -41,6 +45,12 @@ export default class Input extends Component {
     }
   }
 
+  handleCheckForEnter({ keyCode }) {
+    if (keycode(keyCode) === 'enter' && typeof this.props.onEnter === 'function' ) {
+      this.props.onEnter();
+    }
+  }
+
   handleFocus() {
     this.setState({
       focused: true
@@ -51,12 +61,19 @@ export default class Input extends Component {
     return this.props.validate(this.refs.input.value);
   }
 
+  forceValidation() {
+    this.setState({
+      entered: true,
+      valid: this.props.validate(this.refs.input.value)
+    });
+  }
+
   value() {
     return this.refs.input.value;
   }
 
   render() {
-    const { hint, label, position, type } = this.props;
+    const { hint, label, placeholder, position, type } = this.props;
     const { focused, entered, valid } = this.state;
     const inputClassName = classNames({
       'Input-input': true,
@@ -80,6 +97,8 @@ export default class Input extends Component {
             onBlur={this.handleBlur}
             onChange={this.handleChange}
             onFocus={this.handleFocus}
+            onKeyDown={this.handleCheckForEnter}
+            placeholder={placeholder}
             ref="input"
             type={type || 'text'}
           />
