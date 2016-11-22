@@ -1,4 +1,6 @@
 class Api::CoursesController < ApplicationController
+  before_action :authenticate_user
+
   # Author: Joel Diener
   # Revisions:
   #   1: 11/17/16 - Kyle Thompson - skeleton
