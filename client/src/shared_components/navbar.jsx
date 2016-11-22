@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import auth from '../authentication';
 
-import './navbar.css';
+import './navbar.scss';
 const { components, selectors } = auth;
 const { Login, Logout } = components;
 

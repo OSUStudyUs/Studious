@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import promise from 'redux-promise';
 import createLogger from 'redux-logger';
 
-import './index.css';
+import './index.scss';
 import reducers from './root_reducer';
 import App from './App';
 
