@@ -7,6 +7,13 @@ class Api::CourseUsersController < ApplicationController
   #   1: 11/17/16 - Kyle Thompson - skeleton
   #   2: 11/22/16 - Alex Tareshawty - Initial Implementation
   def create
+    @course_user = CourseUser.new({ user_id: current_user.id, course_id: params[:course_id] })
+
+    if @course_user.save
+      head 201
+    else
+      render json: { errors: @course_user.errors }, status: 409
+    end
   end
 
   # Author: Alex Tareshawty
