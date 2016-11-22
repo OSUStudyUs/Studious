@@ -65,8 +65,8 @@ module.exports = {
         loader: 'babel',
       },
       {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style', 'css?importLoaders=1&-autoprefixer!postcss')
+        test: /\.s?css$/,
+        loader: ExtractTextPlugin.extract('style', 'css', 'postcss', 'sass')
       },
       {
         test: /\.json$/,
