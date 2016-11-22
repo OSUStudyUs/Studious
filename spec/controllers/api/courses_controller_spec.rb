@@ -26,6 +26,13 @@ RSpec.describe Api::CoursesController, type: :controller do
         expect(response).to render_template(:index)
       end
     end
+
+    context "when not passed a valid token" do
+      it "has status 401" do
+        get :index, format: :json
+        expect(response).to have_http_status(401)
+      end
+    end
   end
 
   describe "GET #show" do
@@ -51,6 +58,13 @@ RSpec.describe Api::CoursesController, type: :controller do
         request.headers.merge! headers
         get :show, params: { id: course }, format: :json
         expect(response).to render_template(:show)
+      end
+    end
+
+    context "when not passed a valid token" do
+      it "has status 401" do
+        get :show, params: { id: user }, format: :json
+        expect(response).to have_http_status(401)
       end
     end
   end
