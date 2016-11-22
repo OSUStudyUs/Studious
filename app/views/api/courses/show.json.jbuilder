@@ -1,3 +1,1 @@
-json.department @course.department
-json.number @course.number
-json.name @course.name
+json.partial! 'api/courses/course', course: @course
