@@ -37,7 +37,8 @@ const request = (url, { method, body }) =>
           }, {});
 
           reject(newErrors);
-        });
+        })
+        .catch(() => reject());
       });
   });
 
