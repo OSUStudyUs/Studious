@@ -3,16 +3,21 @@
 
 ## Setup
 
-### Rails Stuff
-Make sure you've `bundle install`'d and run any necessary migrations
+### On Ubuntu
+```bash
+./bin/setup
+```
 
-### Node/React Stuff
-`npm install`
-
+### On macOS
+```bash
+npm install
+bundle install
+rake db:create && rake db:schema:load
+```
 
 ## Start the dev server
 ```bash
-bin/server
+./bin/server
 ```
 
 Then head to [localhost:5100](http://localhost:5100) and get studious
