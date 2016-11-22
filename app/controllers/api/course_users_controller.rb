@@ -32,7 +32,7 @@ class Api::CourseUsersController < ApplicationController
   # Revisions:
   #   1: 11//22/16 - Alex Tareshawty - initial implementation
   def ensure_user_in_course!
-    user_from_course_user = CourseUser.find params[:id]
+    user_from_course_user = CourseUser.find(params[:id]).user
 
     unless current_user && user_from_course_user && current_user.id == user_from_course_user.id
       head 401
