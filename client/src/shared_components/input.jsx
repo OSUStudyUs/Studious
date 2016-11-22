@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import 'hint.css/hint.min.css';
 import keycode from 'keycode';
 
-import './input.css';
+import './input.scss';
 
 export default class Input extends Component {
 

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import isEmail from 'validator/lib/isEmail';
 
-import './login.css';
+import './login.scss';
 import Input from '../../shared_components/input';
 
 export default class Login extends Component {

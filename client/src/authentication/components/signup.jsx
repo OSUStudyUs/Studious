@@ -3,7 +3,7 @@ import isEmail from 'validator/lib/isEmail';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import './signup.css';
+import './signup.scss';
 import * as actions from '../actions';
 import * as selectors from '../selectors';
 import Input from '../../shared_components/input';

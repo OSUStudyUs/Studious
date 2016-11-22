@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Match, Redirect } from 'react-router';
 
-import './App.css';
+import './App.scss';
 import { Home, LandingPage, Navbar } from './shared_components';
 import authentication from './authentication';
 
