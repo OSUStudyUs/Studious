@@ -92,11 +92,6 @@ RSpec.describe Api::UsersController, type: :controller do
           post :create, params: { user: user }, format: :json
         }.to change(User, :count).by 1
       end
-
-      it "renders the show template" do
-        post :create, params: { user: user }, format: :json
-        expect(response).to render_template(:show)
-      end
     end
 
     context "with incorrect attributes" do
