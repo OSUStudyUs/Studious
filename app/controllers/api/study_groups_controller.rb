@@ -18,7 +18,7 @@ class Api::StudyGroupsController < ApplicationController
   #   1: 11/17/16 - Kyle Thompson - skeleton
   #   2: 11/23/16 - Sean Whitehurst - initial implementation
   def show
-    @study_group = StudyGroup.find params[:id]
+    @study_group ||= StudyGroup.find params[:id]
 
     render :show, status: 200
   end
@@ -31,8 +31,7 @@ class Api::StudyGroupsController < ApplicationController
     @study_group = StudyGroup.new create_params
     user = current_user
 
-    if @study_group.save
-      @study_group.save_for user
+    if @study_group.save_for user
       render :show, status: 201
     else
       render json: { errors: @study_group.errors }, status: 409
@@ -44,8 +43,6 @@ class Api::StudyGroupsController < ApplicationController
   #   1: 11/17/16 - Kyle Thompson - skeleton
   #   2: 11/23/16 - Sean Whitehurst - initial implementation
   def update
-    @study_group = StudyGroup.find params[:id]
-
     if @study_group.update_attributes update_params
       render :show, status: 200
     else
@@ -92,7 +89,7 @@ private
   #   1: 11/23/16 - Sean Whitehurst - initial implementation
   def ensure_user_in_group!
     user = current_user
-    study_group = StudyGroup.find params[:id]
+    @study_group = StudyGroup.find params[:id]
 
     unless study_group.has_member? user
       head 401
@@ -106,7 +103,7 @@ private
   #   1: 11/23/16 - Sean Whitehurst - initial implementation
   def ensure_user_is_admin!
     user = current_user
-    study_group = StudyGroup.find params[:id]
+    @study_group = StudyGroup.find params[:id]
 
     unless study_group.has_admin? user
       head 401
