@@ -20,6 +20,7 @@ class Api::CourseUsersController < ApplicationController
   # Revisions:
   #   1: 11/17/16 - Kyle Thompson - skeleton
   #   2: 11/22/16 - Alex Tareshawty - Initial Implementation
+  #   3: 11/27/16 - Kyle Thompson - use errors_hash_for helper
   def destroy
     course_user = CourseUser.find params[:id]
 

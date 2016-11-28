@@ -61,6 +61,7 @@ class Api::FlashCardSetsController < ApplicationController
   # Revisions:
   #   1: 11/17/16 - Kyle Thompson - skeleton
   #   2: 11/22/16 - Mary Zhou - initial implementation
+  #   3: 11/27/16 - Kyle Thompson - use errors_hash_for helper
   def destroy
     @flash_card_set ||= FlashCardSet.find params[:id]
 

@@ -49,6 +49,7 @@ class Api::UsersController < ApplicationController
   # Author: Kyle Thompson
   # Revisions:
   #   1: 11/18/16 - Kyle Thompson - initial implementation
+  #   2: 11/27/16 - Kyle Thompson - use errors_hash_for helper
   def destroy
     user = User.find params[:id]
 
