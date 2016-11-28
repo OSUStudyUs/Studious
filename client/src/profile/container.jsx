@@ -75,7 +75,7 @@ class Profile extends Component {
 
   static propTypes = {
     courses: PropTypes.arrayOf(PropTypes.shape({
-      courseId: PropTypes.number.isRequired,
+      id: PropTypes.number.isRequired,
       department: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       number: PropTypes.number.isRequired
@@ -100,7 +100,6 @@ class Profile extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    console.log(newProps);
     if (propsHaveChanged(this.props, newProps)) {
       this.props.updateSidebar(mapPropsToSidebarLinks(newProps, newProps.params.id));
     }
