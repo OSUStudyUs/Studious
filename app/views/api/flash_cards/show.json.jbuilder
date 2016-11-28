@@ -1,2 +1,1 @@
-json.question @flash_card.question
-json.answer @flash_card.answer
+json.partial! 'api/flash_cards/flash_card', flash_card: @flash_card
