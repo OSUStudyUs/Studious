@@ -6,6 +6,12 @@ class FlashCardSet < ApplicationRecord
   has_many :flash_cards, dependent: :destroy
 
   # validations
+  validates :name, presence: true
+  validates :name, length: {
+    in: 1..20,
+    message: "must be between 1 and 20 characters"
+  }
+
   validate :ensure_user_or_study_group_is_present
 
   private
