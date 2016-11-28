@@ -63,9 +63,8 @@ class Api::StudyGroupsController < ApplicationController
       render json: { errors: ["Study Group could not be destroyed"] }, status: 500
     end
   end
-end
 
-private
+  private
   # Author: Sean Whitehurst
   # Revisions:
   #   1: 11/23/16 - Sean Whitehurst - initial implementation
