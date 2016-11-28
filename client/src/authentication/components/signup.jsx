@@ -120,14 +120,16 @@ class Signup extends Component {
             <p className="Signup-errorMessage">Sorry, password {errors.password[0]}</p>
           }
         </div>
-        <Input
-          hint="Passwords must match"
-          label="Password"
-          onEnter={this.handleEnter}
-          ref="passwordConfirmation"
-          type="password"
-          validate={passwordsMatch(password)}
-        />
+        <div className="Signup-inputContainer">
+          <Input
+            hint="Passwords must match"
+            label="Confirm Password"
+            onEnter={this.handleEnter}
+            ref="passwordConfirmation"
+            type="password"
+            validate={passwordsMatch(password)}
+          />
+        </div>
         <button onClick={this.handleClick}>Let's get Studious</button>
       </div>
     );

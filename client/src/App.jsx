@@ -55,7 +55,10 @@ const App = ({ isAuthenticated }) => {
             </SplitPane>
           }
           {!isAuthenticated &&
-            <MatchWhenNotLoggedIn component={LandingPage} isAuthenticated={isAuthenticated} pattern="/" />
+            <div>
+              <Navbar />
+              <MatchWhenNotLoggedIn component={LandingPage} isAuthenticated={isAuthenticated} pattern="/" />
+            </div>
           }
         </div>
       )
