@@ -26,7 +26,7 @@ class Api::CourseUsersController < ApplicationController
     if course_user.destroy
       head 204
     else
-      render json: { errors: ["Could not leave course"] }, status: 500
+      render json: { errors: errors_hash_for(CourseUser, "could not be destroyed") }, status: 500
     end
   end
 

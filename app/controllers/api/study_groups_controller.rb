@@ -60,7 +60,7 @@ class Api::StudyGroupsController < ApplicationController
     if study_group.destroy
       head 204
     else
-      render json: { errors: ["Study Group could not be destroyed"] }, status: 500
+      render json: { errors: errors_hash_for(StudyGroup, "could not be destroyed") }, status: 500
     end
   end
 

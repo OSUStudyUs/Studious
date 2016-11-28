@@ -55,7 +55,7 @@ class Api::UsersController < ApplicationController
     if user.destroy
       head 204
     else
-      render json: { errors: ["User could not be destroyed"] }, status: 500
+      render json: { errors: errors_hash_for(User, "could not be destroyed") }, status: 500
     end
   end
 

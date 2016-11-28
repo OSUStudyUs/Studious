@@ -45,7 +45,7 @@ class Api::FlashCardsController < ApplicationController
     if @flash_card.destroy
       head 204
     else
-      render json: { errors: ["Flash card could not be destroyed"] }, status: 500
+      render json: { errors: errors_hash_for(FlashCard, "could not be destroyed") }, status: 500
     end
   end
 
