@@ -1,4 +1,7 @@
 class StudyGroup < ApplicationRecord
+  # hooks
+  after_create :create_chatroom
+
   # associations
   belongs_to :course, optional: true
 
@@ -6,6 +9,8 @@ class StudyGroup < ApplicationRecord
 
   has_many :memberships, dependent: :destroy
   has_many :users, through: :memberships
+
+  has_one :chatroom, dependent: :destroy
 
   # validations
   validates :name, presence: true
@@ -69,5 +74,15 @@ class StudyGroup < ApplicationRecord
   #   1: 11/20/16 - Kyle Thompson - initial implementation
   def has_admin?(user)
     !self.memberships.where(user: user, role: :admin).empty?
+  end
+
+  private
+  # Private: creates the study group chatroom
+  #
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/28/16 - Kyle Thompson - initial implementation
+  def create_chatroom
+    Chatroom.create!(study_group: self)
   end
 end
