@@ -26,7 +26,7 @@ class Api::MembershipsController < ApplicationController
     if membership.destroy
       head 204
     else
-      ender json: { errors: errors_hash_for(Membership, "could not be destroyed") }, status: 500
+      render json: { errors: errors_hash_for(Membership, "could not be destroyed") }, status: 500
     end
   end
 
