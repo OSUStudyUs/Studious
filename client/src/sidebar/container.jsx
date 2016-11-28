@@ -41,7 +41,7 @@ class Sidebar extends Component {
           <hr />
           <Link to={chatLink}>Chat</Link>
           <hr/>
-          <p>Flashcard Sets</p>
+          {flashCardSetLinks.length > 0 && <p>Flashcard Sets</p>}
           {flashCardSetLinks.map(({ link, name }) => (
             <li key={link}><Link to={link}>{name}</Link></li>
           ))}
