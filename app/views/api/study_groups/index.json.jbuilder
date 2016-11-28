@@ -1,5 +1,5 @@
-json.study_groups do
-  json.array! @study_groups.each do |study_group|
-    json.partial! 'api/study_groups/study_group', study_group: study_group
+json.studyGroups do
+  json.array! @studyGroups.each do |studyGroup|
+    json.partial! 'api/study_groups/study_group', studyGroup: studyGroup
   end
 end
