@@ -49,13 +49,14 @@ class Api::UsersController < ApplicationController
   # Author: Kyle Thompson
   # Revisions:
   #   1: 11/18/16 - Kyle Thompson - initial implementation
+  #   2: 11/27/16 - Kyle Thompson - use errors_hash_for helper
   def destroy
     user = User.find params[:id]
 
     if user.destroy
       head 204
     else
-      render json: { errors: ["User could not be destroyed"] }, status: 500
+      render json: { errors: errors_hash_for(User, "could not be destroyed") }, status: 500
     end
   end
 
