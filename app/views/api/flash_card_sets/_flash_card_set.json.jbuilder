@@ -1,5 +1,6 @@
 json.studyGroupId flash_card_set.study_group_id
 json.userId flash_card_set.user_id
+json.name flash_card_set.name
 json.public flash_card_set.public
 
 json.flashCards do

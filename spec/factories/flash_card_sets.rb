@@ -2,6 +2,7 @@ FactoryGirl.define do
   factory :flash_card_set do
     association :study_group
     user nil
+    name "A Flash Card Set"
     public false
 
     trait :for_a_user do

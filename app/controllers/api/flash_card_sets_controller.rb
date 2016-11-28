@@ -77,6 +77,7 @@ class Api::FlashCardSetsController < ApplicationController
   #   1: 11/18/16 - Mary Zhou - initial implementation
   def create_params
     params.require(:flash_card_set).permit(
+      :name,
       :public
     )
   end
