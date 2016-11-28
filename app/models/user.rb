@@ -68,6 +68,7 @@ class User < ApplicationRecord
 
     payload[:sub] = self.email
     payload[:firstName] = self.first_name
+    payload[:id] = self.id
     payload[:lastName] = self.last_name
 
     payload
