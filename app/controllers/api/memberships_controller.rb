@@ -1,6 +1,6 @@
 class Api::MembershipsController < ApplicationController
   before_action :authenticate_user
-
+  before_action :ensure_user_has_membership!, except: [:create]
 
   # Author: Sean Whitehurst
   # Revisions:
@@ -26,7 +26,22 @@ class Api::MembershipsController < ApplicationController
     if membership.destroy
       head 204
     else
-      render json: { errors: ["Failed to leave group"] }, status: 500
+      ender json: { errors: errors_hash_for(Membership, "could not be destroyed") }, status: 500
+    end
+  end
+
+  private
+
+  # Private: enforces authorization such that the current_user belongs_to the membership in question
+  #
+  # Author: Sean Whitehurst
+  # Revisions:
+  #   1: 11/27/16 - Sean Whitehurst - initial implementation
+  def ensure_user_has_membership!
+    user_from_membership = Membership.find(params[:id]).user
+
+    unless current_user && user_from_membership && current_user.id == user_from_membership.id
+      head 401
     end
   end
 end
