@@ -10,7 +10,8 @@ FactoryGirl.define do
 
     trait :with_messages do
       after(:create) do |chatroom|
-        create_list(:message, 5, chatroom: chatroom)
+        user = chatroom.user || FactoryGirl.create(:user)
+        create_list(:message, 5, chatroom: chatroom, user: user)
       end
     end
   end

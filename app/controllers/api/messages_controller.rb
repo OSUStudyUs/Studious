@@ -6,10 +6,13 @@ class Api::MessagesController < ApplicationController
     @chatroom ||= Chatroom.find params[:chatroom_id]
     @messages = @chatroom.messages
 
-    render :show, status: 200
+    render :index, status: 200
   end
 
   private
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/28/16 - Kyle Thompson - initial implementation
   def ensure_proper_permission!
     @chatroom = Chatroom.find params[:chatroom_id]
 

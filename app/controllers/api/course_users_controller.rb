@@ -33,7 +33,6 @@ class Api::CourseUsersController < ApplicationController
 
 
   private
-
   # Private: enforces authorization such that the current_user belongs_to the course_user in question
   #
   # Author: Alex Tareshawty
