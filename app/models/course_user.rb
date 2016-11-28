@@ -12,5 +12,4 @@ class CourseUser < ApplicationRecord
     scope: :course,
     message: "can only join course once"
   }
-
 end
