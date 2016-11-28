@@ -22,7 +22,7 @@ RSpec.describe Api::MembershipsController, type: :controller do
         expect(response).to have_http_status(201)
       end
 
-      it "saves the new user" do
+      it "saves the new membership" do
         expect {
           request.headers.merge! headers
           post :create, params: { study_group_id: study_group.id }, format: :json
