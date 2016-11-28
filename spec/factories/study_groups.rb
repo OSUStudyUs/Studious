@@ -23,7 +23,7 @@ FactoryGirl.define do
     trait :with_an_admin do
       after(:create) do |study_group|
         study_group.users << FactoryGirl.create(:user)
-        study_group.memberships.first.role = :admin
+        study_group.memberships.first.update_attributes(role: :admin)
       end
     end
   end
