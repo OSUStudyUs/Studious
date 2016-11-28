@@ -70,7 +70,8 @@ class Api::StudyGroupsController < ApplicationController
   #   1: 11/23/16 - Sean Whitehurst - initial implementation
   def create_params
     params.require(:study_group).permit(
-      :name
+      :name,
+      :accepting_new_members
     )
   end
 
@@ -90,7 +91,7 @@ class Api::StudyGroupsController < ApplicationController
     user = current_user
     @study_group = StudyGroup.find params[:id]
 
-    unless study_group.has_member? user
+    unless @study_group.has_member? user
       head 401
     end
   end
@@ -104,7 +105,7 @@ class Api::StudyGroupsController < ApplicationController
     user = current_user
     @study_group = StudyGroup.find params[:id]
 
-    unless study_group.has_admin? user
+    unless @study_group.has_admin? user
       head 401
     end
   end
