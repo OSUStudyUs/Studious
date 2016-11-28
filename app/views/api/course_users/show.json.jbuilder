@@ -1,2 +1,1 @@
-json.course @course_user.course
-json.user @course_user.user
+json.partial! 'api/course_users/course_user', course_user: @course_user
