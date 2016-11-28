@@ -113,4 +113,41 @@ RSpec.describe Api::FlashCardsController, type: :controller do
       end
     end
   end
+
+  describe "DELETE #destroy" do
+    let!(:flash_card) { FactoryGirl.create(:flash_card, :for_a_user) }
+    let!(:other_flash_card) { FactoryGirl.create(:flash_card) }
+    let(:headers) { auth_header(flash_card.flash_card_set.user) }
+
+    context "when passed the correct user's token" do
+      it "has status 204" do
+        request.headers.merge! headers
+        delete :destroy, params: { id: flash_card }, format: :json
+        expect(response).to have_http_status(204)
+      end
+
+      it "destroys the user" do
+        request.headers.merge! headers
+
+        expect {
+          delete :destroy, params: { id: flash_card }, format: :json
+        }.to change(FlashCard, :count).by -1
+      end
+    end
+
+    context "when passed the wrong user's token" do
+      it "has status 401" do
+        request.headers.merge! headers
+        delete :destroy, params: { id: other_flash_card }, format: :json
+        expect(response).to have_http_status(401)
+      end
+    end
+
+    context "when not passed a valid token" do
+      it "has status 401" do
+        delete :destroy, params: { id: flash_card }, format: :json
+        expect(response).to have_http_status(401)
+      end
+    end
+  end
 end
