@@ -39,13 +39,14 @@ class Api::FlashCardsController < ApplicationController
   # Revisions:
   #   1: 11/17/16 - Kyle Thompson - skeleton
   #   2: 11/21/16 - Joel Diener - initial implementation
+  #   3: 11/27/16 - Kyle Thompson - use errors_hash_for helper
   def destroy
     @flash_card ||= FlashCard.find params[:id]
 
     if @flash_card.destroy
       head 204
     else
-      render json: { errors: ["Flash card could not be destroyed"] }, status: 500
+      render json: { errors: errors_hash_for(FlashCard, "could not be destroyed") }, status: 500
     end
   end
 

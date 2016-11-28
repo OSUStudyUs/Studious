@@ -54,13 +54,14 @@ class Api::StudyGroupsController < ApplicationController
   # Revisions:
   #   1: 11/17/16 - Kyle Thompson - skeleton
   #   2: 11/23/16 - Sean Whitehurst - initial implementation
+  #   3: 11/27/16 - Kyle Thompson - use errors_hash_for helper
   def destroy
     study_group = StudyGroup.find params[:id]
 
     if study_group.destroy
       head 204
     else
-      render json: { errors: ["Study Group could not be destroyed"] }, status: 500
+      render json: { errors: errors_hash_for(StudyGroup, "could not be destroyed") }, status: 500
     end
   end
 
