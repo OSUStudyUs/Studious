@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// import { Match } from 'react-router';
 
 import './container.scss';
 import chat from '../chat';
+import { MatchPassProps } from '../utils';
 import sidebar from '../sidebar';
 import * as actions from './actions';
 import * as selectors from './selectors';
@@ -123,8 +123,7 @@ class Profile extends Component {
     return (
       <div className="Profile">
         Profile
-        <Chat id={this.props.chatroomId} />
-        {/*<Match component={Chat} exactly pattern="/users/:id/chat" />*/}
+        <MatchPassProps component={Chat} pattern="/users/:id/chat" id={this.props.chatroomId} />
       </div>
     );
   }
