@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Api::StudyGroupsController, type: :controller do
+  # Author: Sean Whitehurst
+  # Revisions:
+  #   1: 11/27/16 - Sean Whitehurst - initial implementation
   describe "GET #index" do
     let(:study_group) { FactoryGirl.create(:study_group) }
     let!(:user) { FactoryGirl.create(:user) }
@@ -35,6 +38,9 @@ RSpec.describe Api::StudyGroupsController, type: :controller do
     end
   end
 
+  # Author: Sean Whitehurst
+  # Revisions:
+  #   1: 11/27/16 - Sean Whitehurst - initial implementation
   describe "GET #show" do
     let!(:study_group_with_user) { FactoryGirl.create(:study_group, :with_a_user) }
     let!(:other_user) { FactoryGirl.create(:user) }
@@ -78,6 +84,9 @@ RSpec.describe Api::StudyGroupsController, type: :controller do
     end
   end
 
+  # Author: Sean Whitehurst
+  # Revisions:
+  #   1: 11/27/16 - Sean Whitehurst - initial implementation
   describe "POST #create" do
     let!(:study_group_with_user) { FactoryGirl.attributes_for(:study_group) }
     let!(:incorrect_study_group) { FactoryGirl.attributes_for(:study_group, name: nil) }
@@ -117,6 +126,9 @@ RSpec.describe Api::StudyGroupsController, type: :controller do
     end
   end
 
+  # Author: Sean Whitehurst
+  # Revisions:
+  #   1: 11/27/16 - Sean Whitehurst - initial implementation
   describe "PATCH #update" do
     let!(:study_group_with_admin) { FactoryGirl.create(:study_group, :with_an_admin) }
     let!(:other_study_group) { FactoryGirl.create(:study_group) }
@@ -177,6 +189,9 @@ RSpec.describe Api::StudyGroupsController, type: :controller do
     end
   end
 
+  # Author: Sean Whitehurst
+  # Revisions:
+  #   1: 11/27/16 - Sean Whitehurst - initial implementation
   describe "DELETE #destroy" do
     let!(:study_group_with_admin) { FactoryGirl.create(:study_group, :with_an_admin) }
     let!(:other_user) { FactoryGirl.create(:user) }

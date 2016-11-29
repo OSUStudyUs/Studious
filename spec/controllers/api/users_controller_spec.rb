@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Api::UsersController, type: :controller do
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/18/16 - Kyle Thompson - initial implementation
   describe "GET #index" do
     let!(:user) { FactoryGirl.create(:user) }
     let(:headers) { auth_header(user) }
@@ -34,6 +37,9 @@ RSpec.describe Api::UsersController, type: :controller do
     end
   end
 
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/18/16 - Kyle Thompson - initial implementation
   describe "GET #show" do
     let!(:user) { FactoryGirl.create(:user) }
     let(:other_user) { FactoryGirl.create(:user) }
@@ -76,6 +82,9 @@ RSpec.describe Api::UsersController, type: :controller do
     end
   end
 
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/18/16 - Kyle Thompson - initial implementation
   describe "POST #create" do
     let(:user) { FactoryGirl.attributes_for(:user) }
     let(:incorrect_user) { FactoryGirl.attributes_for(:user, :invalid) }
@@ -109,6 +118,9 @@ RSpec.describe Api::UsersController, type: :controller do
     end
   end
 
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/18/16 - Kyle Thompson - initial implementation
   describe "PATCH #update" do
     let!(:user) { FactoryGirl.create(:user) }
     let!(:other_user) { FactoryGirl.create(:user) }
@@ -177,6 +189,9 @@ RSpec.describe Api::UsersController, type: :controller do
     end
   end
 
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/18/16 - Kyle Thompson - initial implementation
   describe "DELETE #destroy" do
     let!(:user) { FactoryGirl.create(:user) }
     let!(:other_user) { FactoryGirl.create(:user) }

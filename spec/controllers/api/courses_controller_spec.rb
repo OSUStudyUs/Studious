@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Api::CoursesController, type: :controller do
+  # Author: Joel Diener
+  # Revisions:
+  #   1: 11/21/16 - Joel Diener - initial implementation
   describe "GET #index" do
     let!(:course) { FactoryGirl.create(:course) }
     let!(:user) { FactoryGirl.create(:user) }
@@ -35,6 +38,9 @@ RSpec.describe Api::CoursesController, type: :controller do
     end
   end
 
+  # Author: Joel Diener
+  # Revisions:
+  #   1: 11/21/16 - Joel Diener - initial implementation
   describe "GET #show" do
     let!(:course) { FactoryGirl.create(:course) }
     let!(:user) { FactoryGirl.create(:user) }

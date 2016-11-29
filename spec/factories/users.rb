@@ -1,4 +1,8 @@
 FactoryGirl.define do
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/18/16 - Kyle Thompson - initial implementation
+  #   2: 11/27/16 - Kyle Thompson - added with_a_course and with_a_study_group traits
   factory :user do
     first_name { FFaker::Name.first_name }
     last_name { FFaker::Name.last_name }

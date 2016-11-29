@@ -1,4 +1,7 @@
 FactoryGirl.define do
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/20/16 - Kyle Thompson - initial implementation
   factory :membership do
     association :user
     association :study_group

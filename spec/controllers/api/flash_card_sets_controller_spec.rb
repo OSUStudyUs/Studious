@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Api::FlashCardSetsController, type: :controller do
+  # Author: Mary Zhou
+  # Revisions:
+  #   1: 11/23/16 - Mary Zhou - initial implementation
   describe "GET #index" do
     let!(:flash_card_set) { FactoryGirl.create(:flash_card_set, :for_a_user) }
     let!(:user) { FactoryGirl.create(:user) }
@@ -35,6 +38,9 @@ RSpec.describe Api::FlashCardSetsController, type: :controller do
     end
   end
 
+  # Author: Mary Zhou
+  # Revisions:
+  #   1: 11/23/16 - Mary Zhou - initial implementation
   describe "GET #show" do
     let!(:flash_card_set) { FactoryGirl.create(:flash_card_set, :for_a_user) }
     let(:headers) { auth_header(flash_card_set.user) }
@@ -68,6 +74,9 @@ RSpec.describe Api::FlashCardSetsController, type: :controller do
     end
   end
 
+  # Author: Mary Zhou
+  # Revisions:
+  #   1: 11/23/16 - Mary Zhou - initial implementation
   describe "POST #create" do
     let!(:flash_card_set) { FactoryGirl.attributes_for(:flash_card_set) }
     let!(:user) { FactoryGirl.create(:user) }
@@ -103,6 +112,9 @@ RSpec.describe Api::FlashCardSetsController, type: :controller do
     end
   end
 
+  # Author: Mary Zhou
+  # Revisions:
+  #   1: 11/23/16 - Mary Zhou - initial implementation
   describe "PATCH #update" do
     let!(:flash_card_set) { FactoryGirl.create(:flash_card_set, :for_a_user) }
     let(:different_flash_card_set) { FactoryGirl.attributes_for(:flash_card_set, public: true) }
@@ -156,8 +168,11 @@ RSpec.describe Api::FlashCardSetsController, type: :controller do
     end
   end
 
+  # Author: Mary Zhou
+  # Revisions:
+  #   1: 11/23/16 - Mary Zhou - initial implementation
   describe "DELETE #destroy" do
-	let!(:flash_card_set) { FactoryGirl.create(:flash_card_set, :for_a_user) }
+    let!(:flash_card_set) { FactoryGirl.create(:flash_card_set, :for_a_user) }
     let(:headers) { auth_header(flash_card_set.user) }
 
     context "when passed the correct user's token" do
