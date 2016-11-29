@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Api::FlashCardsController, type: :controller do
+  # Author: Joel Diener
+  # Revisions:
+  #   1: 11/25/16 - Joel Diener - initial implementation
   describe "POST #create" do
     let(:flash_card) { FactoryGirl.attributes_for(:flash_card) }
     let(:incorrect_flash_card) { FactoryGirl.attributes_for(:flash_card, question: nil) }
@@ -46,6 +49,9 @@ RSpec.describe Api::FlashCardsController, type: :controller do
     end
   end
 
+  # Author: Joel Diener
+  # Revisions:
+  #   1: 11/25/16 - Joel Diener - initial implementation
   describe "PATCH #update" do
     let!(:flash_card) { FactoryGirl.create(:flash_card, :for_a_user) }
     let!(:other_flash_card) { FactoryGirl.create(:flash_card, :for_a_user) }
@@ -114,6 +120,9 @@ RSpec.describe Api::FlashCardsController, type: :controller do
     end
   end
 
+  # Author: Joel Diener
+  # Revisions:
+  #   1: 11/25/16 - Joel Diener - initial implementation
   describe "DELETE #destroy" do
     let!(:flash_card) { FactoryGirl.create(:flash_card, :for_a_user) }
     let!(:other_flash_card) { FactoryGirl.create(:flash_card) }

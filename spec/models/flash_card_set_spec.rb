@@ -1,5 +1,8 @@
 require 'rails_helper'
 
+# Author: Kyle Thompson
+# Revisions:
+#   1: 11/20/16 - Kyle Thompson - initial implementation
 RSpec.describe FlashCardSet, type: :model do
   it "is valid when created for a study group" do
     expect(FactoryGirl.create(:flash_card_set)).to be_valid

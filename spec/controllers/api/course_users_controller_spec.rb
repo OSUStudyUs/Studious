@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Api::CourseUsersController, type: :controller do
-
+  # Author: Alex Tareshawty
+  # Revisions:
+  #   1: 11/22/16 - Alex Tareshawty - initial implementation
   describe "POST #create" do
     let!(:user) { FactoryGirl.create(:user) }
     let!(:course) { FactoryGirl.create(:course) }
@@ -32,6 +34,9 @@ RSpec.describe Api::CourseUsersController, type: :controller do
     end
   end
 
+  # Author: Alex Tareshawty
+  # Revisions:
+  #   1: 11/22/16 - Alex Tareshawty - initial implementation
   describe "DELETE #destroy" do
     let!(:course_user) { FactoryGirl.create(:course_user) }
     let!(:other_course_user) { FactoryGirl.create(:course_user) }

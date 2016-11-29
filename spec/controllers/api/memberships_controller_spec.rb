@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Api::MembershipsController, type: :controller do
-
+  # Author: Sean Whitehurst
+  # Revisions:
+  #   1: 11/28/16 - Sean Whitehurst - initial implementation
   describe "POST #create" do
     let!(:user) { FactoryGirl.create(:user) }
     let!(:study_group) { FactoryGirl.create(:study_group) }
@@ -32,6 +34,9 @@ RSpec.describe Api::MembershipsController, type: :controller do
     end
   end
 
+  # Author: Sean Whitehurst
+  # Revisions:
+  #   1: 11/28/16 - Sean Whitehurst - initial implementation
   describe "DELETE #destroy" do
     let!(:membership) { FactoryGirl.create(:membership) }
     let!(:other_membership) { FactoryGirl.create(:membership) }

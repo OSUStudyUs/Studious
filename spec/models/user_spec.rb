@@ -1,5 +1,8 @@
 require 'rails_helper'
 
+# Author: Kyle Thompson
+# Revisions:
+#   1: 11/20/16 - Kyle Thompson - initial implementation
 RSpec.describe User, type: :model do
   it "is valid when created with valid attributes" do
     expect(FactoryGirl.create(:user)).to be_valid

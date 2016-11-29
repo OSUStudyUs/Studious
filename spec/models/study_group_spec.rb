@@ -1,5 +1,8 @@
 require 'rails_helper'
 
+# Author: Kyle Thompson
+# Revisions:
+#   1: 11/20/16 - Kyle Thompson - initial implementation
 RSpec.describe StudyGroup, type: :model do
   it "is valid when created with a course" do
     expect(FactoryGirl.create(:study_group)).to be_valid
