@@ -50,6 +50,20 @@ class Chat extends Component {
       if (!this.props.messages) {
         this.props.loadMessages(this.props.id);
       }
+    } else if (this.props.messages) {
+      const { messagesContainer } = this.refs;
+
+      if (messagesContainer) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
+    }
+  }
+
+  componentDidUpdate() {
+    const { messagesContainer } = this.refs;
+
+    if (messagesContainer) {
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
   }
 
@@ -68,7 +82,7 @@ class Chat extends Component {
 
     return (
       <div className="Chat">
-        <div className="Chat-messages">
+        <div className="Chat-messages" ref="messagesContainer" >
           {/* We'll need a <Message /> component here for styling, please :)*/}
           {messages.map(({ id, content, user }) => <p key={id}>{content} (sent by {user.firstName} {user.lastName})</p>)}
         </div>
