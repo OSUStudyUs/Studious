@@ -20,19 +20,19 @@ const onLoadRequest = (chatroomId) => ({
   }
 });
 
-const onMessageReceive = (chatroomId, message) => ({
-  type: CHAT_MESSAGE_RECEIVE,
-  payload: {
-    id: chatroomId,
-    message
-  }
-});
-
 const onLoadSuccess = (chatroomId, { messages }) => ({
   type: CHAT_MESSAGES_LOAD_SUCCESS,
   payload: {
     id: chatroomId,
     messages
+  }
+});
+
+const onMessageReceive = (chatroomId, message) => ({
+  type: CHAT_MESSAGE_RECEIVE,
+  payload: {
+    id: chatroomId,
+    message
   }
 });
 
