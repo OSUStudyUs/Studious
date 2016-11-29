@@ -20,3 +20,5 @@ json.flashCardSets do
     json.partial! 'api/flash_card_sets/flash_card_set', flash_card_set: flash_card_set
   end
 end
+
+json.chatroomId user.chatroom.id
