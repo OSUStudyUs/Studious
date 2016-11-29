@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // import { Match } from 'react-router';
 
+import './container.scss';
 import chat from '../chat';
 import sidebar from '../sidebar';
 import * as actions from './actions';
