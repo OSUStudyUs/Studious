@@ -15,7 +15,7 @@ class ChatChannel < ApplicationCable::Channel
   # Revisions:
   #   1: 11/28/16 - Kyle Thompson - initial implementation
   def send_message(data)
-    message = current_user.messages.create!(content: data["content"], chatroom_id: data["chatroomId"])
-    broadcast_to @chatroom, message
+    message = current_user.messages.create!(content: data["content"], chatroom_id: @chatroom.id)
+    ChatChannel.broadcast_to @chatroom, message
   end
 end
