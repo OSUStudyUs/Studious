@@ -14,7 +14,7 @@ module ApplicationCable
     # Revisions:
     #   1: 11/28/16 - Kyle Thompson - initial implementation
     def find_verified_user
-      token = request.params[:token]
+      token = request.url.split("sockets").last.gsub("/", "")
 
       begin
         decoded_token = JWT.decode(token, Rails.application.secrets.secret_key_base, true, { :leeway => 30, :algorithm => 'HS256' }) unless token.nil?

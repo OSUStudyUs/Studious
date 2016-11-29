@@ -2,10 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import './container.scss';
+import chat from '../chat';
+import { MatchPassProps } from '../utils';
 import sidebar from '../sidebar';
 import * as actions from './actions';
 import * as selectors from './selectors';
 
+const { Container: Chat } = chat;
 const coursesHaveChanged = (oldCourses, newCourses) => {
   if (oldCourses === newCourses) return false;
   if (oldCourses === null) return true;
@@ -44,6 +48,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
+  chatroomId: selectors.chatroomId(state),
   courses: selectors.courses(state),
   flashCardSets: selectors.flashCardSets(state),
   profileLoaded: selectors.profileLoaded(state),
@@ -74,6 +79,7 @@ const mapPropsToSidebarLinks = ({ flashCardSets = [], studyGroups = [] }, userId
 class Profile extends Component {
 
   static propTypes = {
+    chatroomId: PropTypes.number,
     courses: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired,
       department: PropTypes.string.isRequired,
@@ -106,9 +112,18 @@ class Profile extends Component {
   }
 
   render() {
+    const { profileLoaded } = this.props;
+
+    if (!profileLoaded) {
+      return (
+        <div>Loading...</div>
+      );
+    }
+
     return (
       <div className="Profile">
         Profile
+        <MatchPassProps component={Chat} pattern="/users/:id/chat" id={this.props.chatroomId} />
       </div>
     );
   }
