@@ -171,6 +171,7 @@ DEPENDENCIES
   ffaker
   foreman
   jbuilder (~> 2.5)
+  jwt
   knock
   listen (~> 3.0.5)
   pg

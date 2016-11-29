@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   namespace :api do
+    mount ActionCable.server => '/sockets/:token'
+
     post 'user_token' => 'user_token#create'
+    get 'chatrooms/:chatroom_id/messages' => 'messages#index'
 
     resources :users, only: [:index, :create, :update, :destroy]
     resources :users, only: [:show] do

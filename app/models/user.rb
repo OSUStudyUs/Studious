@@ -3,6 +3,7 @@ class User < ApplicationRecord
 
   # hooks
   before_validation :downcase_case_insensitive_attributes
+  after_create :create_chatroom
 
   # associations
   has_many :course_users, dependent: :destroy
@@ -12,6 +13,10 @@ class User < ApplicationRecord
   has_many :study_groups, through: :memberships
 
   has_many :flash_card_sets, dependent: :destroy
+
+  has_one :chatroom, dependent: :destroy
+
+  has_many :messages, dependent: :destroy
 
   # validations
   validates :first_name, presence: true
@@ -82,5 +87,14 @@ class User < ApplicationRecord
   #   1: 11/16/16 - Kyle Thompson - initial implementation
   def downcase_case_insensitive_attributes
     self.email&.downcase!
+  end
+
+  # Private: creates the user chatroom
+  #
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 11/28/16 - Kyle Thompson - initial implementation
+  def create_chatroom
+    Chatroom.create!(user: self)
   end
 end

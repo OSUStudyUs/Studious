@@ -55,7 +55,7 @@ const App = ({ isAuthenticated, user }) => {
             {isAuthenticated &&
               <SplitPane split="vertical" minSize={100} maxSize={200} defaultSize={100}>
                 <Sidebar />
-                <div>
+                <div className="SplitPane-wrapper">
                   <Navbar />
                   <MatchWhenAuthorized component={RedirectToProfile} id={user.id} isAuthenticated={isAuthenticated} exactly pattern="/" />
                   <MatchWhenAuthorized component={Profile} isAuthenticated={isAuthenticated} pattern="/users/:id" />
