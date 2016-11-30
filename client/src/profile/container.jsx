@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import './container.scss';
 import chat from '../chat';
-import { MatchPassProps } from '../utils';
+import { MatchPassProps, sidebarUtils } from '../utils';
 import sidebar from '../sidebar';
 import * as actions from './actions';
 import * as selectors from './selectors';
@@ -12,17 +12,9 @@ import Profile from './components/profile';
 
 const { Container: Chat } = chat;
 
-const mapFlashCardSetsToLinks = (flashCardSets, userId) => (flashCardSets || []).map(({ id, name }) => ({
-  link: `/users/${userId}/flash-card-sets/${id}`,
-  name
-}));
-const mapStudyGroupsToLinks = (studyGroups) => (studyGroups || []).map(({ id, name }) => ({
-  link: `/study-groups/${id}`,
-  name
-}));
-
 const updateSidebarLinks = (props) => {
-  const chatLink = `/user/${props.params.id}/chat`;
+  const { mapChatToLink, mapFlashCardSetsToLinks, mapStudyGroupsToLinks } = sidebarUtils;
+  const chatLink = mapChatToLink('users', props.params.id);
   const flashCardSetLinks = mapFlashCardSetsToLinks(props.flashCardSets, props.params.id);
   const studyGroupLinks = mapStudyGroupsToLinks(props.studyGroups);
 
