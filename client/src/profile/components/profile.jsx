@@ -1,7 +1,5 @@
 import React from 'react';
 
-import CreateStudyGroup from '../../study_group/components/create';
-
 const Profile = ({ isExact }) => {
   // This prop is coming from ReactRouter
   // Basically, it lets us know if this component was rendered because of a direct match or the url
@@ -10,7 +8,7 @@ const Profile = ({ isExact }) => {
 
   return (
     <div className="Profile">
-      <CreateStudyGroup />
+      Profile!
     </div>
   );
 };
