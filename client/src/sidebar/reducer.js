@@ -25,16 +25,16 @@ const sidebar = (state = initialState, { type, payload }) => {
 
       return newState;
     case SIDEBAR_UPDATE_FLASH_CARD_SET_LINKS:
-      const newFlashcardSetLinks = newState.flashCardSetLinks.concat(payload);
+      let newFlashcardSetLinks = newState.flashCardSetLinks.concat(payload);
 
-      newFlashcardSetLinks.filter((link, position, links) => linkIndexOf(links, link) === position).sort(({ name: nameA }, { name: nameB }) => nameA < nameB);
+      newFlashcardSetLinks = newFlashcardSetLinks.filter((link, position, links) => linkIndexOf(links, link) === position).sort(({ name: nameA }, { name: nameB }) => nameA.localeCompare(nameB));
 
       newState.studyGroupLinks = newFlashcardSetLinks;
       return newState;
     case SIDEBAR_UPDATE_STUDY_GROUP_LINKS:
-      const newStudyGroupLinks = newState.studyGroupLinks.concat(payload);
+      let newStudyGroupLinks = newState.studyGroupLinks.concat(payload);
 
-      newStudyGroupLinks.filter((link, position, links) => linkIndexOf(links, link) === position).sort(({ name: nameA }, { name: nameB }) => nameA < nameB);
+      newStudyGroupLinks = newStudyGroupLinks.filter((link, position, links) => linkIndexOf(links, link) === position).sort(({ name: nameA }, { name: nameB }) => nameA.localeCompare(nameB));
 
       newState.studyGroupLinks = newStudyGroupLinks;
       return newState;
