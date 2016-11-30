@@ -8,43 +8,34 @@ import { MatchPassProps } from '../utils';
 import sidebar from '../sidebar';
 import * as actions from './actions';
 import * as selectors from './selectors';
+import Profile from './components/profile';
 
 const { Container: Chat } = chat;
-const coursesHaveChanged = (oldCourses, newCourses) => {
-  if (oldCourses === newCourses) return false;
-  if (oldCourses === null) return true;
-  for (let i = 0; i < oldCourses.length; i++) {
-    if (oldCourses[i] !== newCourses[i]) return true;
-  }
-  return false;
-};
 
-const flashCardSetsHaveChanged = (oldFlashCardSets, newFlashCardSets) => {
-  if (oldFlashCardSets === newFlashCardSets) return false;
-  if (oldFlashCardSets === null) return true;
-  for (let i = 0; i < oldFlashCardSets.length; i++) {
-    if (oldFlashCardSets[i] !== newFlashCardSets[i]) return true;
-  }
-  return false;
-};
+const mapFlashCardSetsToLinks = (flashCardSets, userId) => (flashCardSets || []).map(({ id, name }) => ({
+  link: `/users/${userId}/flash-card-sets/${id}`,
+  name
+}));
+const mapStudyGroupsToLinks = (studyGroups) => (studyGroups || []).map(({ id, name }) => ({
+  link: `/study-groups/${id}`,
+  name
+}));
 
-const studyGroupsHaveChanged = (oldStudyGroups, newStudyGroups) => {
-  if (oldStudyGroups === newStudyGroups) return false;
-  if (oldStudyGroups === null) return true;
-  for (let i = 0; i < oldStudyGroups.length; i++) {
-    if (oldStudyGroups[i] !== newStudyGroups[i]) return true;
-  }
-  return false;
-};
+const updateSidebarLinks = (props) => {
+  const chatLink = `/user/${props.params.id}/chat`;
+  const flashCardSetLinks = mapFlashCardSetsToLinks(props.flashCardSets, props.params.id);
+  const studyGroupLinks = mapStudyGroupsToLinks(props.studyGroups);
 
-const propsHaveChanged = (oldProps, newProps) =>
-  coursesHaveChanged(oldProps.courses, newProps.courses) ||
-  flashCardSetsHaveChanged(oldProps.flashCardSets, newProps.flashCardSets) ||
-  studyGroupsHaveChanged(oldProps.studyGroups, newProps.studyGroups);
+  if (props.shouldUpdateChatLink(chatLink)) props.updateChatLink(chatLink);
+  if (props.shouldUpdateFlashCardSetLinks(flashCardSetLinks)) props.updateFlashcardSetLinks(flashCardSetLinks);
+  if (props.shouldUpdateStudyGroupLinks(studyGroupLinks)) props.updateStudyGroupLinks(studyGroupLinks);
+};
 
 const mapDispatchToProps = (dispatch) => ({
   loadProfile: bindActionCreators(actions.loadProfile, dispatch),
-  updateSidebar: bindActionCreators(sidebar.actions.updateSidebar, dispatch)
+  updateChatLink: bindActionCreators(sidebar.actions.updateChatLink, dispatch),
+  updateFlashcardSetLinks: bindActionCreators(sidebar.actions.updateFlashcardSetLinks, dispatch),
+  updateStudyGroupLinks: bindActionCreators(sidebar.actions.updateStudyGroupLinks, dispatch)
 });
 
 const mapStateToProps = (state) => ({
@@ -52,31 +43,13 @@ const mapStateToProps = (state) => ({
   courses: selectors.courses(state),
   flashCardSets: selectors.flashCardSets(state),
   profileLoaded: selectors.profileLoaded(state),
+  shouldUpdateChatLink: sidebar.selectors.shouldUpdateChatLink.bind(null, state),
+  shouldUpdateFlashCardSetLinks: sidebar.selectors.shouldUpdateFlashCardSetLinks.bind(null, state),
+  shouldUpdateStudyGroupLinks: sidebar.selectors.shouldUpdateStudyGroupLinks.bind(null, state),
   studyGroups: selectors.studyGroups(state)
 });
 
-const mapPropsToSidebarLinks = ({ flashCardSets = [], studyGroups = [] }, userId) => {
-  const dropdownLinks = [{
-    link: `/users/${userId}`,
-    name: 'Profile'
-  }];
-  const flashCardSetLinks = flashCardSets.map(({ id, name }) => ({
-    link: `/users/${userId}/flash-card-sets/${id}`,
-    name
-  }));
-  dropdownLinks.concat(studyGroups.map(({ id, name }) => ({
-    link: `/study-groups/${id}`,
-    name
-  })));
-
-  return {
-    chatLink: `/users/${userId}/chat`,
-    dropdownLinks,
-    flashCardSetLinks
-  };
-};
-
-class Profile extends Component {
+class ProfileContainer extends Component {
 
   static propTypes = {
     chatroomId: PropTypes.number,
@@ -90,25 +63,30 @@ class Profile extends Component {
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired
     })),
+    loadProfile: PropTypes.func.isRequired,
     profileLoaded: PropTypes.bool.isRequired,
+    shouldUpdateChatLink: PropTypes.func.isRequired,
+    shouldUpdateFlashCardSetLinks: PropTypes.func.isRequired,
+    shouldUpdateStudyGroupLinks: PropTypes.func.isRequired,
     studyGroups: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired
-    }))
+    })),
+    updateChatLink: PropTypes.func.isRequired,
+    updateFlashcardSetLinks: PropTypes.func.isRequired,
+    updateStudyGroupLinks: PropTypes.func.isRequired
   };
 
   componentDidMount() {
     if (!this.props.profileLoaded) {
       this.props.loadProfile(this.props.params.id);
     } else {
-      this.props.updateSidebar(mapPropsToSidebarLinks(this.props, this.props.params.id));
+      updateSidebarLinks(this.props);
     }
   }
 
   componentWillReceiveProps(newProps) {
-    if (propsHaveChanged(this.props, newProps)) {
-      this.props.updateSidebar(mapPropsToSidebarLinks(newProps, newProps.params.id));
-    }
+    updateSidebarLinks(newProps);
   }
 
   render() {
@@ -121,12 +99,12 @@ class Profile extends Component {
     }
 
     return (
-      <div className="Profile">
-        Profile
-        <MatchPassProps component={Chat} pattern="/users/:id/chat" id={this.props.chatroomId} />
+      <div className="ProfileContainer">
+        <MatchPassProps component={Profile} exactly pattern="/users/:id" />
+        <MatchPassProps component={Chat} exactly pattern="/users/:id/chat" id={this.props.chatroomId} />
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);
