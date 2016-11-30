@@ -1,0 +1,32 @@
+.LandingPage {
+  background-image: url('/LandingPageImage.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  position:fixed;
+  width:100%;
+  height:100%;
+}
+
+.LandingPage-centeredText {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -70%);
+  text-align: center;
+}
+
+.LandingPage-form {
+  color: white;
+  text-align: center;
+  width: 40%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background-color: black;
+  border-radius: 25px;
+  padding: 1em;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
