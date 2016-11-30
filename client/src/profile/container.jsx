@@ -10,6 +10,12 @@ import * as actions from './actions';
 import * as selectors from './selectors';
 import Profile from './components/profile';
 
+
+//TODO: remove this
+import courses from '../courses';
+const { Container: Courses } = courses;
+
+
 const { Container: Chat } = chat;
 
 const updateSidebarLinks = (props) => {
@@ -94,6 +100,7 @@ class ProfileContainer extends Component {
       <div className="ProfileContainer">
         <MatchPassProps component={Profile} exactly pattern="/users/:id" />
         <MatchPassProps component={Chat} exactly pattern="/users/:id/chat" id={this.props.chatroomId} />
+        <Courses />
       </div>
     );
   }

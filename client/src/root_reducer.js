@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import authentication from './authentication';
 import chat from './chat';
+import courses from './courses';
 import { chatChannel } from './utils';
 import flashMessage from './flash_message';
 import profile from './profile';
@@ -10,6 +11,7 @@ import studyGroup from './study_group';
 const appReducer = combineReducers({
   [authentication.constants.NAME]: authentication.reducer,
   [chat.constants.NAME]: chat.reducer,
+  [courses.constants.NAME]: courses.reducer,
   [chatChannel.NAME]: chatChannel.reducer,
   [flashMessage.constants.NAME]: flashMessage.reducer,
   [profile.constants.NAME]: profile.reducer,
