@@ -15,7 +15,7 @@ const { Container: Chat } = chat;
 const updateSidebarLinks = (props) => {
   const { mapChatToLink, mapFlashCardSetsToLinks, mapStudyGroupsToLinks } = sidebarUtils;
   const chatLink = mapChatToLink('users', props.params.id);
-  const flashCardSetLinks = mapFlashCardSetsToLinks(props.flashCardSets, props.params.id);
+  const flashCardSetLinks = mapFlashCardSetsToLinks(props.flashCardSets, props.params.id, 'users');
   const studyGroupLinks = mapStudyGroupsToLinks(props.studyGroups);
 
   if (props.shouldUpdateChatLink(chatLink)) props.updateChatLink(chatLink);
