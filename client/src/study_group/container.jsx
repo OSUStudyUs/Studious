@@ -63,7 +63,10 @@ class StudyGroupContainer extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    updateSidebarLinks(newProps);
+    // If we're not receiving an id in props, then this there is no links to render
+    if (!(typeof newProps.id === 'undefined' || newProps === null)) {
+      updateSidebarLinks(newProps);
+    }
   }
 
   render() {
