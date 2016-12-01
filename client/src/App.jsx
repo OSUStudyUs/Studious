@@ -8,10 +8,12 @@ import { LandingPage, Navbar } from './shared_components';
 import authentication from './authentication';
 import profile from './profile';
 import sidebar from './sidebar';
+import studyGroup from './study_group';
 
 const { selectors } = authentication;
 const { Container: Profile } = profile;
 const { Container: Sidebar } = sidebar;
+const { Container: StudyGroup } = studyGroup;
 
 const mapStateToProps = (state) => ({
   isAuthenticated: selectors.isAuthenticated(state),
@@ -59,6 +61,7 @@ const App = ({ isAuthenticated, user }) => {
                   <Navbar />
                   <MatchWhenAuthorized component={RedirectToProfile} id={user.id} isAuthenticated={isAuthenticated} exactly pattern="/" />
                   <MatchWhenAuthorized component={Profile} isAuthenticated={isAuthenticated} pattern="/users/:id" />
+                  <MatchWhenAuthorized component={StudyGroup} isAuthenticated={isAuthenticated} pattern="/study-groups/:id" />
                 </div>
               </SplitPane>
             }
