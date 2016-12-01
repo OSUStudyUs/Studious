@@ -9,9 +9,7 @@ export const COURSES_LOAD_SUCCESS = 'COURSES_LOAD_SUCCESS';
 
 const onCreationFailure = (errors) => ({
   type: COURSE_CREATION_FAILURE,
-  payload: {
-    errors
-  }
+  payload: errors
 });
 
 const onCreationRequest = (course) => ({
@@ -30,9 +28,7 @@ const onCreationSuccess = (course) => ({
 
 const onLoadFailure = (errors) => ({
   type: COURSES_LOAD_FAILURE,
-  payload: {
-    errors
-  }
+  payload: errors
 });
 
 const onLoadRequest = () => ({

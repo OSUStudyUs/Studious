@@ -1,5 +1,6 @@
 import React, { Children, Component, PropTypes } from 'react';
 import { camelCase } from 'change-case';
+import keycode from 'keycode';
 
 import './search_and_create.scss';
 
@@ -83,8 +84,7 @@ class SearchAndCreate extends Component {
   }
 
   handleEscapeKey(e) {
-    // 27 === ESC
-    if (e.keyCode === 27) {
+    if (keycode(e) === 'esc') {
       this.setState({
         showDropdown: false
       });
