@@ -30,9 +30,7 @@ const onCreationSuccess = (studyGroup) => ({
 
 const onLoadFailure = (errors) => ({
   type: STUDY_GROUP_LOAD_FAILURE,
-  payload: {
-    errors
-  }
+  payload: errors
 });
 
 const onLoadRequest = (id) => ({

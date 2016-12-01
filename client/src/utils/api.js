@@ -20,25 +20,28 @@ const request = (url, { method, body }) =>
     })
       .then((response) => {
         if (!response.ok) {
-          return Promise.reject(response.text());
+          return Promise.reject({ errors: response.text(), status: response.status });
         }
 
         return response.json();
       })
       .then((json) => resolve(json))
-      .catch((errors) => {
+      .catch(({ errors, status }) => {
         // errors from the rails api are coming to us in snakecase
         // so we're converting to camelCase here before they get outside the actual fetching
         errors.then((text) => {
-          const textJSON = JSON.parse(text).errors;
-          const newErrors = Object.keys(textJSON).reduce((prev, key) => {
-            prev[camelCase(key)] = textJSON[key];
-            return prev;
-          }, {});
+          try {
+            const errorJSON = JSON.parse(text);
+            const newErrors = Object.keys(errorJSON.errors).reduce((prev, key) => {
+              prev[camelCase(key)] = errorJSON.errors[key];
+              return prev;
+            }, {});
 
-          reject(newErrors);
-        })
-        .catch(() => reject());
+            reject({ errors: newErrors, resource: errorJSON.resource, status });
+          } catch (e) {
+            reject({ status });
+          }
+        });
       });
   });
 
