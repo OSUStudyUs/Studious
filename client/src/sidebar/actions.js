@@ -10,12 +10,12 @@ export const updateChatLink = (link) =>
 
 export const updateFlashcardSetLinks = (links) =>
   (dispatch) => dispatch({
-    type: 'SIDEBAR_UPDATE_FLASH_CARD_SET_LINKS',
+    type: SIDEBAR_UPDATE_FLASH_CARD_SET_LINKS,
     payload: links
   });
 
   export const updateStudyGroupLinks = (links) =>
     (dispatch) => dispatch({
-      type: 'SIDEBAR_UPDATE_STUDY_GROUP_LINKS',
+      type: SIDEBAR_UPDATE_STUDY_GROUP_LINKS,
       payload: links
     });

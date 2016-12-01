@@ -57,7 +57,6 @@ export const createStudyGroup = (studyGroup) =>
         dispatch(onCreationSuccess(group));
       })
       .catch((errors) => {
-        console.error(errors);
         dispatch(onCreationFailure(errors));
       });
   };
