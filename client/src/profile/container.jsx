@@ -10,6 +10,10 @@ import * as actions from './actions';
 import * as selectors from './selectors';
 import Profile from './components/profile';
 
+// TODO: remove
+import courses from '../courses';
+const { Container: Courses } = courses;
+
 const { Container: Chat } = chat;
 
 const updateSidebarLinks = (props) => {
@@ -31,14 +35,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  chatroomId: selectors.chatroomId(state),
-  courses: selectors.courses(state),
-  flashCardSets: selectors.flashCardSets(state),
-  profileLoaded: selectors.profileLoaded(state),
+  ...selectors.profile(state),
   shouldUpdateChatLink: sidebar.selectors.shouldUpdateChatLink.bind(null, state),
   shouldUpdateFlashCardSetLinks: sidebar.selectors.shouldUpdateFlashCardSetLinks.bind(null, state),
-  shouldUpdateStudyGroupLinks: sidebar.selectors.shouldUpdateStudyGroupLinks.bind(null, state),
-  studyGroups: selectors.studyGroups(state)
+  shouldUpdateStudyGroupLinks: sidebar.selectors.shouldUpdateStudyGroupLinks.bind(null, state)
 });
 
 class ProfileContainer extends Component {
@@ -47,16 +47,13 @@ class ProfileContainer extends Component {
     chatroomId: PropTypes.number,
     courses: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired,
-      department: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.number.isRequired
-    })),
+      courseUserId: PropTypes.number.isRequired
+    }).isRequired),
     flashCardSets: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired
     })),
     loadProfile: PropTypes.func.isRequired,
-    profileLoaded: PropTypes.bool.isRequired,
     shouldUpdateChatLink: PropTypes.func.isRequired,
     shouldUpdateFlashCardSetLinks: PropTypes.func.isRequired,
     shouldUpdateStudyGroupLinks: PropTypes.func.isRequired,
@@ -70,7 +67,7 @@ class ProfileContainer extends Component {
   };
 
   componentDidMount() {
-    if (!this.props.profileLoaded) {
+    if (Object.keys(ProfileContainer.propTypes).some((key) => typeof this.props[key] === 'undefined' )) {
       this.props.loadProfile(this.props.params.id);
     } else {
       updateSidebarLinks(this.props);
@@ -82,9 +79,7 @@ class ProfileContainer extends Component {
   }
 
   render() {
-    const { profileLoaded } = this.props;
-
-    if (!profileLoaded) {
+    if (Object.keys(ProfileContainer.propTypes).some((key) => typeof this.props[key] === 'undefined' )) {
       return (
         <div>Loading...</div>
       );
@@ -94,6 +89,8 @@ class ProfileContainer extends Component {
       <div className="ProfileContainer">
         <MatchPassProps component={Profile} exactly pattern="/users/:id" />
         <MatchPassProps component={Chat} exactly pattern="/users/:id/chat" id={this.props.chatroomId} />
+        {/* TODO: remove this */}
+        <Courses />
       </div>
     );
   }

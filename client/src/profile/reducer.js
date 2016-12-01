@@ -18,10 +18,13 @@ const profile = (state = initialState, { type, payload }) => {
     case PROFILE_LOAD_SUCCESS:
       return {
         ...state,
-        ...payload
+        ...payload,
+        courses: (payload.courses || []).map(({ id, courseUserId }) => ({ id, courseUserId })),
+        flashCardSets: (payload.flashCardSets || []).map(({ id, name }) => ({ id, name })),
+        studyGroups: (payload.studyGroups || []).map(({ id, name }) => ({ id, name })),
       };
     case STUDY_GROUP_CREATION_SUCCESS:
-      newState.studyGroups = (newState.studyGroups || []).concat(payload.studyGroup);
+      newState.studyGroups = (newState.studyGroups || []).concat(payload.studyGroup.id);
       return newState;
     default:
       return state;
