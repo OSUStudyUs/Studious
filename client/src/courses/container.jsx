@@ -58,24 +58,24 @@ class CoursesJoinAndCreate extends Component {
         >
           <Input
             label="Name"
-            onEnter={() => true}
+            hint="Must be at least 1 character"
             ref="name"
             type="text"
             validate={(val) => val.length > 0}
           />
           <Input
             label="Department"
-            onEnter={() => true}
+            hint="Must be at least 1 character"
             ref="department"
             type="text"
             validate={(val) => val.length > 0}
           />
           <Input
             label="Number"
-            onEnter={() => true}
+            hint="Must be a number"
             ref="number"
             type="number"
-            validate={() => true}
+            validate={(val) => !isNaN(parseInt(val, 10))}
           />
         </SearchAndCreate>
       </div>
