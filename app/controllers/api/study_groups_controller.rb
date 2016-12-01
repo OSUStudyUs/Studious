@@ -1,6 +1,6 @@
 class Api::StudyGroupsController < ApplicationController
   before_action :authenticate_user
-  before_action :ensure_user_in_group!, except: [:index, :create, :update, :destroy]
+  before_action :ensure_visible!, except: [:index, :create, :update, :destroy]
   before_action :ensure_user_is_admin!, except: [:index, :show, :create]
 
   # Author: Sean Whitehurst
@@ -86,13 +86,14 @@ class Api::StudyGroupsController < ApplicationController
     create_params
   end
 
-  # Private: requires the user to belong to a group to be able to see it
+  # Private: ensures that the study group can be seen by the user
   #
   # Author: Sean Whitehurst
   # Revisions:
   #   1: 11/23/16 - Sean Whitehurst - initial implementation
   #   2: 12/01/16 - Kyle Thompson - 404 on private groups
-  def ensure_user_in_group!
+  #   3: 12/01/16 - Kyle Thompson - rename to ensure_visible!
+  def ensure_visible!
     user = current_user
     @study_group = StudyGroup.find params[:id]
 
