@@ -44,9 +44,11 @@ const onCourseUserDeletionRequest = (courseUserId) => ({
   }
 });
 
-const onCourseUserDeletionSuccess = () => ({
+const onCourseUserDeletionSuccess = (courseUser) => ({
   type: COURSE_USER_DELETION_SUCCESS,
-  payload: {}
+  payload: {
+    courseUser
+  }
 });
 
 const onCreationFailure = (errors) => ({
@@ -103,7 +105,7 @@ export const joinCourse = (courseId) =>
     return api.post('/course_users', { courseId })
       .then((createdCourseUser) => {
         dispatch(onCourseUserCreationSuccess(createdCourseUser));
-        return Promise.resolve(createdCourseUser);
+        return Promise.resolve();
       })
       .catch((errors) => {
         dispatch(onCourseUserCreationFailure(errors));
@@ -115,8 +117,8 @@ export const leaveCourse = (courseUserId) =>
   (dispatch) => {
     dispatch(onCourseUserDeletionRequest(courseUserId));
     return api.del(`/course_users/${courseUserId}`)
-      .then(() => {
-        dispatch(onCourseUserDeletionSuccess());
+      .then((deletedCourseUser) => {
+        dispatch(onCourseUserDeletionSuccess(deletedCourseUser));
         return Promise.resolve();
       })
       .catch((errors) => {

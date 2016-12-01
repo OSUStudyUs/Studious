@@ -1,7 +1,5 @@
 import {
   COURSE_CREATION_SUCCESS,
-  COURSE_USER_CREATION_SUCCESS,
-  COURSE_USER_DELETION_SUCCESS,
   COURSES_LOAD_REQUEST,
   COURSES_LOAD_SUCCESS
 } from './actions';
@@ -18,7 +16,7 @@ const reducer = (state = initialState, { type, payload }) => {
 
       return {
         ...state,
-        byId:{
+        byId: {
           ...state.byId,
           [id]: {
             ...state.byId[id],
@@ -26,14 +24,6 @@ const reducer = (state = initialState, { type, payload }) => {
           }
         }
       };
-    case COURSE_USER_CREATION_SUCCESS:
-      // TODO: FIX THIS
-      console.log(payload);
-      return state;
-    case COURSE_USER_DELETION_SUCCESS:
-      // TODO: FIX THIS
-      console.log(payload);
-      return state;
     case COURSES_LOAD_REQUEST:
       return {
         ...state,

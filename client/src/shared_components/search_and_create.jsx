@@ -21,6 +21,7 @@ class SearchAndCreate extends Component {
 
     this.state = {
       creatingItem: false,
+      initialItemsLoaded: false,
       items: [],
       showDropdown: false
     };
@@ -51,8 +52,9 @@ class SearchAndCreate extends Component {
   componentWillReceiveProps(nextProps) {
     const { itemsLoading } = nextProps;
 
-    if (!itemsLoading) {
+    if (!itemsLoading && !this.state.initialItemsLoaded) {
       this.setState({
+        initialItemsLoaded: true,
         items: nextProps.searchForItems('')
       });
     }

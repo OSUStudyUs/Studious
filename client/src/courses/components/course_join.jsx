@@ -6,8 +6,8 @@ const JoinOrLeaveButton = ({ joinedCourseIds, id, loading, onClick }) => {
   let buttonText;
 
   if (loading) buttonText = '...';
-  else if (joinedCourseIds.indexOf(id) >= 0) buttonText= '-';
-  else buttonText = '+';
+  else if (joinedCourseIds.indexOf(id) >= 0) buttonText= 'Leave';
+  else buttonText = 'Join';
 
   return (
     <button disabled={loading} onClick={onClick}>{buttonText}</button>
@@ -50,20 +50,24 @@ class CourseJoin extends Component {
   handleJoinOrLeave() {
     const { course, joinCourse, joinedCourses, leaveCourse } = this.props;
     const joinedCourse = joinedCourses.find(jc => jc.id === course.id);
-    const setLoadingToFalse = () => {
+    const setLoadingToFalse = (resolveOrReject, data) => {
       this.setState({
         loadingJoinOrLeave: false
       });
+
+      return resolveOrReject(data);
     };
+    const setLoadingToFalseThen = setLoadingToFalse.bind(null, Promise.resolve);
+    const setLoadingToFalseCatch = setLoadingToFalse.bind(null, Promise.reject);
 
     this.setState({
       loadingJoinOrLeave: true
     });
 
     if (joinedCourse) {
-      leaveCourse(joinedCourse.courseUserId).then(setLoadingToFalse).catch(setLoadingToFalse);
+      leaveCourse(joinedCourse.courseUserId).then(setLoadingToFalseThen).catch(setLoadingToFalseCatch);
     } else {
-      joinCourse(course.id).then(setLoadingToFalse).catch(setLoadingToFalse);
+      joinCourse(course.id).then(setLoadingToFalseThen).catch(setLoadingToFalseCatch);
     }
   }
 
