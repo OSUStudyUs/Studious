@@ -103,9 +103,9 @@ class Api::FlashCardSetsController < ApplicationController
     user_does_not_belong_to_set = user != @flash_card_set.user && !@flash_card_set.study_group&.has_member?(user)
 
     if !@flash_card_set.public && user_does_not_belong_to_set
-      head 401
-    elsif @flash_card_set.public && user_does_not_belong_to_set
       head 404
+    elsif @flash_card_set.public && user_does_not_belong_to_set
+      head 401
     end
   end
 
