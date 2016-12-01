@@ -1,5 +1,9 @@
 import {
-  COURSE_CREATION_SUCCESS, COURSES_LOAD_REQUEST, COURSES_LOAD_SUCCESS
+  COURSE_CREATION_SUCCESS,
+  COURSE_USER_CREATION_SUCCESS,
+  COURSE_USER_DELETION_SUCCESS,
+  COURSES_LOAD_REQUEST,
+  COURSES_LOAD_SUCCESS
 } from './actions';
 
 const initialState = {
@@ -10,18 +14,26 @@ const initialState = {
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case COURSE_CREATION_SUCCESS:
-      const { course } = payload;
+      const { id, ...rest } = payload.course;
 
       return {
         ...state,
         byId:{
           ...state.byId,
-          [course.id]: {
-            ...state.byId[course.id],
-            ...course
+          [id]: {
+            ...state.byId[id],
+            ...rest
           }
         }
       };
+    case COURSE_USER_CREATION_SUCCESS:
+      // TODO: FIX THIS
+      console.log(payload);
+      return state;
+    case COURSE_USER_DELETION_SUCCESS:
+      // TODO: FIX THIS
+      console.log(payload);
+      return state;
     case COURSES_LOAD_REQUEST:
       return {
         ...state,

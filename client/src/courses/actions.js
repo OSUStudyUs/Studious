@@ -3,9 +3,51 @@ import { api } from '../utils';
 export const COURSE_CREATION_FAILURE = 'COURSE_CREATION_FAILURE';
 export const COURSE_CREATION_REQUEST = 'COURSE_CREATION_REQUEST';
 export const COURSE_CREATION_SUCCESS = 'COURSE_CREATION_SUCCESS';
+export const COURSE_USER_CREATION_FAILURE = 'COURSE_USER_CREATION_FAILURE';
+export const COURSE_USER_CREATION_REQUEST = 'COURSE_USER_CREATION_REQUEST';
+export const COURSE_USER_CREATION_SUCCESS = 'COURSE_USER_CREATION_SUCCESS';
+export const COURSE_USER_DELETION_FAILURE = 'COURSE_USER_DELETION_FAILURE';
+export const COURSE_USER_DELETION_REQUEST = 'COURSE_USER_DELETION_REQUEST';
+export const COURSE_USER_DELETION_SUCCESS = 'COURSE_USER_DELETION_SUCCESS';
 export const COURSES_LOAD_FAILURE = 'COURSES_LOAD_FAILURE';
 export const COURSES_LOAD_REQUEST = 'COURSES_LOAD_REQUEST';
 export const COURSES_LOAD_SUCCESS = 'COURSES_LOAD_SUCCESS';
+
+const onCourseUserCreationFailure = (errors) => ({
+  type: COURSE_USER_CREATION_FAILURE,
+  payload: errors
+});
+
+const onCourseUserCreationRequest = (courseId) => ({
+  type: COURSE_USER_CREATION_REQUEST,
+  payload: {
+    courseId
+  }
+});
+
+const onCourseUserCreationSuccess = (courseUser) => ({
+  type: COURSE_USER_CREATION_SUCCESS,
+  payload: {
+    courseUser
+  }
+});
+
+const onCourseUserDeletionFailure = (errors) => ({
+  type: COURSE_USER_DELETION_FAILURE,
+  payload: errors
+});
+
+const onCourseUserDeletionRequest = (courseUserId) => ({
+  type: COURSE_USER_DELETION_REQUEST,
+  payload: {
+    courseUserId
+  }
+});
+
+const onCourseUserDeletionSuccess = () => ({
+  type: COURSE_USER_DELETION_SUCCESS,
+  payload: {}
+});
 
 const onCreationFailure = (errors) => ({
   type: COURSE_CREATION_FAILURE,
@@ -52,6 +94,34 @@ export const createCourse = (course) =>
       })
       .catch((errors) => {
         dispatch(onCreationFailure(errors));
+      });
+  };
+
+export const joinCourse = (courseId) =>
+  (dispatch) => {
+    dispatch(onCourseUserCreationRequest(courseId));
+    return api.post('/course_users', { courseId })
+      .then((createdCourseUser) => {
+        dispatch(onCourseUserCreationSuccess(createdCourseUser));
+        return Promise.resolve(createdCourseUser);
+      })
+      .catch((errors) => {
+        dispatch(onCourseUserCreationFailure(errors));
+        return Promise.reject(errors);
+      });
+  };
+
+export const leaveCourse = (courseUserId) =>
+  (dispatch) => {
+    dispatch(onCourseUserDeletionRequest(courseUserId));
+    return api.del(`/course_users/${courseUserId}`)
+      .then(() => {
+        dispatch(onCourseUserDeletionSuccess());
+        return Promise.resolve();
+      })
+      .catch((errors) => {
+        dispatch(onCourseUserDeletionFailure(errors));
+        return Promise.reject(errors);
       });
   };
 

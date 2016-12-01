@@ -7,6 +7,7 @@ import { Input, SearchAndCreate } from '../shared_components';
 import components from './components';
 import * as actions from './actions';
 import * as selectors from './selectors';
+import * as profileSelectors from '../profile/selectors';
 
 const courseFromRefs = (refs) =>
   Object.keys(refs).reduce((acc, key) => {
@@ -18,17 +19,26 @@ const courseFromRefs = (refs) =>
 
 const mapDispatchToProps = (dispatch) => ({
   createCourse: bindActionCreators(actions.createCourse, dispatch),
+  joinCourse: bindActionCreators(actions.joinCourse, dispatch),
+  leaveCourse: bindActionCreators(actions.leaveCourse, dispatch),
   loadCourses: bindActionCreators(actions.loadCourses, dispatch)
 });
 
 const mapStateToProps = (state) => ({
   coursesLoading: selectors.coursesLoading(state),
+  joinedCourses: profileSelectors.profile(state).courses,
   searchForCourses: selectors.searchForCourses.bind(null, state)
 });
 
 class CoursesJoinAndCreate extends Component {
   static propTypes = {
     coursesLoading: PropTypes.bool.isRequired,
+    joinCourse: PropTypes.func.isRequired,
+    joinedCourses: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      courseUserId: PropTypes.number.isRequired
+    }).isRequired).isRequired,
+    leaveCourse: PropTypes.func.isRequired,
     loadCourses: PropTypes.func.isRequired,
     searchForCourses: PropTypes.func.isRequired
   }
@@ -44,12 +54,24 @@ class CoursesJoinAndCreate extends Component {
   }
 
   render() {
-    const { coursesLoading, loadCourses, searchForCourses} = this.props;
+    const {
+      coursesLoading,
+      joinCourse,
+      joinedCourses,
+      leaveCourse,
+      loadCourses,
+      searchForCourses
+    } = this.props;
 
     return (
       <div>
         <SearchAndCreate
           itemComponent={components.CourseJoin}
+          itemComponentProps={{
+            joinCourse: joinCourse,
+            joinedCourses: joinedCourses,
+            leaveCourse: leaveCourse
+          }}
           itemsLoading={coursesLoading}
           loadItems={loadCourses}
           name="Course"

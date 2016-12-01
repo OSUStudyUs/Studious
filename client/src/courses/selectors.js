@@ -12,7 +12,7 @@ export const courseById = (state, id) => state[NAME].byId[id];
 export const coursesLoading = (state) => state[NAME].loading;
 export const searchForCourses = (state, query) => {
   const keywords = query.split(' ').filter(keyword => keyword.length > 0).map(keyword => keyword.toLowerCase());
-  const courses = Object.keys(state[NAME].byId).map(id => ({ id, ...state[NAME].byId[id] }));
+  const courses = Object.keys(state[NAME].byId).map(id => ({ id: parseInt(id, 10), ...state[NAME].byId[id] }));
 
   return query.length === 0
     ? courses
