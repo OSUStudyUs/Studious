@@ -7,11 +7,12 @@ class Api::CourseUsersController < ApplicationController
   #   1: 11/17/16 - Kyle Thompson - skeleton
   #   2: 11/22/16 - Alex Tareshawty - Initial Implementation
   #   3: 12/01/16 - Kyle Thompson - Add resourse name to errors JSON
+  #   4: 12/01/16 - Kyle Thompson - always render JSON
   def create
     @course_user = CourseUser.new({ user_id: current_user.id, course_id: params[:course_id] })
 
     if @course_user.save
-      head 201
+      render :show, status: 201
     else
       render json: { resource: "courseUser", errors: @course_user.errors }, status: 409
     end
@@ -22,12 +23,13 @@ class Api::CourseUsersController < ApplicationController
   #   1: 11/17/16 - Kyle Thompson - skeleton
   #   2: 11/22/16 - Alex Tareshawty - Initial Implementation
   #   3: 11/27/16 - Kyle Thompson - use errors_hash_for helper
-  #   4: 12/01/16 - Kyle Thompson - Add resourse name to errors JSON
+  #   4: 12/01/16 - Kyle Thompson - add resourse name to errors JSON
+  #   5: 12/01/16 - Kyle Thompson - always render JSON
   def destroy
-    course_user = CourseUser.find params[:id]
+    @course_user = CourseUser.find params[:id]
 
-    if course_user.destroy
-      head 204
+    if @course_user.destroy
+      render :show, status: 200
     else
       render json: { resource: "courseUser", errors: errors_hash_for(CourseUser, "could not be destroyed") }, status: 500
     end
