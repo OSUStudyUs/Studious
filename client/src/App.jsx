@@ -6,11 +6,13 @@ import SplitPane from 'react-split-pane';
 import './App.scss';
 import { LandingPage, Navbar } from './shared_components';
 import authentication from './authentication';
+import flashMessage from './flash_message';
 import profile from './profile';
 import sidebar from './sidebar';
 import studyGroup from './study_group';
 
 const { selectors } = authentication;
+const { Container: FlashMessage } = flashMessage;
 const { Container: Profile } = profile;
 const { Container: Sidebar } = sidebar;
 const { Container: StudyGroup } = studyGroup;
@@ -65,6 +67,7 @@ const App = ({ isAuthenticated, user }) => {
       {
         ({ router }) => (
           <div className="App">
+            <FlashMessage />
             {isAuthenticated &&
               <SplitPane split="vertical" minSize={100} maxSize={200} defaultSize={100}>
                 <Sidebar />
