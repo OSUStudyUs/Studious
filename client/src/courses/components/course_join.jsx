@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 
-import './course.scss';
+import './course_join.scss';
 
-const Course = ({ course }) => <p className="Course">{`${course.name} - ${course.department} - ${course.number}`}</p>;
+const CourseJoin = ({ course }) => <p className="CourseJoin">{`${course.name} - ${course.department} - ${course.number}`}</p>;
 
-Course.propTypes = {
+CourseJoin.propTypes = {
   course: PropTypes.shape({
     department: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -12,4 +12,4 @@ Course.propTypes = {
   }).isRequired
 };
 
-export default Course;
+export default CourseJoin;
