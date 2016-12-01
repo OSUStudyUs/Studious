@@ -19,7 +19,7 @@ Rails.application.routes.draw do
 
     resources :course_users, only: [:create, :destroy]
 
-    resources :courses, only: [:index, :show]
+    resources :courses, only: [:index, :show, :create]
 
     resources :flash_card_sets, only: [:index, :update, :destroy]
     resources :flash_card_sets, only: [:show] do

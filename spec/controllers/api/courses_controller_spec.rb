@@ -74,4 +74,59 @@ RSpec.describe Api::CoursesController, type: :controller do
       end
     end
   end
+
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 12/01/16 - Kyle Thompson - initial implementation
+  describe "POST #create" do
+    let!(:user) { FactoryGirl.create(:user) }
+    let(:course) { FactoryGirl.attributes_for(:course) }
+    let(:invalid_course) { FactoryGirl.attributes_for(:course, :invalid) }
+    let(:headers) { auth_header(user) }
+
+    context "with correct attributes" do
+      it "has status 201" do
+        request.headers.merge! headers
+        post :create, params: { course: course }, format: :json
+        expect(response).to have_http_status(201)
+        expect(response.content_type).to eq("application/json")
+      end
+
+      it "saves the new course" do
+        request.headers.merge! headers
+        expect {
+          post :create, params: { course: course }, format: :json
+        }.to change(Course, :count).by 1
+      end
+    end
+
+    context "with incorrect attributes" do
+      it "has status 409" do
+        request.headers.merge! headers
+        post :create, params: { course: invalid_course }, format: :json
+        expect(response).to have_http_status(409)
+        expect(response.content_type).to eq("application/json")
+      end
+
+      it "doesn't save the new course" do
+        request.headers.merge! headers
+        expect {
+          post :create, params: { course: invalid_course }, format: :json
+        }.not_to change(Course, :count)
+      end
+    end
+
+    context "when not passed a valid token" do
+      it "has status 401" do
+        post :create, params: { course: course }, format: :json
+        expect(response).to have_http_status(401)
+      end
+
+      it "doesn't save the new course" do
+        expect {
+          post :create, params: { course: course }, format: :json
+        }.not_to change(Course, :count)
+      end
+    end
+  end
 end

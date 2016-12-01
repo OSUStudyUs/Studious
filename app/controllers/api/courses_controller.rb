@@ -20,4 +20,29 @@ class Api::CoursesController < ApplicationController
 
     render :show, status: 200
   end
+
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 12/01/16 - Kyle Thompson - initial implementation
+  def create
+    @course = Course.new create_params
+
+    if @course.save
+      render :show, status: 201
+    else
+      render json: { resource: "course", errors: @course.errors }, status: 409
+    end
+  end
+
+  private
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 12/01/16 - Kyle Thompson - initial implementation
+  def create_params
+    params.require(:course).permit(
+      :department,
+      :name,
+      :number
+    )
+  end
 end

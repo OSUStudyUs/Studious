@@ -6,5 +6,9 @@ FactoryGirl.define do
     department "CSE"
     number 3901
     name "Web Apps"
+
+    trait :invalid do
+      number nil
+    end
   end
 end
