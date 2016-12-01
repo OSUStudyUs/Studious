@@ -1,5 +1,5 @@
 import React, { Children, Component, PropTypes } from 'react';
-import { camelCase } from 'change-case';
+import { camelCase, noCase } from 'change-case';
 import keycode from 'keycode';
 
 import './search_and_create.scss';
@@ -7,6 +7,7 @@ import './search_and_create.scss';
 class SearchAndCreate extends Component {
   static propTypes = {
     itemComponent: PropTypes.func.isRequired,
+    itemComponentProps: PropTypes.object.isRequired,
     itemsLoading: PropTypes.bool.isRequired,
     loadItems: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
@@ -120,7 +121,7 @@ class SearchAndCreate extends Component {
           {
             this.state.creatingItem
             ? <button onClick={this.handleCreateItemClick}>Create this {this.props.name}</button>
-            : <span>Can't find your course?&nbsp;<button onClick={this.handleSwitchToCreatingClick}>Add it!</button></span>
+            : <span>Can't find your {noCase(this.props.name)}?&nbsp;<button onClick={this.handleSwitchToCreatingClick}>Add it!</button></span>
           }
         </div>
       );
@@ -151,7 +152,7 @@ class SearchAndCreate extends Component {
         key={item.id}
         onClick={(e) => this.handleChooseItemClick(e, item)}
       >
-        <Item { ...{ [camelCase(this.props.name)]: item } } />
+        <Item { ...{ [camelCase(this.props.name)]: item } } { ...this.props.itemComponentProps } />
       </div>
     );
   }

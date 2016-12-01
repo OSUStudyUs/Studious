@@ -1,15 +1,91 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import './course_join.scss';
 
-const CourseJoin = ({ course }) => <p className="CourseJoin">{`${course.name} - ${course.department} - ${course.number}`}</p>;
+const JoinOrLeaveButton = ({ joinedCourseIds, id, loading, onClick }) => {
+  let buttonText;
 
-CourseJoin.propTypes = {
-  course: PropTypes.shape({
-    department: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    number: PropTypes.number.isRequired
-  }).isRequired
+  if (loading) buttonText = '...';
+  else if (joinedCourseIds.indexOf(id) >= 0) buttonText= '-';
+  else buttonText = '+';
+
+  return (
+    <button disabled={loading} onClick={onClick}>{buttonText}</button>
+  );
 };
+
+JoinOrLeaveButton.propTypes = {
+  joinedCourseIds: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+  id: PropTypes.number.isRequired,
+  loading: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired
+};
+
+class CourseJoin extends Component {
+  static propTypes = {
+    course: PropTypes.shape({
+      department: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.number.isRequired
+    }).isRequired,
+    joinCourse: PropTypes.func.isRequired,
+    joinedCourses: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      courseUserId: PropTypes.number.isRequired
+    }).isRequired).isRequired,
+    leaveCourse: PropTypes.func.isRequired
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loadingJoinOrLeave: false
+    };
+
+    this.handleJoinOrLeave = this.handleJoinOrLeave.bind(this);
+  }
+
+  handleJoinOrLeave() {
+    const { course, joinCourse, joinedCourses, leaveCourse } = this.props;
+    const joinedCourse = joinedCourses.find(jc => jc.id === course.id);
+    const setLoadingToFalse = () => {
+      this.setState({
+        loadingJoinOrLeave: false
+      });
+    };
+
+    this.setState({
+      loadingJoinOrLeave: true
+    });
+
+    if (joinedCourse) {
+      leaveCourse(joinedCourse.courseUserId).then(setLoadingToFalse).catch(setLoadingToFalse);
+    } else {
+      joinCourse(course.id).then(setLoadingToFalse).catch(setLoadingToFalse);
+    }
+  }
+
+  render() {
+    const { course, joinedCourses } = this.props;
+
+    return (
+      <div className="CourseJoinContainer">
+        <div className="CourseJoinContainer-courseInformation">
+          <p>{course.name}</p>
+          <p>{`${course.department} ${course.number}`}</p>
+        </div>
+        <JoinOrLeaveButton
+          className="CourseJoinContainer-joinOrLeaveButton"
+          joinedCourseIds={joinedCourses.map(jc => jc.id)}
+          id={course.id}
+          loading={this.state.loadingJoinOrLeave}
+          onClick={this.handleJoinOrLeave}
+        />
+      </div>
+    );
+  }
+}
 
 export default CourseJoin;
