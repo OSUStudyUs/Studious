@@ -88,12 +88,15 @@ class Api::StudyGroupsController < ApplicationController
   # Author: Sean Whitehurst
   # Revisions:
   #   1: 11/23/16 - Sean Whitehurst - initial implementation
+  #   2: 12/1/16 - Kyle Thompson - 404 on private groups
   def ensure_user_in_group!
     user = current_user
     @study_group = StudyGroup.find params[:id]
 
-    unless @study_group.has_member? user
+    if @study_group.accepting_new_members && !@study_group.has_member?(user)
       head 401
+    elsif !@study_group.accepting_new_members && !@study_group.has_member?(user)
+      head 404
     end
   end
 
