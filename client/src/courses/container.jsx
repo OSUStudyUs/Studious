@@ -3,12 +3,21 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import './container.scss';
-import { Input, Search } from '../shared_components';
+import { Input, SearchAndCreate } from '../shared_components';
 import components from './components';
 import * as actions from './actions';
 import * as selectors from './selectors';
 
+const courseFromRefs = (refs) =>
+  Object.keys(refs).reduce((acc, key) => {
+    return {
+      ...acc,
+      [key]: refs[key].value()
+    };
+  }, {});
+
 const mapDispatchToProps = (dispatch) => ({
+  createCourse: bindActionCreators(actions.createCourse, dispatch),
   loadCourses: bindActionCreators(actions.loadCourses, dispatch)
 });
 
@@ -17,54 +26,61 @@ const mapStateToProps = (state) => ({
   searchForCourses: selectors.searchForCourses.bind(null, state)
 });
 
-class CoursesSearch extends Component {
+class CoursesJoinAndCreate extends Component {
   static propTypes = {
     coursesLoading: PropTypes.bool.isRequired,
     loadCourses: PropTypes.func.isRequired,
     searchForCourses: PropTypes.func.isRequired
   }
 
+  constructor(props) {
+    super(props);
+
+    this.handleCreateClick = this.handleCreateClick.bind(this);
+  }
+
+  handleCreateClick() {
+    this.props.createCourse(courseFromRefs(this.refs));
+  }
+
   render() {
     const { coursesLoading, loadCourses, searchForCourses} = this.props;
 
     return (
-      <Search
-        itemComponent={components.Course}
-        itemsLoading={coursesLoading}
-        loadItems={loadCourses}
-        name="Course"
-        onCreateItem={(values) => console.log(`${values.name} created`)}
-        searchForItems={searchForCourses}
-        values={{
-          department: () => this._department,
-          name: () => this._name,
-          number: () => this._number
-        }}
-      >
-        <Input
-          label="Department"
-          onEnter={() => true}
-          ref={(ref) => { this._department = ref; }}
-          type="text"
-          validate={(val) => val.length > 0}
-        />
-        <Input
-          label="Name"
-          onEnter={() => true}
-          ref={(ref) => { this._name = ref; }}
-          type="text"
-          validate={(val) => val.length > 0}
-        />
-        <Input
-          label="Number"
-          onEnter={() => true}
-          ref={(ref) => { this._number = ref; }}
-          type="number"
-          validate={() => true}
-        />
-      </Search>
+      <div>
+        <SearchAndCreate
+          itemComponent={components.CourseJoin}
+          itemsLoading={coursesLoading}
+          loadItems={loadCourses}
+          name="Course"
+          onCreateClick={this.handleCreateClick}
+          searchForItems={searchForCourses}
+        >
+          <Input
+            label="Name"
+            onEnter={() => true}
+            ref="name"
+            type="text"
+            validate={(val) => val.length > 0}
+          />
+          <Input
+            label="Department"
+            onEnter={() => true}
+            ref="department"
+            type="text"
+            validate={(val) => val.length > 0}
+          />
+          <Input
+            label="Number"
+            onEnter={() => true}
+            ref="number"
+            type="number"
+            validate={() => true}
+          />
+        </SearchAndCreate>
+      </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoursesSearch);
+export default connect(mapStateToProps, mapDispatchToProps)(CoursesJoinAndCreate);
