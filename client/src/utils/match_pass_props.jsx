@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Match } from 'react-router';
 
 const MatchPassProps = ({ component: Component, pattern, ...props }) => (
-  <Match pattern={pattern} render={(matchProps) => <Component {...matchProps} {...props} />} />
+  <Match pattern={pattern} {...props} render={(matchProps) => <Component {...matchProps} {...props} />} />
 );
 
 MatchPassProps.propTypes = {
