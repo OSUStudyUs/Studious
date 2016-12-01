@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 
-const Course = ({ course }) => <p>{`${course.name} - ${course.department} - ${course.number}`}</p>;
+import './course.scss';
+
+const Course = ({ course }) => <p className="Course">{`${course.name} - ${course.department} - ${course.number}`}</p>;
 
 Course.propTypes = {
   course: PropTypes.shape({

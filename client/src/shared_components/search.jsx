@@ -1,6 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { camelCase } from 'change-case';
 
+import './search.scss';
+
+const valuesToItemObject = (values) => {
+  return Object.keys(values).reduce((acc, valueName) => {
+    return {
+      ...acc,
+      [valueName]: values[valueName]().value()
+    };
+  }, {});
+};
+
 class Search extends Component {
   static propTypes = {
     itemComponent: PropTypes.func.isRequired,
@@ -39,7 +50,7 @@ class Search extends Component {
 
     if (!itemsLoading) {
       this.setState({
-        items: this.props.searchForItems('')
+        items: nextProps.searchForItems('')
       });
     }
   }
@@ -61,6 +72,13 @@ class Search extends Component {
   handleCreateItemClick(e) {
     e.stopPropagation();
 
+    // console.log(React.Children.map(this.props.children, (child) => {
+    //   return child.value && child.value();
+    // }));
+
+    console.log(valuesToItemObject(this.props.values));
+
+    this.props.onCreateItem(valuesToItemObject(this.props.values));
     this.setState({
       creatingItem: false
     });
@@ -77,15 +95,15 @@ class Search extends Component {
 
   handleFocus(e) {
     this.setState({
-      items: this.state.items.length > 0 ? this.state.items : this.props.searchForItems(''),
       showDropdown: this.refs.searchContainer.contains(e.target)
     });
   }
 
   handleSearchChange(e) {
     this.setState({
-      showDropdown: true,
-      items: this.props.searchForItems(e.target.value)
+      creatingItem: false,
+      items: this.props.searchForItems(e.target.value),
+      showDropdown: true
     });
   }
 
@@ -99,7 +117,15 @@ class Search extends Component {
       );
     }
 
-    return this.state.items.map(item => <Item key={item.id} { ...{ [camelCase(this.props.name)]: item } } />);
+    return this.state.items.map((item) => (
+      <div
+        className="SearchContainer-item"
+        key={item.id}
+        onClick={this.handleChooseItemClick}
+      >
+        <Item { ...{ [camelCase(this.props.name)]: item } } />
+      </div>
+    ));
   }
 
   render() {
@@ -120,7 +146,7 @@ class Search extends Component {
                 : this.renderItems()
               }
             </div>
-            <div className="SearchContainer-dropDown--buttonContainer" ref="buttonContainer">
+            <div className="SearchContainer-dropDown--buttonContainer">
               {
                 this.state.creatingItem
                 ? <button onClick={this.handleCreateItemClick}>Create this {this.props.name}</button>

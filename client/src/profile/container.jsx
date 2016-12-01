@@ -101,6 +101,7 @@ class ProfileContainer extends Component {
         <MatchPassProps component={Profile} exactly pattern="/users/:id" />
         <MatchPassProps component={Chat} exactly pattern="/users/:id/chat" id={this.props.chatroomId} />
         <Courses />
+        <p>hello</p>
       </div>
     );
   }
