@@ -10,6 +10,10 @@ import './index.scss';
 import reducers from './root_reducer';
 import App from './App';
 
+/* This is required for materialUI to actually work. Handles click/tap events that components depend on. */ 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+
 const logger = createLogger();
 const store = createStore(reducers, applyMiddleware(
   thunk,
