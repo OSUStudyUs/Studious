@@ -5,12 +5,14 @@ import { bindActionCreators } from 'redux';
 import './container.scss';
 import { MatchPassProps, propUtils, sidebarUtils } from '../utils';
 import chat from '../chat';
+import flashCardSet from '../flash_card_set';
 import Profile from './components/profile';
 import sidebar from '../sidebar';
 import * as actions from './actions';
 import * as selectors from './selectors';
 
 const { Container: Chat } = chat;
+const { Container: FlashCardSet } = flashCardSet;
 
 const updateSidebarLinks = (props) => {
   const { mapChatToLink, mapFlashCardSetsToLinks, mapStudyGroupsToLinks } = sidebarUtils;
@@ -50,6 +52,9 @@ class ProfileContainer extends Component {
       name: PropTypes.string.isRequired
     })),
     loadProfile: PropTypes.func.isRequired,
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired
+    }).isRequired,
     shouldUpdateChatLink: PropTypes.func.isRequired,
     shouldUpdateFlashCardSetLinks: PropTypes.func.isRequired,
     shouldUpdateStudyGroupLinks: PropTypes.func.isRequired,
@@ -85,6 +90,13 @@ class ProfileContainer extends Component {
       <div className="ProfileContainer">
         <MatchPassProps component={Profile} exactly pattern="/users/:id" />
         <MatchPassProps component={Chat} exactly pattern="/users/:id/chat" id={this.props.chatroomId} />
+        <MatchPassProps
+          component={FlashCardSet}
+          createRoute={`users/${this.props.params.id}`}
+          exactly
+          pattern="/users/:id/flash-card-sets/:flashCardSetId"
+          rootRoute="/users/:id"
+        />
       </div>
     );
   }
