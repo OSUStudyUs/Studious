@@ -41,9 +41,13 @@ RSpec.describe Api::FlashCardSetsController, type: :controller do
   # Author: Mary Zhou
   # Revisions:
   #   1: 11/23/16 - Mary Zhou - initial implementation
+  #   1: 12/01/16 - Kyle Thompson - add tests for 404 paths
   describe "GET #show" do
     let!(:flash_card_set) { FactoryGirl.create(:flash_card_set, :for_a_user) }
+    let!(:public_flash_card_set) { FactoryGirl.create(:flash_card_set, :for_a_user, public: true) }
+    let!(:user) { FactoryGirl.create(:user) }
     let(:headers) { auth_header(flash_card_set.user) }
+    let(:bad_headers) { auth_header(user) }
 
     context "when passed the correct user's token" do
       it "has status 200" do
@@ -63,6 +67,24 @@ RSpec.describe Api::FlashCardSetsController, type: :controller do
         request.headers.merge! headers
         get :show, params: { id: flash_card_set }, format: :json
         expect(response).to render_template(:show)
+      end
+    end
+
+    context "when passed a token for a different set" do
+      context "and the set is public" do
+        it "has status 401" do
+          request.headers.merge! bad_headers
+          get :show, params: { id: public_flash_card_set }, format: :json
+          expect(response).to have_http_status(401)
+        end
+      end
+
+      context "and the set is not public" do
+        it "has status 404" do
+          request.headers.merge! bad_headers
+          get :show, params: { id: flash_card_set }, format: :json
+          expect(response).to have_http_status(404)
+        end
       end
     end
 

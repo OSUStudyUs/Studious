@@ -41,8 +41,10 @@ RSpec.describe Api::StudyGroupsController, type: :controller do
   # Author: Sean Whitehurst
   # Revisions:
   #   1: 11/27/16 - Sean Whitehurst - initial implementation
+  #   1: 12/01/16 - Kyle Thompson - add tests for 404 paths
   describe "GET #show" do
     let!(:study_group_with_user) { FactoryGirl.create(:study_group, :with_a_user) }
+    let!(:open_study_group) { FactoryGirl.create(:study_group, accepting_new_members: true) }
     let!(:other_user) { FactoryGirl.create(:user) }
     let(:headers) { auth_header(study_group_with_user.users.first) }
     let(:headers_other) { auth_header(other_user) }
@@ -69,10 +71,20 @@ RSpec.describe Api::StudyGroupsController, type: :controller do
     end
 
     context "when passed the wrong user's token" do
-      it "has status 401" do
-        request.headers.merge! headers_other
-        get :show, params: { id: study_group_with_user }, format: :json
-        expect(response).to have_http_status(401)
+      context "and the study group is accepting new members" do
+        it "has status 401" do
+          request.headers.merge! headers_other
+          get :show, params: { id: open_study_group }, format: :json
+          expect(response).to have_http_status(401)
+        end
+      end
+
+      context "and the study group is not accepting new members" do
+        it "has status 404" do
+          request.headers.merge! headers_other
+          get :show, params: { id: study_group_with_user }, format: :json
+          expect(response).to have_http_status(404)
+        end
       end
     end
 
