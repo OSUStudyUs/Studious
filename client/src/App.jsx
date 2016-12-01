@@ -20,6 +20,17 @@ const mapStateToProps = (state) => ({
   user: selectors.user()
 });
 
+const CheckForCorrectProfile = ({ component: Component, isAuthenticated, pattern, userId, ...rest }) => (
+  <Match {...rest} pattern={pattern} render={(props) => {
+    if (userId === parseInt(props.params.id, 10)) {
+      return <Component {...props} {...rest} />;
+    } else {
+      return <Redirect to={{ pathname: `/users/${userId}`}} />;
+    }
+  }}
+  />
+);
+
 const MatchWhenAuthorized = ({ component: Component, isAuthenticated, pattern, ...rest }) => (
   <Match {...rest} pattern={pattern} render={(props) => {
     if (isAuthenticated) {
@@ -34,11 +45,11 @@ const MatchWhenAuthorized = ({ component: Component, isAuthenticated, pattern, .
 const MatchWhenNotLoggedIn = ({ component: Component, pattern, ...rest }) => {
   return (
     <Match pattern={pattern} render={(props) => {
-        if (!rest.isAuthenticated) {
-          return <Component {...props} {...rest} />;
-        } else {
-          return <Redirect to={{ pathname: '/' }} />;
-        }
+      if (!rest.isAuthenticated) {
+        return <Component {...props} {...rest} />;
+      } else {
+        return <Redirect to={{ pathname: '/' }} />;
+      }
     }}
     />
   );
@@ -60,7 +71,7 @@ const App = ({ isAuthenticated, user }) => {
                 <div className="SplitPane-wrapper">
                   <Navbar />
                   <MatchWhenAuthorized component={RedirectToProfile} id={user.id} isAuthenticated={isAuthenticated} exactly pattern="/" />
-                  <MatchWhenAuthorized component={Profile} isAuthenticated={isAuthenticated} pattern="/users/:id" />
+                  <CheckForCorrectProfile component={Profile} isAuthenticated={isAuthenticated} pattern="/users/:id" userId={user.id} />
                   <MatchWhenAuthorized component={StudyGroup} isAuthenticated={isAuthenticated} pattern="/study-groups/:id" />
                 </div>
               </SplitPane>
