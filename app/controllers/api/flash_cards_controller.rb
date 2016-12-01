@@ -7,6 +7,7 @@ class Api::FlashCardsController < ApplicationController
   # Revisions:
   #   1: 11/17/16 - Kyle Thompson - skeleton
   #   2: 11/21/16 - Joel Diener - initial implementation
+  #   3: 12/01/16 - Kyle Thompson - Add resourse name to errors JSON
   def create
     @flash_card ||= FlashCard.new create_params
 
@@ -17,7 +18,7 @@ class Api::FlashCardsController < ApplicationController
     if @flash_card.save
       render :show, status: 201
     else
-      render json: { errors: @flash_card.errors }, status: 409
+      render json: { resource: "flashCard", errors: @flash_card.errors }, status: 409
     end
   end
 
@@ -25,13 +26,14 @@ class Api::FlashCardsController < ApplicationController
   # Revisions:
   #   1: 11/17/16 - Kyle Thompson - skeleton
   #   2: 11/21/16 - Joel Diener - initial implementation
+  #   3: 12/01/16 - Kyle Thompson - Add resourse name to errors JSON
   def update
     @flash_card ||= FlashCard.find params[:id]
 
     if @flash_card.update_attributes update_params
       render :show, status: 200
     else
-      render json: { errors: @flash_card.errors }, status: 409
+      render json: { resource: "flashCard", errors: @flash_card.errors }, status: 409
     end
   end
 
@@ -40,13 +42,14 @@ class Api::FlashCardsController < ApplicationController
   #   1: 11/17/16 - Kyle Thompson - skeleton
   #   2: 11/21/16 - Joel Diener - initial implementation
   #   3: 11/27/16 - Kyle Thompson - use errors_hash_for helper
+  #   4: 12/01/16 - Kyle Thompson - Add resourse name to errors JSON
   def destroy
     @flash_card ||= FlashCard.find params[:id]
 
     if @flash_card.destroy
       head 204
     else
-      render json: { errors: errors_hash_for(FlashCard, "could not be destroyed") }, status: 500
+      render json: { resource: "flashCard", errors: errors_hash_for(FlashCard, "could not be destroyed") }, status: 500
     end
   end
 
