@@ -13,6 +13,7 @@ class FlashCardSet extends Component {
       id: PropTypes.number.isRequired,
       question: PropTypes.string.isRequired
     })),
+    id: PropTypes.number.isRequired,
     name: PropTypes.string,
     onCreate: PropTypes.func.isRequired
   }
@@ -49,16 +50,29 @@ class FlashCardSet extends Component {
       .concat({ id: 'add', card: <CreateFlashCard key="add" onCreate={nextProps.onCreate}/> });
 
     const currentIdExists = cards.some(card => card.id === this.state.currentCardId);
+    let nextId;
+
+    if (this.props.id !== nextProps.id) {
+      nextId = cards[0].id;
+    } else {
+      nextId = currentIdExists ? this.state.currentCardId : cards[0].id;
+    }
 
     this.setState({
       cards,
-      currentCardId: currentIdExists ? this.state.currentCardId : cards[0].id
+      currentCardId: nextId
     });
   }
 
   handleLeftClick() {
     const currentIndex = this.state.cards.findIndex(card => card.id === this.state.currentCardId);
-    const nextIndex = currentIndex === 0 ? this.state.cards.length - 1 : currentIndex - 1;
+    let nextIndex;
+
+    if (this.state.cards.length > 1) {
+      nextIndex = currentIndex === 0 ? this.state.cards.length - 2 : currentIndex - 1;
+    } else {
+      nextIndex = 0;
+    }
 
     this.setState({
       currentCardId: this.state.cards[nextIndex].id
@@ -73,7 +87,13 @@ class FlashCardSet extends Component {
 
   handleRightClick() {
     const currentIndex = this.state.cards.findIndex(card => card.id === this.state.currentCardId);
-    const nextIndex = currentIndex === this.state.cards.length - 1 ? 0 : currentIndex + 1;
+    let nextIndex;
+
+    if (this.state.cards.length > 1) {
+      nextIndex = currentIndex === this.state.cards.length - 2 ? 0 : currentIndex + 1;
+    } else {
+      nextIndex = 0;
+    }
 
     this.setState({
       currentCardId: this.state.cards[nextIndex].id
