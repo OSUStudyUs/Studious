@@ -1,16 +1,11 @@
-.Navbar {
-  align-items: center;
-  display: flex;
-  margin: 5px 3px 5px 3px;
-  width: 100%;
-}
-
-.Navbar-auth {
+#Navbar-logoutWrapper {
   align-items: center;
   display: flex;
 }
 
-.Navbar-title {
-  flex: 1;
-  text-align: left;
+#Navbar-welcome {
+  color: white;
+  font-family: roboto, sans-serif;
+  font-size: 20px;
+  margin-right: 10px;
 }

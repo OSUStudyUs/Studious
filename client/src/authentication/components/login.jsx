@@ -31,6 +31,12 @@ export default class Login extends Component {
     });
   }
 
+  componentWillUnmount() {
+    Object.keys(this.refs).map((key) => this.refs[key]).forEach((ref) => {
+      ref.input.removeEventListener('keydown', this.handleEnter);
+    });
+  }
+
   handleClick() {
     const { email, password } = this.state;
 
@@ -80,6 +86,12 @@ export default class Login extends Component {
 
   render() {
     const { email, errorFields, password } = this.state;
+    const buttonStyle = {
+      'background-color': 'white'
+    };
+    const textStyle = {
+      color: 'white'
+    };
 
     return (
       <div className="Login">
@@ -88,6 +100,7 @@ export default class Login extends Component {
           errorText={errorFields.some((field) => field === 'email') && 'Please enter a valid email'}
           onChange={this.handleEmailChange}
           ref="email"
+          inputStyle={textStyle}
           type="text"
           value={email}
         />
@@ -96,10 +109,11 @@ export default class Login extends Component {
           errorText={errorFields.some((field) => field === 'password') && 'Please enter a password'}
           onChange={this.handlePasswordChange}
           ref="password"
+          inputStyle={textStyle}
           type="password"
           value={password}
         />
-        <FlatButton label="Login" onClick={this.handleClick} primary={true} />
+        <FlatButton label="Login" onClick={this.handleClick} secondary style={buttonStyle} />
       </div>
     );
   }

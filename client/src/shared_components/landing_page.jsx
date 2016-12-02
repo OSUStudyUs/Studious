@@ -9,13 +9,8 @@ const { Signup } = components;
 
 const LandingPage = ({ actions }) => (
   <div className="LandingPage">
-    <div className="LandingPage-centeredText">
-      <p>Find academic groups. Chat. Practice flash cards.</p>
-      <h1>Better Together</h1>
-    </div>
-    <div className="LandingPage-form">
-       <Signup onSignup={(user) => actions.signupUser(user)}/>
-    </div>
+    <h1 id="LandingPage-header">Find academic groups. Chat. Practice flash cards.</h1>
+    <Signup onSignup={(user) => actions.signupUser(user)}/>
   </div>
 );
 
