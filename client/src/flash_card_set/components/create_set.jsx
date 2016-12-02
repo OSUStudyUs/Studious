@@ -3,13 +3,13 @@ import React, { Component, PropTypes } from 'react';
 import Input from '../../shared_components/input';
 
 class FlashCardSetCreate extends Component {
-
   static propTypes = {
     onCreate: PropTypes.func.isRequired
   };
 
   constructor() {
     super();
+
     this.handleClick = this.handleClick.bind(this);
     this.handleEnter = this.handleEnter.bind(this);
   }

@@ -34,13 +34,13 @@ class FlashCard extends Component {
       >
         <div className="FlashCard-container">
           <div className="FlashCard-indexChip">
-            <Chip>{this.props.index + 1}</Chip>
+            <Chip labelStyle={{ 'fontSize': '1.25em' }}>{this.props.index + 1}</Chip>
           </div>
           <div className="FlashCard-text">
-            <CardText style={{ 'font-size': '2em' }}>{this.state.flipped ? this.props.answer || 'There is no answer!' : this.props.question}</CardText>
+            <CardText style={{ 'fontSize': '2em' }}>{this.state.flipped ? this.props.answer || 'There is no answer!' : this.props.question}</CardText>
           </div>
           <div className="FlashCard-statusChip">
-            <Chip>{this.state.flipped ? 'A' : 'Q'}</Chip>
+            <Chip labelStyle={{ 'fontSize': '1.25em' }}>{this.state.flipped ? 'A' : 'Q'}</Chip>
           </div>
         </div>
       </Card>

@@ -5,7 +5,6 @@ import './card.scss';
 import Input from '../../shared_components/input';
 
 class CreateFlashCard extends Component {
-
   static propTypes = {
     onCreate: PropTypes.func.isRequired
   };
