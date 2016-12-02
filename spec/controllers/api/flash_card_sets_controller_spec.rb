@@ -71,20 +71,10 @@ RSpec.describe Api::FlashCardSetsController, type: :controller do
     end
 
     context "when passed a token for a different set" do
-      context "and the set is public" do
-        it "has status 401" do
-          request.headers.merge! bad_headers
-          get :show, params: { id: public_flash_card_set }, format: :json
-          expect(response).to have_http_status(401)
-        end
-      end
-
-      context "and the set is not public" do
-        it "has status 404" do
-          request.headers.merge! bad_headers
-          get :show, params: { id: flash_card_set }, format: :json
-          expect(response).to have_http_status(404)
-        end
+      it "has status 404" do
+        request.headers.merge! bad_headers
+        get :show, params: { id: flash_card_set }, format: :json
+        expect(response).to have_http_status(404)
       end
     end
 
@@ -178,7 +168,7 @@ RSpec.describe Api::FlashCardSetsController, type: :controller do
       it "has status 401" do
         request.headers.merge! bad_headers
         patch :update, params: { id: flash_card_set, flash_card_set: different_flash_card_set }, format: :json
-        expect(response).to have_http_status(401)
+        expect(response).to have_http_status(404)
       end
     end
 

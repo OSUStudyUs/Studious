@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Match, Redirect } from 'react-router';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -64,42 +64,51 @@ const RedirectToProfile = ({ component: Component, id }) => (
   <Redirect to={{ pathname: `/users/${id}` }} />
 );
 
-const App = ({ isAuthenticated, user }) => {
-  return (
-    <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-      <BrowserRouter>
-        {
-          ({ router }) => (
-            <div className="App">
-              <FlashMessage />
-              {isAuthenticated &&
-                <SplitPane split="vertical" minSize={100} maxSize={200} defaultSize={100}>
-                  <Sidebar />
-                  <div className="SplitPane-wrapper">
-                    <Navbar />
-                    <MatchWhenAuthorized component={RedirectToProfile} id={user.id} isAuthenticated={isAuthenticated} exactly pattern="/" />
-                    <CheckForCorrectProfile component={Profile} isAuthenticated={isAuthenticated} pattern="/users/:id" userId={user.id} />
-                    <MatchWhenAuthorized component={StudyGroup} isAuthenticated={isAuthenticated} pattern="/study-groups/:id" />
-                  </div>
-                </SplitPane>
-              }
-              {!isAuthenticated &&
-                <div>
-                  <Navbar />
-                  <MatchWhenNotLoggedIn component={LandingPage} isAuthenticated={isAuthenticated} pattern="/" />
-                </div>
-              }
-            </div>
-          )
-        }
-      </BrowserRouter>
-    </MuiThemeProvider>
-  );
-};
+class App extends Component {
 
-App.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
-  user: PropTypes.object
-};
+  static propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired,
+    user: PropTypes.object
+  }
+
+  shouldComponentUpdate(newProps) {
+    return this.props.isAuthenticated !== newProps.isAuthenticated;
+  }
+
+  render() {
+    const { isAuthenticated, user } = this.props;
+
+    return (
+      <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+        <BrowserRouter>
+          {
+            ({ router }) => (
+              <div className="App">
+                <FlashMessage />
+                {isAuthenticated &&
+                  <SplitPane split="vertical" minSize={100} maxSize={200} defaultSize={100}>
+                    <Sidebar />
+                    <div className="SplitPane-wrapper">
+                      <Navbar />
+                      <MatchWhenAuthorized component={RedirectToProfile} id={user.id} isAuthenticated={isAuthenticated} exactly pattern="/" />
+                      <CheckForCorrectProfile component={Profile} isAuthenticated={isAuthenticated} pattern="/users/:id" userId={user.id} />
+                      <MatchWhenAuthorized component={StudyGroup} isAuthenticated={isAuthenticated} pattern="/study-groups/:id" />
+                    </div>
+                  </SplitPane>
+                }
+                {!isAuthenticated &&
+                  <div>
+                    <Navbar />
+                    <MatchWhenNotLoggedIn component={LandingPage} isAuthenticated={isAuthenticated} pattern="/" />
+                  </div>
+                }
+              </div>
+            )
+          }
+        </BrowserRouter>
+      </MuiThemeProvider>
+    );
+  }
+}
 
 export default connect(mapStateToProps)(App);

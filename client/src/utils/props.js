@@ -1,1 +1,1 @@
-export const notAllReceived = (propTypes, props) => Object.keys(propTypes).some(key => typeof props[key] === 'undefined');
+export const allReceived = (propTypes, props) => Object.keys(propTypes).every(key => typeof props[key] !== 'undefined');

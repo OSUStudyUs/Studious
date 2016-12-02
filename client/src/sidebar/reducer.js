@@ -25,11 +25,11 @@ const sidebar = (state = initialState, { type, payload }) => {
 
       return newState;
     case SIDEBAR_UPDATE_FLASH_CARD_SET_LINKS:
-      let newFlashcardSetLinks = newState.flashCardSetLinks.concat(payload);
+      let newFlashcardSetLinks = payload;
 
       newFlashcardSetLinks = newFlashcardSetLinks.filter((link, position, links) => linkIndexOf(links, link) === position).sort(({ name: nameA }, { name: nameB }) => nameA.localeCompare(nameB));
 
-      newState.studyGroupLinks = newFlashcardSetLinks;
+      newState.flashCardSetLinks = newFlashcardSetLinks;
       return newState;
     case SIDEBAR_UPDATE_STUDY_GROUP_LINKS:
       let newStudyGroupLinks = newState.studyGroupLinks.concat(payload);

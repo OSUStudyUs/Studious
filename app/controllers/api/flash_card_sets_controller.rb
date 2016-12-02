@@ -1,7 +1,6 @@
 class Api::FlashCardSetsController < ApplicationController
   before_action :authenticate_user
-  before_action :ensure_visible, only: [:show]
-  before_action :ensure_owner_of_set, except: [:index, :show, :create]
+  before_action :ensure_owner_of_set, except: [:index, :create]
 
   # Author: Mary Zhou
   # Revisions:
@@ -81,8 +80,7 @@ class Api::FlashCardSetsController < ApplicationController
   #   1: 11/18/16 - Mary Zhou - initial implementation
   def create_params
     params.require(:flash_card_set).permit(
-      :name,
-      :public
+      :name
     )
   end
 
@@ -96,28 +94,12 @@ class Api::FlashCardSetsController < ApplicationController
   # Author: Kyle Thompson
   # Revisions:
   #   1: 11/27/16 - Kyle Thompson - initial implementation
-  #   2: 12/01/16 - Kyle Thompson - 404 on private sets
-  def ensure_visible
-    user = current_user
-    @flash_card_set = FlashCardSet.find params[:id]
-    user_does_not_belong_to_set = user != @flash_card_set.user && !@flash_card_set.study_group&.has_member?(user)
-
-    if !@flash_card_set.public && user_does_not_belong_to_set
-      head 404
-    elsif @flash_card_set.public && user_does_not_belong_to_set
-      head 401
-    end
-  end
-
-  # Author: Kyle Thompson
-  # Revisions:
-  #   1: 11/27/16 - Kyle Thompson - initial implementation
   def ensure_owner_of_set
     user = current_user
     @flash_card_set = FlashCardSet.find params[:id]
 
     unless user == @flash_card_set.user || @flash_card_set.study_group&.has_member?(user)
-      head 401
+      head 404
     end
   end
 end
