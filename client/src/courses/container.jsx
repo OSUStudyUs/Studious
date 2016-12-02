@@ -9,7 +9,7 @@ import * as actions from './actions';
 import * as profileSelectors from '../profile/selectors';
 import * as selectors from './selectors';
 
-const courseFromRefs = (refs) => Object.keys(refs).reduce((acc, key) => ({ ...acc, [key]: refs[key].value() }), {});
+const courseFromRefs = refs => Object.keys(refs).reduce((acc, key) => ({ ...acc, [key]: refs[key].value() }), {});
 
 const mapDispatchToProps = (dispatch) => ({
   createCourse: bindActionCreators(actions.createCourse, dispatch),
