@@ -35,9 +35,12 @@ const reducer = (state = initialState, { type, payload }) => {
       const byId = courses.reduce((acc, course) => {
         const { id, ...rest } = course;
 
-        acc[id] = { ...rest };
-
-        return acc;
+        return {
+          ...acc,
+          [id]: {
+            ...rest
+          }
+        };
       }, {});
 
       return {

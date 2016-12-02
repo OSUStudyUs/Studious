@@ -6,16 +6,10 @@ import './container.scss';
 import { Input, SearchAndCreate } from '../shared_components';
 import components from './components';
 import * as actions from './actions';
-import * as selectors from './selectors';
 import * as profileSelectors from '../profile/selectors';
+import * as selectors from './selectors';
 
-const courseFromRefs = (refs) =>
-  Object.keys(refs).reduce((acc, key) => {
-    return {
-      ...acc,
-      [key]: refs[key].value()
-    };
-  }, {});
+const courseFromRefs = (refs) => Object.keys(refs).reduce((acc, key) => ({ ...acc, [key]: refs[key].value() }), {});
 
 const mapDispatchToProps = (dispatch) => ({
   createCourse: bindActionCreators(actions.createCourse, dispatch),
@@ -43,8 +37,8 @@ class CoursesJoinAndCreate extends Component {
     searchForCourses: PropTypes.func.isRequired
   }
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.handleCreateClick = this.handleCreateClick.bind(this);
   }
@@ -83,21 +77,21 @@ class CoursesJoinAndCreate extends Component {
             hint="Must be at least 1 character"
             ref="name"
             type="text"
-            validate={(val) => val.length > 0}
+            validate={val => val.length > 0}
           />
           <Input
             label="Department"
             hint="Must be at least 1 character"
             ref="department"
             type="text"
-            validate={(val) => val.length > 0}
+            validate={val => val.length > 0}
           />
           <Input
             label="Number"
             hint="Must be a number"
             ref="number"
             type="number"
-            validate={(val) => !isNaN(parseInt(val, 10))}
+            validate={val => !isNaN(parseInt(val, 10))}
           />
         </SearchAndCreate>
       </div>
