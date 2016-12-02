@@ -10,7 +10,6 @@ import './App.scss';
 import { LandingPage, Navbar } from './shared_components';
 import authentication from './authentication';
 import flashMessage from './flash_message';
-import { MatchWithProps } from './utils';
 import profile from './profile';
 import sidebar from './sidebar';
 import studyGroup from './study_group';
@@ -58,19 +57,6 @@ const MatchWhenAuthorized = ({ component: Component, isAuthenticated, pattern, .
   }}
   />
 );
-
-const MatchWhenNotLoggedIn = ({ component: Component, pattern, ...rest }) => {
-  return (
-    <Match pattern={pattern} render={(props) => {
-      if (!rest.isAuthenticated) {
-        return <Component {...props} {...rest} />;
-      } else {
-        return <Redirect to={{ pathname: '/' }} />;
-      }
-    }}
-    />
-  );
-};
 
 const RedirectToProfile = ({ component: Component, id }) => (
   <Redirect to={{ pathname: `/users/${id}` }} />
