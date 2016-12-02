@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import './message.scss';
 
-const Message = ({ id, content, user, createdAt }) => (
+const Message = ({ createdAt, id, content, user }) => (
   <div className="Message">
     <div key={id} className="Message-header">
       <span className="Message-header--name">{user.firstName} {user.lastName} </span> 

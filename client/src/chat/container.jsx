@@ -7,6 +7,7 @@ import { chatChannel } from '../utils';
 import * as actions from './actions';
 import * as selectors from './selectors';
 import Message from './components/message';
+import keycode from 'keycode';
 
 const mapDispatchToProps = (dispatch) => ({
   createSubscription: bindActionCreators(actions.createSubscription, dispatch),
@@ -74,11 +75,9 @@ class Chat extends Component {
     this.refs.message.value = "";
   }
 
-  handleKeyDown(event) {
-    var ENTER = 13;
-    if(event.keyCode === ENTER) {
-      this.props.subscription.sendMessage(this.refs.message.value);
-      this.refs.message.value = "";
+  handleKeyDown(keyCode) {
+    if(keycode(keyCode) === 'enter') {
+      this.handleClick();
     }
   }
 
@@ -95,11 +94,11 @@ class Chat extends Component {
       <div className="Chat">
         <div className="Chat-messages" ref="messagesContainer" >
           {/* We'll need a <Message /> component here for styling, please :)*/}
-          { messages.map(({ id, content, user, createdAt }) => <Message id={id} content={content} user={user} createdAt={createdAt} />) }
+          { messages.map(({ createdAt, id, content, user }) => <Message createdAt={createdAt} id={id} content={content} user={user} />) }
         </div>
-        <div className="Chat-input" onKeyDown={this.handleKeyDown}>
+        <div className="Chat-input">
           {/* This should be a controlled component (form) at some point */}
-          <input className="Chat-input--textbox" type="text" ref="message"/>
+          <textarea className="Chat-input--textbox" ref="message" onKeyDown={this.handleKeyDown}/>
           <button className="Chat-input--sendButton" onClick={this.handleClick}>Send</button>
         </div>
       </div>
