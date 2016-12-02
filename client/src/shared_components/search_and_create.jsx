@@ -2,7 +2,7 @@ import React, { Children, Component, PropTypes } from 'react';
 import { camelCase, noCase } from 'change-case';
 import classNames from 'classnames';
 import keycode from 'keycode';
-import { Paper } from 'material-ui';
+import Paper from 'material-ui/Paper';
 
 import './search_and_create.scss';
 
