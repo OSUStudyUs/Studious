@@ -9,12 +9,7 @@ const { CREATE_FLASH_CARD_SET_SUCCESS } = flashCardSet.actions;
 const { STUDY_GROUP_CREATION_SUCCESS } = studyGroups.actions;
 const { COURSE_USER_CREATION_SUCCESS, COURSE_USER_DELETION_SUCCESS } = courseActions;
 
-const initialState = {
-  courses: null,
-  flashCardSets: null,
-  id: null,
-  studyGroups: null
-};
+const initialState = { };
 
 const profile = (state = initialState, { type, payload }) => {
   const newState = { ...state };
@@ -59,6 +54,7 @@ const profile = (state = initialState, { type, payload }) => {
 
       delete newPayload.courses;
       delete newPayload.flashCardSets;
+      delete newPayload.id;
       delete newPayload.studyGroups;
 
       return {
