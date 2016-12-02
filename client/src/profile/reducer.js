@@ -9,12 +9,7 @@ const { CREATE_FLASH_CARD_SET_SUCCESS } = flashCardSet.actions;
 const { STUDY_GROUP_CREATION_SUCCESS } = studyGroups.actions;
 const { COURSE_USER_CREATION_SUCCESS, COURSE_USER_DELETION_SUCCESS } = courseActions;
 
-const initialState = {
-  courses: null,
-  flashCardSets: null,
-  id: null,
-  studyGroups: null
-};
+const initialState = { };
 
 const profile = (state = initialState, { type, payload }) => {
   const newState = { ...state };
@@ -48,12 +43,23 @@ const profile = (state = initialState, { type, payload }) => {
 
       return newState;
     case PROFILE_LOAD_SUCCESS:
-      return {
+      const newPayload = { ...payload };
+
+      const toReturn = {
         ...state,
-        ...payload,
-        courses: (payload.courses || []).map(({ id, courseUserId }) => ({ id, courseUserId })),
-        flashCardSets: (payload.flashCardSets || []).map(({ id, name }) => ({ id, name })),
-        studyGroups: (payload.studyGroups || []).map(({ id, name }) => ({ id, name })),
+        courses: newPayload.courses.map(({ id, courseUserId }) => ({ id, courseUserId })),
+        flashCardSetIds: newPayload.flashCardSets.map(({ id }) => id),
+        studyGroupIds: newPayload.studyGroups.map(({ id }) => id)
+      };
+
+      delete newPayload.courses;
+      delete newPayload.flashCardSets;
+      delete newPayload.id;
+      delete newPayload.studyGroups;
+
+      return {
+        ...toReturn,
+        ...newPayload
       };
     case STUDY_GROUP_CREATION_SUCCESS:
       newState.studyGroups = (newState.studyGroups || []).concat({

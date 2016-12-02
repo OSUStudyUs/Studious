@@ -1,17 +1,18 @@
 import {
   STUDY_GROUP_CREATION_SUCCESS, STUDY_GROUP_LOAD_SUCCESS
 } from './actions';
-import * as actions from '../profile/actions';
+import * as profileActions from '../profile/actions';
 import * as flashCardSetActions from '../flash_card_set/actions';
 
 const { CREATE_FLASH_CARD_SET_SUCCESS } = flashCardSetActions;
-const { PROFILE_LOAD_SUCCESS } = actions;
+const { PROFILE_LOAD_SUCCESS } = profileActions;
 const initialState = {
   byId: { }
 };
 
 const studyGroup = (state = initialState, { type, payload }) => {
   const newState = { ...state };
+  let byId, newPayload, flashCardSetIds;
 
   switch (type) {
     case CREATE_FLASH_CARD_SET_SUCCESS:
@@ -28,17 +29,25 @@ const studyGroup = (state = initialState, { type, payload }) => {
       }
 
     case PROFILE_LOAD_SUCCESS:
-      const { studyGroups } = payload;
+      byId = payload.studyGroups.reduce((acc, group) => {
+        const newGroup = { ...group };
+        const { id } = newGroup;
 
-      (studyGroups || []).forEach(({ id, ...rest }) => {
-        newState.byId[id] = {
-          ...newState.byId[id],
-          id,
-          ...rest
-        };
-      });
+        flashCardSetIds = newGroup.flashCardSets.map(({ id }) => id);
 
-      return newState;
+        delete newGroup.flashCardSets;
+
+        acc[id] = { ...newGroup, flashCardSetIds };
+        return acc;
+      }, {});
+
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          ...byId
+        }
+      };
     case STUDY_GROUP_CREATION_SUCCESS:
       newState.byId[payload.studyGroup.id] = {
         ...newState.byId[payload.studyGroup.id],
@@ -47,9 +56,20 @@ const studyGroup = (state = initialState, { type, payload }) => {
 
       return newState;
     case STUDY_GROUP_LOAD_SUCCESS:
-      newState.byId[payload.studyGroup.id] = {
-        ...newState.byId[payload.studyGroup.id],
-        ...payload.studyGroup
+      newPayload = { ...payload.studyGroup };
+
+      flashCardSetIds = newPayload.flashCardSets.map(({ id }) => id);
+
+      delete newPayload.flashCardSets;
+
+      byId = {
+        ...newPayload,
+        flashCardSetIds
+      };
+
+      newState.byId[newPayload.id] = {
+        ...newState.byId[newPayload.id],
+        ...byId
       };
 
       return newState;
