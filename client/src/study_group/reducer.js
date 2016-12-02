@@ -1,11 +1,11 @@
 import {
   STUDY_GROUP_CREATION_SUCCESS, STUDY_GROUP_LOAD_SUCCESS
 } from './actions';
-import * as actions from '../profile/actions';
+import * as profileActions from '../profile/actions';
 import * as flashCardSetActions from '../flash_card_set/actions';
 
 const { CREATE_FLASH_CARD_SET_SUCCESS } = flashCardSetActions;
-const { PROFILE_LOAD_SUCCESS } = actions;
+const { PROFILE_LOAD_SUCCESS } = profileActions;
 const initialState = {
   byId: { }
 };
@@ -28,17 +28,20 @@ const studyGroup = (state = initialState, { type, payload }) => {
       }
 
     case PROFILE_LOAD_SUCCESS:
-      const { studyGroups } = payload;
+      const byId = payload.studyGroups.reduce((acc, set) => {
+        const { id, ...rest } = set;
 
-      (studyGroups || []).forEach(({ id, ...rest }) => {
-        newState.byId[id] = {
-          ...newState.byId[id],
-          id,
-          ...rest
-        };
-      });
+        acc[id] = { ...rest };
+        return acc;
+      }, {});
 
-      return newState;
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          ...byId
+        }
+      };
     case STUDY_GROUP_CREATION_SUCCESS:
       newState.byId[payload.studyGroup.id] = {
         ...newState.byId[payload.studyGroup.id],

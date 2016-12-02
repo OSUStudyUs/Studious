@@ -1,7 +1,9 @@
 import {
   CREATE_FLASH_CARD_SUCCESS, CREATE_FLASH_CARD_SET_SUCCESS, LOAD_FLASH_CARD_SET_SUCCESS
 } from './actions';
+import * as profileActions from '../profile/actions';
 
+const { PROFILE_LOAD_SUCCESS } = profileActions;
 const initialState = {
   byId: {}
 };
@@ -31,6 +33,21 @@ const flashCardSet = (state = initialState, { type, payload }) => {
       };
 
       return newState;
+    case PROFILE_LOAD_SUCCESS:
+      const byId = payload.flashCardSets.reduce((acc, set) => {
+        const { id, ...rest } = set;
+
+        acc[id] = { ...rest };
+        return acc;
+      }, {});
+
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          ...byId
+        }
+      };
     default:
       return state;
   }

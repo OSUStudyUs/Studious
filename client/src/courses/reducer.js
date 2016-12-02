@@ -3,13 +3,16 @@ import {
   COURSES_LOAD_REQUEST,
   COURSES_LOAD_SUCCESS
 } from './actions';
+import * as profileActions from '../profile/actions';
 
+const { PROFILE_LOAD_SUCCESS } = profileActions;
 const initialState = {
   loading: false,
   byId: {}
 };
 
 const reducer = (state = initialState, { type, payload }) => {
+  let byId;
   switch (type) {
     case COURSE_CREATION_SUCCESS:
       const { id, ...rest } = payload.course;
@@ -32,7 +35,7 @@ const reducer = (state = initialState, { type, payload }) => {
     case COURSES_LOAD_SUCCESS:
       const { courses } = payload;
 
-      const byId = courses.reduce((acc, course) => {
+      byId = courses.reduce((acc, course) => {
         const { id, ...rest } = course;
 
         return {
@@ -48,6 +51,24 @@ const reducer = (state = initialState, { type, payload }) => {
         byId,
         loading: false
       };
+    case PROFILE_LOAD_SUCCESS:
+      byId = payload.courses.reduce((acc, set) => {
+        const { id, ...rest } = set;
+
+        delete rest.courseUserId;
+
+        acc[id] = { ...rest };
+        return acc;
+      }, {});
+
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          ...byId
+        }
+      };
+
     default:
       return state;
   }
