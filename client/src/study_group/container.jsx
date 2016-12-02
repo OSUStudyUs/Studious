@@ -47,12 +47,14 @@ const mapStateToProps = (state, { params }) => {
 class StudyGroupContainer extends Component {
 
   static propTypes = {
+    acceptingNewMembers: PropTypes.bool,
     chatroomId: PropTypes.number,
     course: PropTypes.object,
-    flashCardSets: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number.isRequired,
+    flashCardSetIds: PropTypes.arrayOf(PropTypes.number.isRequired),
+    flashCardSetLinks: PropTypes.arrayOf(PropTypes.shape({
+      link: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired
-    })),
+    })).isRequired,
     id: PropTypes.number,
     loadStudyGroup: PropTypes.func.isRequired,
     name: PropTypes.string,
