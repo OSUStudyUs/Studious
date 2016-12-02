@@ -1,16 +1,49 @@
 import React, { Component, PropTypes } from 'react';
-import isEmail from 'validator/lib/isEmail';
-import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import Divider from 'material-ui/Divider';
+import isEmail from 'validator/lib/isEmail';
+import keycode from 'keycode';
+import TextField from 'material-ui/TextField';
+import { titleCase } from 'change-case';
+import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import './signup.scss';
 import * as actions from '../actions';
 import * as selectors from '../selectors';
-import Input from '../../shared_components/input';
 
 const strongPassword = (str) => /^(?=(.*\d){2})(?=.*[a-zA-Z])(?=.*[!@#$%])[0-9a-zA-Z!@#$%]{8,55}/.test(str);
 const validateOnlyLetters = (str) => /^[a-zA-Z]+/.test(str);
-const passwordsMatch = (existingPass) => (newPass) => newPass === existingPass;
+const passwordsMatch = (existingPass, newPass) => newPass === existingPass;
+
+const refMap = {
+  firstName: {
+    errorText: 'Please enter a first name',
+    type: 'text',
+    validate: validateOnlyLetters
+  },
+  lastName: {
+    errorText: 'Please enter a last name',
+    type: 'text',
+    validate: validateOnlyLetters
+  },
+  email: {
+    errorText: 'Please enter a valid email',
+    type: 'email',
+    validate: isEmail
+  },
+  password: {
+    errorText: 'Password must be strong',
+    type: 'password',
+    validate: strongPassword
+  },
+  passwordConfirmation: {
+    errorText: 'Passwords must match',
+    type: 'password',
+    validate: passwordsMatch
+  }
+};
 
 const mapDispatchToProps = (dispatch) => ({
   signupUser: bindActionCreators(actions.signupUser, dispatch)
@@ -28,33 +61,85 @@ class Signup extends Component {
 
   constructor() {
     super();
+    const initialState = Object.keys(refMap).reduce((acc, ref) => {
+      acc[ref] = '';
+      return acc;
+    }, {});
+
     this.state = {
-      password: null
+      ...initialState,
+      errors: Object.keys(refMap).reduce((acc, ref) => {
+        acc[ref] = null;
+        return acc;
+      }, {})
     };
+    this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleEnter = this.handleEnter.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
 
+  componentDidMount() {
+    Object.keys(this.refs).map((key) => this.refs[key]).forEach((ref) => {
+      ref.input.addEventListener('keydown', this.handleEnter);
+    });
+  }
+
+  componentWillUnmount() {
+    Object.keys(this.refs).map((key) => this.refs[key]).forEach((ref) => {
+      ref.input.removeEventListener('keydown', this.handleEnter);
+    });
+  }
+
+  handleChange({ target }) {
+    this.setState({
+      [target.id]: target.value
+    });
+  }
+
   handleClick() {
-    const refs = Object.keys(this.refs).map((ref) => ({
-      name: ref,
-      ref: this.refs[ref]})
-    );
+    const inputKeys = Object.keys(this.state).filter((key) => key !== 'errors');
 
-    refs.forEach(({ ref }) => ref.forceValidation());
-    if (refs.every(({ ref }) => ref.isValid())) {
-      const newUser = refs.reduce((prev, { name, ref }) => {
-        prev[name] = ref.value();
-        return prev;
-      }, {});
+    if (inputKeys.every((key) => {
+      switch (key) {
+        case 'passwordConfirmation':
+          return refMap[key].validate(this.state[key], this.state.password);
+        default:
+          return refMap[key].validate(this.state[key]);
+      }
+    })) {
+      const newState = { ...this.state };
 
-      this.props.signupUser(newUser);
+      delete newState.errors;
+
+      this.props.signupUser(newState);
+    } else {
+      const errors = {};
+
+      inputKeys.forEach((key) => {
+        switch (key) {
+          case 'passwordConfirmation':
+            if (!refMap[key].validate(this.state[key], this.state.password)) {
+              errors[key] = refMap[key].errorText;
+            }
+            break;
+          default:
+            if (!refMap[key].validate(this.state[key])) {
+              errors[key] = refMap[key].errorText;
+            }
+        }
+      });
+
+      this.setState({
+        errors
+      });
     }
   }
 
-  handleEnter() {
-    this.handleClick();
+  handleEnter({ keyCode }) {
+    if (keycode(keyCode) === 'enter') {
+      this.handleClick();
+    }
   }
 
   handlePasswordChange(password) {
@@ -62,75 +147,47 @@ class Signup extends Component {
   }
 
   render() {
-    const { password } = this.state;
-    const { errors } = this.props;
+    const errors = (this.props.errors && this.props.errors.errors) || this.state.errors;
+    const style = {
+      marginLeft: 20
+    };
 
     return (
       <div className="Signup">
-        <div className="Signup-inputContainer">
-          <Input
-            hint="Your name must have only letters in it"
-            label="First Name"
-            onEnter={this.handleEnter}
-            ref="firstName"
-            type="text"
-            validate={validateOnlyLetters}
-          />
-          {errors && errors.firstName &&
-            <p className="Signup-errorMessage">Sorry, first name {errors.firstName[0]}</p>
+        <Paper id="Signup-paper" zDepth={2}>
+          {Object.keys(refMap).map((ref) => {
+            const errorText = (errors[ref] && errors[ref][0])
+              ? `${titleCase(ref)} ${errors[ref][0]}`
+              : errors[ref];
+
+            return (
+              <span key={ref}>
+                <TextField
+                  id={ref}
+                  hintText={titleCase(ref)}
+                  errorText={errorText}
+                  onChange={this.handleChange}
+                  ref={ref}
+                  style={style}
+                  type={refMap[ref].type}
+                  underlineShow={false}
+                />
+                <Divider />
+              </span>
+            );
           }
-        </div>
-        <div className="Signup-inputContainer">
-          <Input
-            hint="Your name must have only letters in it"
-            label="Last Name"
-            onEnter={this.handleEnter}
-            ref="lastName"
-            type="text"
-            validate={validateOnlyLetters}
-          />
-          {errors && errors.lastName &&
-            <p className="Signup-errorMessage">Sorry, last name {errors.lastName[0]}</p>
-          }
-        </div>
-        <div className="Signup-inputContainer">
-          <Input
-            hint="Valid email address ex (test.user@example.com)"
-            label="Email"
-            onEnter={this.handleEnter}
-            ref="email"
-            type="email"
-            validate={isEmail}
-          />
-          {errors && errors.email &&
-            <p className="Signup-errorMessage">Sorry, email {errors.email[0]}</p>
-          }
-        </div>
-        <div className="Signup-inputContainer">
-          <Input
-            hint="Password must have 2 uppercase, 1 special (!@#$&amp;*), 2 digits, 3 lowercase and length between 8 and 55"
-            label="Password"
-            onChange={this.handlePasswordChange}
-            onEnter={this.handleEnter}
-            ref="password"
-            type="password"
-            validate={strongPassword}
-          />
-          {errors && errors.password &&
-            <p className="Signup-errorMessage">Sorry, password {errors.password[0]}</p>
-          }
-        </div>
-        <div className="Signup-inputContainer">
-          <Input
-            hint="Passwords must match"
-            label="Confirm Password"
-            onEnter={this.handleEnter}
-            ref="passwordConfirmation"
-            type="password"
-            validate={passwordsMatch(password)}
-          />
-        </div>
-        <button onClick={this.handleClick}>Let's get Studious</button>
+          )}
+          <div className="Signup-buttonContainer">
+            <RaisedButton
+              label="Let's get Studious"
+              onClick={this.handleClick}
+              primary
+              style={{
+                display: 'flex'
+              }}
+            />
+          </div>
+        </Paper>
       </div>
     );
   }

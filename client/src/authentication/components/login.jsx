@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import isEmail from 'validator/lib/isEmail';
 import keycode from 'keycode';
 import TextField from 'material-ui/TextField';
@@ -28,6 +28,12 @@ export default class Login extends Component {
   componentDidMount() {
     Object.keys(this.refs).map((key) => this.refs[key]).forEach((ref) => {
       ref.input.addEventListener('keydown', this.handleEnter);
+    });
+  }
+
+  componentWillUnmount() {
+    Object.keys(this.refs).map((key) => this.refs[key]).forEach((ref) => {
+      ref.input.removeEventListener('keydown', this.handleEnter);
     });
   }
 
@@ -99,7 +105,7 @@ export default class Login extends Component {
           type="password"
           value={password}
         />
-        <FlatButton label="Login" onClick={this.handleClick} primary={true} />
+        <RaisedButton label="Login" onClick={this.handleClick} primary={true} />
       </div>
     );
   }
