@@ -5,6 +5,22 @@
 }
 
 .Chat-messages {
-  flex: 1;
+  flex: 5;
   overflow: scroll;
+}
+
+.Chat-input {
+  flex: 1;
+}
+
+.Chat-input--textbox {
+  width: 95%;
+  height: 100%;
+  overflow: scroll;
+}
+
+.Chat-input--sendButton {
+  position: absolute;
+  bottom: 1.25%;
+  right: .25em;
 }
