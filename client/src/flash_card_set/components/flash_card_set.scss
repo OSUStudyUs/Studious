@@ -1,0 +1,27 @@
+.FlashCardSet {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.FlashCardSet-name {
+  padding-top: 20px;
+  text-align: center;
+}
+
+.FlashCardSet-paper {
+  height: 100%;
+  margin: 0 20px 20px;
+}
+
+.FlashCardSet-navigation {
+  align-items: center;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  margin: 0 20px 20px;
+}
+
+.FlashCardSet-navigation-create {
+  flex: 1;
+  text-align: center;
+}

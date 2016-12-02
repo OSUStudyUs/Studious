@@ -73,6 +73,7 @@ class FlashCardSetContainer extends Component {
             component={FlashCardSet}
             exactly
             flashCards={this.props.flashCards}
+            name={this.props.name}
             onCreate={this.handleCardCreate}
             pattern={`${this.props.rootRoute}/flash-card-sets/:flashCardSetId`}
           />

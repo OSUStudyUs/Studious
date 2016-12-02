@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import { Card, CardHeader, CardText } from 'material-ui';
 
+import './card.scss';
 import Input from '../../shared_components/input';
 
 class CreateFlashCard extends Component {
@@ -35,27 +37,32 @@ class CreateFlashCard extends Component {
 
   render() {
     return (
-      <div className="CreateFlashCard">
-        <Input
-          hint="Please enter a question"
-          label="Question"
-          onEnter={this.handleEnter}
-          placeholder="What is the meaning of life?"
-          ref="question"
-          type="text"
-          validate={str => str.length > 0}
-        />
-        <Input
-          hint="You don't have to have an answer if you don't want to :)"
-          label="Answer"
-          onEnter={this.handleEnter}
-          placeholder="42"
-          ref="answer"
-          type="text"
-          validate={() => true}
-        />
-      <button onClick={this.handleCreate}>Create new Flash Card!</button>
-      </div>
+      <Card
+        className="CreateFlashCard"
+      >
+        <CardHeader title="Create a new Flash Card" />
+        <CardText>
+          <Input
+            hint="Please enter a question"
+            label="Question"
+            onEnter={this.handleEnter}
+            placeholder="What is the meaning of life?"
+            ref="question"
+            type="text"
+            validate={str => str.length > 0}
+          />
+          <Input
+            hint="You don't have to have an answer if you don't want to :)"
+            label="Answer"
+            onEnter={this.handleEnter}
+            placeholder="42"
+            ref="answer"
+            type="text"
+            validate={() => true}
+          />
+          <button onClick={this.handleCreate}>Create new Flash Card!</button>
+        </CardText>
+      </Card>
     );
   }
 }
