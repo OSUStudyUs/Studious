@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import './container.scss';
 import { MatchPassProps, propUtils, sidebarUtils } from '../utils';
@@ -9,8 +9,8 @@ import flashCardSet from '../flash_card_set';
 import Profile from './components/profile';
 import sidebar from '../sidebar';
 import * as actions from './actions';
-import * as selectors from './selectors';
 import * as flashCardSetSelectors from '../flash_card_set/selectors';
+import * as selectors from './selectors';
 import * as studyGroupSelectors from '../study_group/selectors';
 
 const { Container: Chat } = chat;
@@ -35,14 +35,14 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state, { params }) => {
   const { flashCardSetIds, studyGroupIds } = selectors.profile(state);
 
-  return ({
-  ...selectors.profile(state),
-  flashCardSetLinks: sidebarUtils.mapFlashCardSetsToLinks(flashCardSetSelectors.byIds(state, flashCardSetIds || []), 'users', params.id),
-  studyGroupLinks: sidebarUtils.mapStudyGroupsToLinks(studyGroupSelectors.byIds(state, studyGroupIds || [])),
-  shouldUpdateChatLink: sidebar.selectors.shouldUpdateChatLink.bind(null, state),
-  shouldUpdateFlashCardSetLinks: sidebar.selectors.shouldUpdateFlashCardSetLinks.bind(null, state),
-  shouldUpdateStudyGroupLinks: sidebar.selectors.shouldUpdateStudyGroupLinks.bind(null, state)
-});
+  return {
+    ...selectors.profile(state),
+    flashCardSetLinks: sidebarUtils.mapFlashCardSetsToLinks(flashCardSetSelectors.byIds(state, flashCardSetIds || []), 'users', params.id),
+    studyGroupLinks: sidebarUtils.mapStudyGroupsToLinks(studyGroupSelectors.byIds(state, studyGroupIds || [])),
+    shouldUpdateChatLink: sidebar.selectors.shouldUpdateChatLink.bind(null, state),
+    shouldUpdateFlashCardSetLinks: sidebar.selectors.shouldUpdateFlashCardSetLinks.bind(null, state),
+    shouldUpdateStudyGroupLinks: sidebar.selectors.shouldUpdateStudyGroupLinks.bind(null, state)
+  };
 };
 
 class ProfileContainer extends Component {
