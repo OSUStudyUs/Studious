@@ -83,7 +83,7 @@ export const createFlashCardSet = (flashCardSet, baseRoute) =>
   (dispatch) => {
     dispatch(onFlashCardSetCreateRequest(flashCardSet));
     api.post(`/${baseRoute}/flash_card_sets`, { ...flashCardSet })
-      .then(({ flashCardSet }) => dispatch(onFlashCardSetCreateSuccess(flashCardSet)))
+      .then((flashCardSet) => dispatch(onFlashCardSetCreateSuccess(flashCardSet)))
       .catch((errors) => dispatch(onFlashCardSetCreateFailure(errors)));
   };
 
