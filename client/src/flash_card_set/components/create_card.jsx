@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Card, CardText } from 'material-ui';
+import { Card, CardText } from 'material-ui/Card';
 
 import './card.scss';
 import CreateForm from '../../shared_components/create_form';
