@@ -66,6 +66,12 @@ class FlashCardSetContainer extends Component {
   }
 
   render() {
+    if (!propUtils.allReceived(FlashCardSetContainer.propTypes, this.props)) {
+      return (
+        <p>Loading...</p>
+      );
+    }
+
     return (
       <div className="FlashCardSetContainer">
         {this.props.params.flashCardSetId !== 'new' &&

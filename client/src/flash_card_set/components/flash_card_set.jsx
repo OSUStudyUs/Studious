@@ -81,7 +81,6 @@ class FlashCardSet extends Component {
   }
 
   render() {
-
     return (
       <Paper className="FlashCardSet-paper">
         <h1 className="FlashCardSet-name">{this.props.name}</h1>
