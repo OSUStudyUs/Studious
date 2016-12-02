@@ -2,6 +2,7 @@ import React, { Children, Component, PropTypes } from 'react';
 import { camelCase, noCase } from 'change-case';
 import classNames from 'classnames';
 import keycode from 'keycode';
+import Paper from 'material-ui/Paper';
 
 import './search_and_create.scss';
 
@@ -15,6 +16,10 @@ class SearchAndCreate extends Component {
     onCreateClick: PropTypes.func,
     onItemClick: PropTypes.func,
     searchForItems: PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    itemComponentProps: {}
   }
 
   constructor(props) {
@@ -135,7 +140,7 @@ class SearchAndCreate extends Component {
 
   renderDropdown() {
     return (
-      <div className="SearchAndCreateContainer-dropdown">
+      <Paper className="SearchAndCreateContainer-dropdown">
         <div className="SearchAndCreateContainer-dropdown--mainContainer">
           {
             this.state.creatingItem
@@ -144,7 +149,7 @@ class SearchAndCreate extends Component {
           }
         </div>
         {this.renderButton()}
-      </div>
+      </Paper>
     );
   }
 
@@ -184,6 +189,7 @@ class SearchAndCreate extends Component {
     return (
       <div className="SearchAndCreateContainer" ref="searchContainer">
         <input
+          className="SearchAndCreateContainer-input"
           onChange={this.handleSearchChange}
           placeholder={`Search for a ${this.props.name}`}
           type="text"

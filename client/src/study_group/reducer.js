@@ -1,5 +1,5 @@
 import {
-  STUDY_GROUP_CREATION_SUCCESS, STUDY_GROUP_LOAD_SUCCESS
+  STUDY_GROUP_CREATION_SUCCESS, STUDY_GROUP_LOAD_SUCCESS, STUDY_GROUPS_LOAD_REQUEST, STUDY_GROUPS_LOAD_SUCCESS
 } from './actions';
 import * as profileActions from '../profile/actions';
 import * as flashCardSetActions from '../flash_card_set/actions';
@@ -7,12 +7,13 @@ import * as flashCardSetActions from '../flash_card_set/actions';
 const { CREATE_FLASH_CARD_SET_SUCCESS } = flashCardSetActions;
 const { PROFILE_LOAD_SUCCESS } = profileActions;
 const initialState = {
+  loading: false,
   byId: { }
 };
 
 const studyGroup = (state = initialState, { type, payload }) => {
   const newState = { ...state };
-  let byId, newPayload, flashCardSetIds;
+  let byId, newPayload, flashCardSetIds, userIds;
 
   switch (type) {
     case CREATE_FLASH_CARD_SET_SUCCESS:
@@ -27,7 +28,6 @@ const studyGroup = (state = initialState, { type, payload }) => {
       } else {
         return newState;
       }
-
     case PROFILE_LOAD_SUCCESS:
       byId = payload.studyGroups.reduce((acc, group) => {
         const newGroup = { ...group };
@@ -73,6 +73,36 @@ const studyGroup = (state = initialState, { type, payload }) => {
       };
 
       return newState;
+    case STUDY_GROUPS_LOAD_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case STUDY_GROUPS_LOAD_SUCCESS:
+      byId = payload.studyGroups.reduce((acc, group) => {
+        const newGroup = { ...group };
+        const { id } = newGroup;
+
+        flashCardSetIds = newGroup.flashCardSets.map(({ id }) => id);
+        userIds = newGroup.users.map(({ id }) => id);
+        const courseId = newGroup.course.id;
+
+        delete newGroup.flashCardSets;
+        delete newGroup.users;
+        delete newGroup.course;
+
+        acc[id] = { ...newGroup, courseId, flashCardSetIds, userIds };
+        return acc;
+      }, {});
+
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          ...byId
+        },
+        loading: false
+      };
     default:
       return state;
   }

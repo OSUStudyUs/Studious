@@ -3,6 +3,9 @@ import {
   COURSES_LOAD_REQUEST,
   COURSES_LOAD_SUCCESS
 } from './actions';
+import {
+  STUDY_GROUPS_LOAD_SUCCESS
+} from '../study_group/actions';
 import * as profileActions from '../profile/actions';
 
 const { PROFILE_LOAD_SUCCESS } = profileActions;
@@ -15,7 +18,7 @@ const reducer = (state = initialState, { type, payload }) => {
   let byId;
   switch (type) {
     case COURSE_CREATION_SUCCESS:
-      const { id, ...rest } = payload.course;
+      const { id } = payload.course;
 
       return {
         ...state,
@@ -23,7 +26,7 @@ const reducer = (state = initialState, { type, payload }) => {
           ...state.byId,
           [id]: {
             ...state.byId[id],
-            ...rest
+            ...payload.course
           }
         }
       };
@@ -36,12 +39,12 @@ const reducer = (state = initialState, { type, payload }) => {
       const { courses } = payload;
 
       byId = courses.reduce((acc, course) => {
-        const { id, ...rest } = course;
+        const { id } = course;
 
         return {
           ...acc,
           [id]: {
-            ...rest
+            ...course
           }
         };
       }, {});
@@ -57,7 +60,7 @@ const reducer = (state = initialState, { type, payload }) => {
 
         delete rest.courseUserId;
 
-        acc[id] = { ...rest };
+        acc[id] = { ...rest, id };
         return acc;
       }, {});
 
@@ -68,7 +71,26 @@ const reducer = (state = initialState, { type, payload }) => {
           ...byId
         }
       };
+    case STUDY_GROUPS_LOAD_SUCCESS:
+      byId = payload.studyGroups.reduce((acc, group) => {
+        const { id } = group.course;
 
+        return {
+          ...acc,
+          [id]: {
+            ...state.byId[id],
+            ...group.course
+          }
+        };
+      }, {});
+
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          ...byId
+        }
+      };
     default:
       return state;
   }
