@@ -58,19 +58,6 @@ const MatchWhenAuthorized = ({ component: Component, isAuthenticated, pattern, .
   />
 );
 
-const MatchWhenNotLoggedIn = ({ component: Component, pattern, ...rest }) => {
-  return (
-    <Match pattern={pattern} render={(props) => {
-      if (!rest.isAuthenticated) {
-        return <Component {...props} {...rest} />;
-      } else {
-        return <Redirect to={{ pathname: '/' }} />;
-      }
-    }}
-    />
-  );
-};
-
 const RedirectToProfile = ({ component: Component, id }) => (
   <Redirect to={{ pathname: `/users/${id}` }} />
 );
@@ -97,8 +84,8 @@ class App extends Component {
               <div className="App">
                 <FlashMessage />
                 {isAuthenticated &&
-                  <SplitPane split="vertical" minSize={100} maxSize={200} defaultSize={100}>
-                    <Sidebar />
+                  <SplitPane split="vertical" minSize={200} maxSize={200} defaultSize={200}>
+                    <Sidebar router={router} />
                     <div className="SplitPane-wrapper">
                       <Navbar />
                       <MatchWhenAuthorized component={RedirectToProfile} id={user.id} isAuthenticated={isAuthenticated} exactly pattern="/" />
