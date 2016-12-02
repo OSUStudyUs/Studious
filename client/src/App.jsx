@@ -10,6 +10,7 @@ import './App.scss';
 import { LandingPage, Navbar } from './shared_components';
 import authentication from './authentication';
 import flashMessage from './flash_message';
+import { MatchWithProps } from './utils';
 import profile from './profile';
 import sidebar from './sidebar';
 import studyGroup from './study_group';
@@ -97,8 +98,8 @@ class App extends Component {
               <div className="App">
                 <FlashMessage />
                 {isAuthenticated &&
-                  <SplitPane split="vertical" minSize={100} maxSize={200} defaultSize={100}>
-                    <Sidebar />
+                  <SplitPane split="vertical" minSize={200} maxSize={200} defaultSize={200}>
+                    <Sidebar router={router} />
                     <div className="SplitPane-wrapper">
                       <Navbar />
                       <MatchWhenAuthorized component={RedirectToProfile} id={user.id} isAuthenticated={isAuthenticated} exactly pattern="/" />

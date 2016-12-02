@@ -13,8 +13,7 @@ const mapStudyGroupToLink = (id, name) => ({
 export const mapFlashCardSetsToLinks = (flashCardSets, resource, resourceId) =>
   (flashCardSets || []).map(({ id, name }) =>
     mapFlashCardSetToLink(id, name, resource, resourceId)
-  ).concat({ link: `/${resource}/${resourceId}/flash-card-sets/new`, name: '+'})
-  .filter(({ link, name }) => link && name);
+  ).filter(({ link, name }) => link && name);
 
   export const mapStudyGroupsToLinks = (studyGroups) =>
     (studyGroups || []).map(({ id, name }) =>
