@@ -18,7 +18,7 @@ const reducer = (state = initialState, { type, payload }) => {
   let byId;
   switch (type) {
     case COURSE_CREATION_SUCCESS:
-      const { id, ...rest } = payload.course;
+      const { id } = payload.course;
 
       return {
         ...state,
@@ -26,7 +26,7 @@ const reducer = (state = initialState, { type, payload }) => {
           ...state.byId,
           [id]: {
             ...state.byId[id],
-            ...rest
+            ...payload.course
           }
         }
       };
@@ -39,12 +39,12 @@ const reducer = (state = initialState, { type, payload }) => {
       const { courses } = payload;
 
       byId = courses.reduce((acc, course) => {
-        const { id, ...rest } = course;
+        const { id } = course;
 
         return {
           ...acc,
           [id]: {
-            ...rest
+            ...course
           }
         };
       }, {});
@@ -60,7 +60,7 @@ const reducer = (state = initialState, { type, payload }) => {
 
         delete rest.courseUserId;
 
-        acc[id] = { ...rest };
+        acc[id] = { ...rest, id };
         return acc;
       }, {});
 
