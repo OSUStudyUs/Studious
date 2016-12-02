@@ -41,6 +41,10 @@ class StudyGroupContainer extends Component {
   static propTypes = {
     chatroomId: PropTypes.number,
     course: PropTypes.object,
+    flashCardSets: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired
+    })),
     id: PropTypes.number,
     loadStudyGroup: PropTypes.func.isRequired,
     name: PropTypes.string,
