@@ -89,6 +89,9 @@ export default class Login extends Component {
     const buttonStyle = {
       'background-color': 'white'
     };
+    const textStyle = {
+      color: 'white'
+    };
 
     return (
       <div className="Login">
@@ -97,6 +100,7 @@ export default class Login extends Component {
           errorText={errorFields.some((field) => field === 'email') && 'Please enter a valid email'}
           onChange={this.handleEmailChange}
           ref="email"
+          inputStyle={textStyle}
           type="text"
           value={email}
         />
@@ -105,6 +109,7 @@ export default class Login extends Component {
           errorText={errorFields.some((field) => field === 'password') && 'Please enter a password'}
           onChange={this.handlePasswordChange}
           ref="password"
+          inputStyle={textStyle}
           type="password"
           value={password}
         />
