@@ -4,6 +4,7 @@ import {
 
 const initialState = {
   errors: null,
+  loginError: null,
   resource: null,
   status: null
 };

@@ -19,15 +19,16 @@ class FlashMessage extends Component {
   static propTypes = {
     clearErrors: PropTypes.func.isRequired,
     errors: PropTypes.object,
+    loginError: PropTypes.string,
     resource: PropTypes.string,
     status: PropTypes.number
   };
 
   render() {
-    const { clearErrors, errors, resource, status } = this.props;
+    const { clearErrors, errors, loginError, resource, status } = this.props;
     let statusText = null;
 
-    if (!errors && !resource && !status) return null;
+    if (!errors && !resource && !status && !loginError) return null;
 
     switch (status) {
       case 401:
@@ -46,6 +47,7 @@ class FlashMessage extends Component {
 
     return (
       <div className="FlashMessage">
+        {loginError && <span>{loginError}</span>}
         {resource && <span>There was a problem with your {titleCase(resource)}</span>}
         {errors &&
           <div>
