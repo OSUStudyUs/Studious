@@ -18,7 +18,7 @@ export default class Login extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(event) {
+  handleClick() {
     const refs = Object.keys(this.refs).map((ref) => ({
       name: ref,
       ref: this.refs[ref]
