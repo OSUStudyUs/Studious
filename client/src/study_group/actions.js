@@ -6,6 +6,9 @@ export const STUDY_GROUP_CREATION_SUCCESS = 'STUDY_GROUP_CREATION_SUCCESS';
 export const STUDY_GROUP_LOAD_FAILURE = 'STUDY_GROUP_LOAD_FAILURE';
 export const STUDY_GROUP_LOAD_REQUEST = 'STUDY_GROUP_LOAD_REQUEST';
 export const STUDY_GROUP_LOAD_SUCCESS = 'STUDY_GROUP_LOAD_SUCCESS';
+export const STUDY_GROUPS_LOAD_FAILURE = 'STUDY_GROUPS_LOAD_FAILURE';
+export const STUDY_GROUPS_LOAD_REQUEST = 'STUDY_GROUPS_LOAD_REQUEST';
+export const STUDY_GROUPS_LOAD_SUCCESS = 'STUDY_GROUPS_LOAD_SUCCESS';
 
 const onCreationFailure = (errors) => ({
   type: STUDY_GROUP_CREATION_FAILURE,
@@ -47,6 +50,23 @@ const onLoadSuccess = (studyGroup) => ({
   }
 });
 
+const onStudyGroupsLoadFailure = (errors) => ({
+  type: STUDY_GROUPS_LOAD_FAILURE,
+  payload: errors
+});
+
+const onStudyGroupsLoadRequest = () => ({
+  type: STUDY_GROUPS_LOAD_REQUEST,
+  payload: {}
+});
+
+const onStudyGroupsLoadSuccess = (studyGroups) => ({
+  type: STUDY_GROUPS_LOAD_SUCCESS,
+  payload: {
+    studyGroups
+  }
+});
+
 export const createStudyGroup = (studyGroup) =>
   (dispatch) => {
     dispatch(onCreationRequest(studyGroup));
@@ -68,5 +88,17 @@ export const loadStudyGroup = (id) =>
       })
       .catch((errors) => {
         dispatch(onLoadFailure(errors));
+      });
+  };
+
+export const loadStudyGroups = () =>
+  (dispatch) => {
+    dispatch(onStudyGroupsLoadRequest());
+    api.get(`/study_groups`)
+      .then(({ studyGroups }) => {
+        dispatch(onStudyGroupsLoadSuccess(studyGroups));
+      })
+      .catch((errors) => {
+        dispatch(onStudyGroupsLoadFailure(errors));
       });
   };

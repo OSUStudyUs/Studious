@@ -17,6 +17,10 @@ class SearchAndCreate extends Component {
     searchForItems: PropTypes.func.isRequired
   }
 
+  static defaultProps = {
+    itemComponentProps: {}
+  }
+
   constructor(props) {
     super(props);
 
@@ -184,6 +188,7 @@ class SearchAndCreate extends Component {
     return (
       <div className="SearchAndCreateContainer" ref="searchContainer">
         <input
+          className="SearchAndCreateContainer-input"
           onChange={this.handleSearchChange}
           placeholder={`Search for a ${this.props.name}`}
           type="text"

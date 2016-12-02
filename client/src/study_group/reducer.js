@@ -1,5 +1,5 @@
 import {
-  STUDY_GROUP_CREATION_SUCCESS, STUDY_GROUP_LOAD_SUCCESS
+  STUDY_GROUP_CREATION_SUCCESS, STUDY_GROUP_LOAD_SUCCESS, STUDY_GROUPS_LOAD_REQUEST, STUDY_GROUPS_LOAD_SUCCESS
 } from './actions';
 import * as profileActions from '../profile/actions';
 import * as flashCardSetActions from '../flash_card_set/actions';
@@ -7,6 +7,7 @@ import * as flashCardSetActions from '../flash_card_set/actions';
 const { CREATE_FLASH_CARD_SET_SUCCESS } = flashCardSetActions;
 const { PROFILE_LOAD_SUCCESS } = profileActions;
 const initialState = {
+  loading: false,
   byId: { }
 };
 
@@ -27,7 +28,6 @@ const studyGroup = (state = initialState, { type, payload }) => {
       } else {
         return newState;
       }
-
     case PROFILE_LOAD_SUCCESS:
       byId = payload.studyGroups.reduce((acc, group) => {
         const newGroup = { ...group };
@@ -73,6 +73,28 @@ const studyGroup = (state = initialState, { type, payload }) => {
       };
 
       return newState;
+    case STUDY_GROUPS_LOAD_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case STUDY_GROUPS_LOAD_SUCCESS:
+      byId = payload.studyGroups.reduce((acc, studyGroup) => {
+        const { id, ...rest } = studyGroup;
+
+        return {
+          ...acc,
+          [id]: {
+            ...rest
+          }
+        };
+      }, {});
+
+      return {
+        ...state,
+        byId,
+        loading: false
+      };
     default:
       return state;
   }
