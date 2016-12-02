@@ -146,6 +146,7 @@ export default class CreateForm extends Component {
                   id={ref}
                   hintText={titleCase(ref)}
                   errorText={errorText}
+                  fullWidth
                   onChange={this.handleChange}
                   ref={ref}
                   style={style}

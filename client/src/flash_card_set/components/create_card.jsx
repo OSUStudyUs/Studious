@@ -1,6 +1,21 @@
 import React, { Component, PropTypes } from 'react';
+import { Card, CardText } from 'material-ui/Card';
 
-import Input from '../../shared_components/input';
+import './card.scss';
+import CreateForm from '../../shared_components/create_form';
+
+const refMap = {
+  question: {
+    errorText: 'Please enter a question',
+    type: 'text',
+    validate: (val) => val
+  },
+  answer: {
+    errorText: 'Please enter an answer',
+    type: 'text',
+    validate: () => true
+  }
+};
 
 class CreateFlashCard extends Component {
 
@@ -10,52 +25,25 @@ class CreateFlashCard extends Component {
 
   constructor() {
     super();
+
     this.handleCreate = this.handleCreate.bind(this);
-    this.handleEnter = this.handleEnter.bind(this);
   }
 
-  handleCreate() {
-    const refs = Object.keys(this.refs).map((ref) => ({
-      name: ref,
-      ref: this.refs[ref]
-    }));
-
-    refs.forEach(({ ref }) => ref.forceValidation());
-    if (refs.every(({ ref }) => ref.isValid())) {
-      this.props.onCreate(refs.reduce((prev, { name, ref }) => {
-        prev[name] = ref.value();
-        return prev;
-      }, {}));
-    }
-  }
-
-  handleEnter() {
-    this.handleCreate();
+  handleCreate(flashCard) {
+    this.props.onCreate(flashCard);
   }
 
   render() {
     return (
-      <div className="CreateFlashCard">
-        <Input
-          hint="Please enter a question"
-          label="Question"
-          onEnter={this.handleEnter}
-          placeholder="What is the meaning of life?"
-          ref="question"
-          type="text"
-          validate={str => str.length > 0}
-        />
-        <Input
-          hint="You don't have to have an answer if you don't want to :)"
-          label="Answer"
-          onEnter={this.handleEnter}
-          placeholder="42"
-          ref="answer"
-          type="text"
-          validate={() => true}
-        />
-      <button onClick={this.handleCreate}>Create new Flash Card!</button>
-      </div>
+      <Card className="CreateFlashCard">
+        <CardText>
+          <h1 className="CreateFlashCard-header">Create a new Flash Card</h1>
+          <CreateForm
+            onCreate={this.handleCreate}
+            refMap={refMap}
+          />
+        </CardText>
+      </Card>
     );
   }
 }

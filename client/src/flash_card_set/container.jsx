@@ -66,6 +66,12 @@ class FlashCardSetContainer extends Component {
   }
 
   render() {
+    if (this.props.params.flashCardSetId !== 'new' && !propUtils.allReceived(FlashCardSetContainer.propTypes, this.props)) {
+      return (
+        <p>Loading...</p>
+      );
+    }
+
     return (
       <div className="FlashCardSetContainer">
         {this.props.params.flashCardSetId !== 'new' &&
@@ -73,6 +79,8 @@ class FlashCardSetContainer extends Component {
             component={FlashCardSet}
             exactly
             flashCards={this.props.flashCards}
+            id={this.props.id}
+            name={this.props.name}
             onCreate={this.handleCardCreate}
             pattern={`${this.props.rootRoute}/flash-card-sets/:flashCardSetId`}
           />

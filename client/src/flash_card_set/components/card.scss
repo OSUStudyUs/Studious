@@ -1,0 +1,30 @@
+.CreateFlashCard,
+.FlashCard,
+.LoadingCard {
+  height: 25em;
+  margin: 10%;
+}
+
+.CreateFlashCard-header {
+  text-align: center;
+}
+
+.FlashCard-container {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  flex-flow: row;
+  height: 25em;
+  justify-content: center;
+}
+
+.FlashCard-text {
+  flex: 1;
+  text-align: center;
+}
+
+.FlashCard-indexChip,
+.FlashCard-statusChip {
+  align-self: flex-start;
+  margin: 10px;
+}
