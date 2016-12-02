@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from './actions';
 import CreateFlashCardSet from './components/create_set';
 import FlashCardSet from './components/flash_card_set';
-import { MatchPassProps } from '../utils';
+import { MatchPassProps, propUtils } from '../utils';
 import * as selectors from './selectors';
 
 const mapDispatchToProps = (dispatch) => ({
@@ -14,10 +14,10 @@ const mapDispatchToProps = (dispatch) => ({
   loadFlashCardSet: bindActionCreators(actions.loadFlashCardSet, dispatch)
 });
 const mapStateToProps = (state, { params }) => ({
-  ...selectors.flashCardSet(state, params.id)
+  ...selectors.flashCardSet(state, params.flashCardSetId)
 });
 
-const shouldLoadProps = (propTypes, props) => Object.keys(propTypes).some((key) => typeof props[key] === 'undefined');
+const shouldLoadProps = (propTypes, props) => !propUtils.allReceived(propTypes, props);
 
 class FlashCardSetContainer extends Component {
 
