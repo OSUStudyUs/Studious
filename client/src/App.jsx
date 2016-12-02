@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter, Match, Redirect } from 'react-router';
+import { BrowserRouter, Match, Miss, Redirect } from 'react-router';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -31,6 +31,17 @@ const CheckForCorrectProfile = ({ component: Component, isAuthenticated, pattern
       return <Component {...props} {...rest} />;
     } else {
       return <Redirect to={{ pathname: `/users/${userId}`}} />;
+    }
+  }}
+  />
+);
+
+const CheckForBaseRoute = ({ component: Component, pattern, ...rest }) => (
+  <Match {...rest} pattern={pattern} render={(props) => {
+    if (props.location.pathname !== pattern) {
+      return <Redirect to={{ pathname: pattern }} />;
+    } else {
+      return <Component {...props} {...rest} />;
     }
   }}
   />
@@ -93,13 +104,14 @@ class App extends Component {
                       <MatchWhenAuthorized component={RedirectToProfile} id={user.id} isAuthenticated={isAuthenticated} exactly pattern="/" />
                       <CheckForCorrectProfile component={Profile} isAuthenticated={isAuthenticated} pattern="/users/:id" userId={user.id} />
                       <MatchWhenAuthorized component={StudyGroup} isAuthenticated={isAuthenticated} pattern="/study-groups/:id" />
+                      <Miss component={() => <p>404</p>} />
                     </div>
                   </SplitPane>
                 }
                 {!isAuthenticated &&
                   <div>
                     <Navbar />
-                    <MatchWhenNotLoggedIn component={LandingPage} isAuthenticated={isAuthenticated} pattern="/" />
+                    <CheckForBaseRoute component={LandingPage} pattern="/" />
                   </div>
                 }
               </div>

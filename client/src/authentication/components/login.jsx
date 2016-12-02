@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import isEmail from 'validator/lib/isEmail';
 import keycode from 'keycode';
 import TextField from 'material-ui/TextField';
@@ -86,6 +86,9 @@ export default class Login extends Component {
 
   render() {
     const { email, errorFields, password } = this.state;
+    const buttonStyle = {
+      'background-color': 'white'
+    };
 
     return (
       <div className="Login">
@@ -105,7 +108,7 @@ export default class Login extends Component {
           type="password"
           value={password}
         />
-        <RaisedButton label="Login" onClick={this.handleClick} primary={true} />
+        <FlatButton label="Login" onClick={this.handleClick} secondary style={buttonStyle} />
       </div>
     );
   }
