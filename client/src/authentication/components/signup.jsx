@@ -156,7 +156,7 @@ class Signup extends Component {
       <div className="Signup">
         <Paper id="Signup-paper" zDepth={2}>
           {Object.keys(refMap).map((ref) => {
-            const errorText = (errors[ref] && errors[ref][0])
+            const errorText = (Array.isArray(errors[ref]) && errors[ref][0])
               ? `${titleCase(ref)} ${errors[ref][0]}`
               : errors[ref];
 
