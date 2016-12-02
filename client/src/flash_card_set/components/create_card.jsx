@@ -1,65 +1,47 @@
 import React, { Component, PropTypes } from 'react';
-import { Card, CardHeader, CardText } from 'material-ui';
+import { Card, CardText } from 'material-ui';
 
 import './card.scss';
-import Input from '../../shared_components/input';
+import CreateForm from '../../shared_components/create_form';
+
+const refMap = {
+  question: {
+    errorText: 'Please enter a question',
+    type: 'text',
+    validate: (val) => val
+  },
+  answer: {
+    errorText: 'Please enter an answer',
+    type: 'text',
+    validate: () => true
+  }
+};
 
 class CreateFlashCard extends Component {
+
   static propTypes = {
     onCreate: PropTypes.func.isRequired
   };
 
   constructor() {
     super();
+
     this.handleCreate = this.handleCreate.bind(this);
-    this.handleEnter = this.handleEnter.bind(this);
   }
 
-  handleCreate() {
-    const refs = Object.keys(this.refs).map((ref) => ({
-      name: ref,
-      ref: this.refs[ref]
-    }));
-
-    refs.forEach(({ ref }) => ref.forceValidation());
-    if (refs.every(({ ref }) => ref.isValid())) {
-      this.props.onCreate(refs.reduce((prev, { name, ref }) => {
-        prev[name] = ref.value();
-        return prev;
-      }, {}));
-    }
-  }
-
-  handleEnter() {
-    this.handleCreate();
+  handleCreate(flashCard) {
+    this.props.onCreate(flashCard);
   }
 
   render() {
     return (
-      <Card
-        className="CreateFlashCard"
-      >
-        <CardHeader title="Create a new Flash Card" />
+      <Card className="CreateFlashCard">
         <CardText>
-          <Input
-            hint="Please enter a question"
-            label="Question"
-            onEnter={this.handleEnter}
-            placeholder="What is the meaning of life?"
-            ref="question"
-            type="text"
-            validate={str => str.length > 0}
+          <h1 className="CreateFlashCard-header">Create a new Flash Card</h1>
+          <CreateForm
+            onCreate={this.handleCreate}
+            refMap={refMap}
           />
-          <Input
-            hint="You don't have to have an answer if you don't want to :)"
-            label="Answer"
-            onEnter={this.handleEnter}
-            placeholder="42"
-            ref="answer"
-            type="text"
-            validate={() => true}
-          />
-          <button onClick={this.handleCreate}>Create new Flash Card!</button>
         </CardText>
       </Card>
     );
