@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import AppBar from 'material-ui/AppBar';
 
 import auth from '../authentication';
 
@@ -19,22 +20,17 @@ const mapStateToProps = (state) => ({
 });
 
 const Navbar = ({ actions, loginError, isAuthenticated, user }) => (
-  <div className="Navbar">
-    <div className="Navbar-title">
-      Studious
-    </div>
-    {!isAuthenticated &&
-      <div className="Navbar-auth">
-        <Login errorMessage={loginError} onLogin={(creds) => actions.loginUser(creds)} />
-      </div>
-    }
-    {isAuthenticated &&
-      <div className="Navbar-auth">
-        <p>Welcome, {user.firstName}</p>
+  <AppBar
+    title="Studious"
+    iconElementLeft={<span />}
+    iconElementRight={!isAuthenticated ?
+      <Login errorMessage={loginError} onLogin={(creds) => actions.loginUser(creds)} /> :
+      <div id="Navbar-logoutWrapper">
+        <p id="Navbar-welcome">WELCOME, {user.firstName.toUpperCase()}</p>
         <Logout onLogout={() => actions.logoutUser()} />
       </div>
     }
-  </div>
+  />
 );
 
 Navbar.propTypes = {
