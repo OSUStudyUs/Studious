@@ -11,7 +11,7 @@ end
 
 json.courses do
   json.array! user.course_users.each do |course_user|
-    json.id course_user.course.id
+    json.partial! 'api/courses/course', course: course_user.course
     json.courseUserId course_user.id
   end
 end
