@@ -13,9 +13,6 @@ import * as flashCardSetSelectors from '../flash_card_set/selectors';
 import * as selectors from './selectors';
 import * as studyGroupSelectors from '../study_group/selectors';
 
-import containers from '../study_group/containers';
-const { StudyGroupSearch } = containers;
-
 const { Container: Chat } = chat;
 const { Container: FlashCardSet } = flashCardSet;
 
@@ -111,7 +108,6 @@ class ProfileContainer extends Component {
           pattern="/users/:id/flash-card-sets/:flashCardSetId"
           rootRoute="/users/:id"
         />
-        <StudyGroupSearch />
       </div>
     );
   }

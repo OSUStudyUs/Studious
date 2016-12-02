@@ -3,6 +3,9 @@ import {
   COURSES_LOAD_REQUEST,
   COURSES_LOAD_SUCCESS
 } from './actions';
+import {
+  STUDY_GROUPS_LOAD_SUCCESS
+} from '../study_group/actions';
 import * as profileActions from '../profile/actions';
 
 const { PROFILE_LOAD_SUCCESS } = profileActions;
@@ -68,7 +71,26 @@ const reducer = (state = initialState, { type, payload }) => {
           ...byId
         }
       };
+    case STUDY_GROUPS_LOAD_SUCCESS:
+      byId = payload.studyGroups.reduce((acc, group) => {
+        const { id } = group.course;
 
+        return {
+          ...acc,
+          [id]: {
+            ...state.byId[id],
+            ...group.course
+          }
+        };
+      }, {});
+
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          ...byId
+        }
+      };
     default:
       return state;
   }

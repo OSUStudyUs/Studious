@@ -9,8 +9,6 @@ const initialState = {
 const user = (state = initialState, { type, payload }) => {
   switch(type) {
     case STUDY_GROUPS_LOAD_SUCCESS:
-      console.log(payload);
-
       const fromGroupsById = {};
 
       payload.studyGroups.forEach((group) => {

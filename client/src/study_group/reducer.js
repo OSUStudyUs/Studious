@@ -85,11 +85,13 @@ const studyGroup = (state = initialState, { type, payload }) => {
 
         flashCardSetIds = newGroup.flashCardSets.map(({ id }) => id);
         userIds = newGroup.users.map(({ id }) => id);
+        const courseId = newGroup.course.id;
 
         delete newGroup.flashCardSets;
         delete newGroup.users;
+        delete newGroup.course;
 
-        acc[id] = { ...newGroup, flashCardSetIds, userIds };
+        acc[id] = { ...newGroup, courseId, flashCardSetIds, userIds };
         return acc;
       }, {});
 

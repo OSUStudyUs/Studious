@@ -23,7 +23,7 @@ const mapStateToProps = (state) => ({
 
     return {
       ...studyGroup,
-      course: studyGroup.courseId && courseSelectors.byId(state, studyGroup.courseId),
+      course: studyGroup.courseId && courseSelectors.courseById(state, studyGroup.courseId),
       flashCardSets: flashCardSetSelectors.byIds(state, studyGroup.flashCardSetIds),
       users: userSelectors.byIds(state, studyGroup.userIds)
     };
@@ -65,6 +65,28 @@ class StudyGroupSearch extends Component {
     });
   }
 
+  renderDialogBody() {
+    const studyGroup = this.state.studyGroup;
+
+    return (
+      <div>
+        {
+          studyGroup.course &&
+          <div>
+            <p>Studies for {`${studyGroup.course.department} ${studyGroup.course.number} - ${studyGroup.course.name}`}</p>
+            <hr />
+          </div>
+        }
+        <h1>Members</h1>
+        {
+          studyGroup.users.length > 0
+          ? studyGroup.users.map(user => <p key={user.id}>{`${user.firstName} ${user.lastName}`}</p>)
+          : <p>No members yet!</p>
+        }
+      </div>
+    );
+  }
+
   render() {
     const {
       studyGroupsLoading,
@@ -75,6 +97,11 @@ class StudyGroupSearch extends Component {
     const actions = [
       <FlatButton
         label="Close"
+        primary={true}
+        onTouchTap={this.handleCloseDialog}
+      />,
+      <FlatButton
+        label="Request to Join"
         primary={true}
         onTouchTap={this.handleCloseDialog}
       />
@@ -91,16 +118,15 @@ class StudyGroupSearch extends Component {
           searchForItems={searchForStudyGroups}
         />
         <Dialog
-          title={this.state.studyGroup && this.state.studyGroup.name}
-          subtitle={this.state.studyGroup && this.state.studyGroup.course && this.state.studyGroup.course.name}
           actions={actions}
+          autoScrollBodyContent={true}
           modal={false}
-          open={this.state.showStudyGroupDialog}
           onRequestClose={this.handleCloseDialog}
+          open={this.state.showStudyGroupDialog}
+          subtitle={this.state.studyGroup && this.state.studyGroup.course && this.state.studyGroup.course.name}
+          title={this.state.studyGroup && this.state.studyGroup.name}
         >
-          <div className="StudyGroupSearchContainer-dialog-inner">
-            {this.state.studyGroup && this.state.studyGroup.name}
-          </div>
+          <div className="StudyGroupSearchDialog-body">{this.state.studyGroup && this.renderDialogBody()}</div>
         </Dialog>
       </div>
     );
