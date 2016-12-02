@@ -19,7 +19,6 @@ export default class Login extends Component {
   }
 
   handleClick(event) {
-    event.stopPropagation();
     const refs = Object.keys(this.refs).map((ref) => ({
       name: ref,
       ref: this.refs[ref]
@@ -63,7 +62,6 @@ export default class Login extends Component {
           type="password"
           validate={(str) => str.length > 0}
         />
-
         <FlatButton label="Login" onClick={this.handleClick} primary={true} />
         {errorMessage && <p className="Login-errorMessage">{errorMessage}</p>}
       </div>
