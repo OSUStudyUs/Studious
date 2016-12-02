@@ -1,25 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import './course_join.scss';
-
-const JoinOrLeaveButton = ({ joinedCourseIds, id, loading, onClick }) => {
-  let buttonText;
-
-  if (loading) buttonText = '...';
-  else if (joinedCourseIds.indexOf(id) >= 0) buttonText= 'Leave';
-  else buttonText = 'Join';
-
-  return (
-    <button disabled={loading} onClick={onClick}>{buttonText}</button>
-  );
-};
-
-JoinOrLeaveButton.propTypes = {
-  joinedCourseIds: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
-  id: PropTypes.number.isRequired,
-  loading: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired
-};
+import JoinOrLeaveButton from './join_or_leave_button';
 
 class CourseJoin extends Component {
   static propTypes = {
@@ -41,18 +23,18 @@ class CourseJoin extends Component {
     super(props);
 
     this.state = {
-      loadingJoinOrLeave: false
+      loadingAction: false
     };
 
-    this.handleJoinOrLeave = this.handleJoinOrLeave.bind(this);
+    this.handleJoinOrLeaveClick = this.handleJoinOrLeaveClick.bind(this);
   }
 
-  handleJoinOrLeave() {
+  handleJoinOrLeaveClick() {
     const { course, joinCourse, joinedCourses, leaveCourse } = this.props;
     const joinedCourse = joinedCourses.find(jc => jc.id === course.id);
     const setLoadingToFalse = (resolveOrReject, data) => {
       this.setState({
-        loadingJoinOrLeave: false
+        loadingAction: false
       });
 
       return resolveOrReject(data);
@@ -61,7 +43,7 @@ class CourseJoin extends Component {
     const setLoadingToFalseCatch = setLoadingToFalse.bind(null, Promise.reject);
 
     this.setState({
-      loadingJoinOrLeave: true
+      loadingAction: true
     });
 
     if (joinedCourse) {
@@ -82,10 +64,10 @@ class CourseJoin extends Component {
         </div>
         <JoinOrLeaveButton
           className="CourseJoinContainer-joinOrLeaveButton"
-          joinedCourseIds={joinedCourses.map(jc => jc.id)}
           id={course.id}
-          loading={this.state.loadingJoinOrLeave}
-          onClick={this.handleJoinOrLeave}
+          joinedCourseIds={joinedCourses.map(jc => jc.id)}
+          loading={this.state.loadingAction}
+          onClick={this.handleJoinOrLeaveClick}
         />
       </div>
     );
