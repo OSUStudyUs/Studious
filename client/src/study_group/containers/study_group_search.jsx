@@ -34,9 +34,10 @@ const mapStateToProps = (state) => ({
 
 class StudyGroupSearch extends Component {
   static propTypes = {
-    studyGroupsLoading: PropTypes.bool.isRequired,
     loadStudyGroups: PropTypes.func.isRequired,
-    searchForStudyGroups: PropTypes.func.isRequired
+    saturateStudyGroup: PropTypes.func.isRequired,
+    searchForStudyGroups: PropTypes.func.isRequired,
+    studyGroupsLoading: PropTypes.bool.isRequired
   }
 
   constructor() {
@@ -66,7 +67,7 @@ class StudyGroupSearch extends Component {
   }
 
   renderDialogBody() {
-    const studyGroup = this.state.studyGroup;
+    const { studyGroup } = this.state;
 
     return (
       <div>
