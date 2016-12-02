@@ -29,9 +29,9 @@ const studyGroup = (state = initialState, { type, payload }) => {
 
     case PROFILE_LOAD_SUCCESS:
       const byId = payload.studyGroups.reduce((acc, set) => {
-        const { id, ...rest } = set;
+        const { id } = set;
 
-        acc[id] = { ...rest };
+        acc[id] = { ...set };
         return acc;
       }, {});
 

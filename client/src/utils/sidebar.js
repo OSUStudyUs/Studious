@@ -1,11 +1,22 @@
 export const mapChatToLink = (type, id) => `/${type}/${id}/chat`;
 
-export const mapFlashCardSetsToLinks = (flashCardSets, resourceId, resource) => (flashCardSets || []).map(({ id, name }) => ({
+const mapFlashCardSetToLink = (id, name, resource, resourceId) => ({
   link: `/${resource}/${resourceId}/flash-card-sets/${id}`,
   name
-})).concat({ link: `/${resource}/${resourceId}/flash-card-sets/new`, name: '+'});
+});
 
-export const mapStudyGroupsToLinks = (studyGroups) => (studyGroups || []).map(({ id, name }) => ({
+const mapStudyGroupToLink = (id, name) => ({
   link: `/study-groups/${id}`,
   name
-}));
+});
+
+export const mapFlashCardSetsToLinks = (flashCardSets, resource, resourceId) =>
+  (flashCardSets || []).map(({ id, name }) =>
+    mapFlashCardSetToLink(id, name, resource, resourceId)
+  ).concat({ link: `/${resource}/${resourceId}/flash-card-sets/new`, name: '+'})
+  .filter(({ link, name }) => link && name);
+
+  export const mapStudyGroupsToLinks = (studyGroups) =>
+    (studyGroups || []).map(({ id, name }) =>
+      mapStudyGroupToLink(id, name)
+    ).filter(({ link, name }) => link && name);

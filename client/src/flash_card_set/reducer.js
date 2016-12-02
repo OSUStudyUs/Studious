@@ -35,9 +35,9 @@ const flashCardSet = (state = initialState, { type, payload }) => {
       return newState;
     case PROFILE_LOAD_SUCCESS:
       const byId = payload.flashCardSets.reduce((acc, set) => {
-        const { id, ...rest } = set;
+        const { id } = set;
 
-        acc[id] = { ...rest };
+        acc[id] = { id, ...set };
         return acc;
       }, {});
 

@@ -30,6 +30,7 @@ const sidebar = (state = initialState, { type, payload }) => {
       newFlashcardSetLinks = newFlashcardSetLinks.filter((link, position, links) => linkIndexOf(links, link) === position).sort(({ name: nameA }, { name: nameB }) => nameA.localeCompare(nameB));
 
       newState.flashCardSetLinks = newFlashcardSetLinks;
+      newState.flashCardSetLinks.reverse();
       return newState;
     case SIDEBAR_UPDATE_STUDY_GROUP_LINKS:
       let newStudyGroupLinks = newState.studyGroupLinks.concat(payload);
