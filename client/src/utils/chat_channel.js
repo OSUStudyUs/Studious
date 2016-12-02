@@ -19,7 +19,7 @@ export const reducer = (state = initialState, { type, payload }) => {
     case 'LOGIN_SUCCESS':
       return ActionCable.createConsumer(actionCableUrl());
     case 'LOGOUT_SUCCESS':
-      if (state.disconnect) {
+      if (state && state.disconnect) {
         state.disconnect();
       }
       return null;

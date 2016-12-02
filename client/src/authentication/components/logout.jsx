@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react';
+import FlatButton from 'material-ui/FlatButton';
 
 const Logout = ({ onLogout }) => (
   <div className="Logout">
-    <button className="Logout-button" onClick={onLogout}>Logout</button>
+    <FlatButton label="Logout" onClick={onLogout} primary={true} />
   </div>
 );
 

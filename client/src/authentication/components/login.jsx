@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import FlatButton from 'material-ui/FlatButton';
 import isEmail from 'validator/lib/isEmail';
 
 import './login.scss';
@@ -61,7 +62,7 @@ export default class Login extends Component {
           type="password"
           validate={(str) => str.length > 0}
         />
-        <button onClick={this.handleClick}>Login</button>
+        <FlatButton label="Login" onClick={this.handleClick} primary={true} />
         {errorMessage && <p className="Login-errorMessage">{errorMessage}</p>}
       </div>
     );

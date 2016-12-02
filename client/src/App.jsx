@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Match, Redirect } from 'react-router';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SplitPane from 'react-split-pane';
 
 import './App.scss';
@@ -63,32 +66,34 @@ const RedirectToProfile = ({ component: Component, id }) => (
 
 const App = ({ isAuthenticated, user }) => {
   return (
-    <BrowserRouter>
-      {
-        ({ router }) => (
-          <div className="App">
-            <FlashMessage />
-            {isAuthenticated &&
-              <SplitPane split="vertical" minSize={100} maxSize={200} defaultSize={100}>
-                <Sidebar />
-                <div className="SplitPane-wrapper">
+    <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+      <BrowserRouter>
+        {
+          ({ router }) => (
+            <div className="App">
+              <FlashMessage />
+              {isAuthenticated &&
+                <SplitPane split="vertical" minSize={100} maxSize={200} defaultSize={100}>
+                  <Sidebar />
+                  <div className="SplitPane-wrapper">
+                    <Navbar />
+                    <MatchWhenAuthorized component={RedirectToProfile} id={user.id} isAuthenticated={isAuthenticated} exactly pattern="/" />
+                    <CheckForCorrectProfile component={Profile} isAuthenticated={isAuthenticated} pattern="/users/:id" userId={user.id} />
+                    <MatchWhenAuthorized component={StudyGroup} isAuthenticated={isAuthenticated} pattern="/study-groups/:id" />
+                  </div>
+                </SplitPane>
+              }
+              {!isAuthenticated &&
+                <div>
                   <Navbar />
-                  <MatchWhenAuthorized component={RedirectToProfile} id={user.id} isAuthenticated={isAuthenticated} exactly pattern="/" />
-                  <CheckForCorrectProfile component={Profile} isAuthenticated={isAuthenticated} pattern="/users/:id" userId={user.id} />
-                  <MatchWhenAuthorized component={StudyGroup} isAuthenticated={isAuthenticated} pattern="/study-groups/:id" />
+                  <MatchWhenNotLoggedIn component={LandingPage} isAuthenticated={isAuthenticated} pattern="/" />
                 </div>
-              </SplitPane>
-            }
-            {!isAuthenticated &&
-              <div>
-                <Navbar />
-                <MatchWhenNotLoggedIn component={LandingPage} isAuthenticated={isAuthenticated} pattern="/" />
-              </div>
-            }
-          </div>
-        )
-      }
-    </BrowserRouter>
+              }
+            </div>
+          )
+        }
+      </BrowserRouter>
+    </MuiThemeProvider>
   );
 };
 
