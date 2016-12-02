@@ -2,11 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import * as actions from './actions';
+import { MatchPassProps, propUtils, sidebarUtils } from '../utils';
 import chat from '../chat';
-import * as selectors from './selectors';
 import sidebar from '../sidebar';
-import { MatchPassProps, sidebarUtils } from '../utils';
+import * as actions from './actions';
+import * as selectors from './selectors';
 
 const { Container: Chat } = chat;
 
@@ -55,7 +55,7 @@ class StudyGroupContainer extends Component {
   };
 
   componentDidMount() {
-    if (Object.keys(StudyGroupContainer.propTypes).some((key) => typeof this.props[key] === 'undefined' )) {
+    if (propUtils.notAllReceived(StudyGroupContainer.propTypes, this.props)) {
       this.props.loadStudyGroup(this.props.params.id);
     } else {
       updateSidebarLinks(this.props);

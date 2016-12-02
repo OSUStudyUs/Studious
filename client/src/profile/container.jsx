@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import './container.scss';
+import { MatchPassProps, propUtils, sidebarUtils } from '../utils';
 import chat from '../chat';
-import { MatchPassProps, sidebarUtils } from '../utils';
+import Profile from './components/profile';
 import sidebar from '../sidebar';
 import * as actions from './actions';
 import * as selectors from './selectors';
-import Profile from './components/profile';
 
 const { Container: Chat } = chat;
 
@@ -31,14 +31,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  chatroomId: selectors.chatroomId(state),
-  courses: selectors.courses(state),
-  flashCardSets: selectors.flashCardSets(state),
-  profileLoaded: selectors.profileLoaded(state),
+  ...selectors.profile(state),
   shouldUpdateChatLink: sidebar.selectors.shouldUpdateChatLink.bind(null, state),
   shouldUpdateFlashCardSetLinks: sidebar.selectors.shouldUpdateFlashCardSetLinks.bind(null, state),
-  shouldUpdateStudyGroupLinks: sidebar.selectors.shouldUpdateStudyGroupLinks.bind(null, state),
-  studyGroups: selectors.studyGroups(state)
+  shouldUpdateStudyGroupLinks: sidebar.selectors.shouldUpdateStudyGroupLinks.bind(null, state)
 });
 
 class ProfileContainer extends Component {
@@ -47,16 +43,13 @@ class ProfileContainer extends Component {
     chatroomId: PropTypes.number,
     courses: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired,
-      department: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.number.isRequired
-    })),
+      courseUserId: PropTypes.number.isRequired
+    }).isRequired),
     flashCardSets: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired
     })),
     loadProfile: PropTypes.func.isRequired,
-    profileLoaded: PropTypes.bool.isRequired,
     shouldUpdateChatLink: PropTypes.func.isRequired,
     shouldUpdateFlashCardSetLinks: PropTypes.func.isRequired,
     shouldUpdateStudyGroupLinks: PropTypes.func.isRequired,
@@ -70,7 +63,7 @@ class ProfileContainer extends Component {
   };
 
   componentDidMount() {
-    if (!this.props.profileLoaded) {
+    if (propUtils.notAllReceived(ProfileContainer.propTypes, this.props)) {
       this.props.loadProfile(this.props.params.id);
     } else {
       updateSidebarLinks(this.props);
@@ -82,9 +75,7 @@ class ProfileContainer extends Component {
   }
 
   render() {
-    const { profileLoaded } = this.props;
-
-    if (!profileLoaded) {
+    if (propUtils.notAllReceived(ProfileContainer.propTypes, this.props)) {
       return (
         <div>Loading...</div>
       );

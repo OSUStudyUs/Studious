@@ -10,8 +10,9 @@ json.studyGroups do
 end
 
 json.courses do
-  json.array! user.courses.each do |course|
-    json.partial! 'api/courses/course', course: course
+  json.array! user.course_users.each do |course_user|
+    json.id course_user.course.id
+    json.courseUserId course_user.id
   end
 end
 

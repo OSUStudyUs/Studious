@@ -46,7 +46,7 @@ RSpec.describe Api::CourseUsersController, type: :controller do
       it "has status 204" do
         request.headers.merge! headers
         delete :destroy, params: { id: course_user.id }, format: :json
-        expect(response).to have_http_status(204)
+        expect(response).to have_http_status(200)
       end
 
       it "destroys the course_user" do
