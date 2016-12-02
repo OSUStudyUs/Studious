@@ -38,6 +38,16 @@ const flashCardSet = (state = initialState, { type, payload }) => {
 
       return newState;
     case PROFILE_LOAD_SUCCESS:
+      const fromGroupsById = {};
+
+      payload.studyGroups.forEach((group) => {
+        group.flashCardSets.forEach((set) => {
+          fromGroupsById[set.id] = {
+            ...set
+          };
+        });
+      });
+
       byId = payload.flashCardSets.reduce((acc, set) => {
         const { id } = set;
 
@@ -49,7 +59,8 @@ const flashCardSet = (state = initialState, { type, payload }) => {
         ...state,
         byId: {
           ...state.byId,
-          ...byId
+          ...byId,
+          ...fromGroupsById
         }
       };
     case STUDY_GROUP_LOAD_SUCCESS:

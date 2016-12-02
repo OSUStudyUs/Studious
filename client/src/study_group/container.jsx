@@ -76,7 +76,7 @@ class StudyGroupContainer extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    newProps.id && newProps.name && updateSidebarLinks(newProps);
+    updateSidebarLinks(newProps);
   }
 
   shouldComponentUpdate(newProps) {

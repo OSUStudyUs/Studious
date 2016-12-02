@@ -12,7 +12,7 @@ const initialState = {
 
 const studyGroup = (state = initialState, { type, payload }) => {
   const newState = { ...state };
-  let byId, newPayload;
+  let byId, newPayload, flashCardSetIds;
 
   switch (type) {
     case CREATE_FLASH_CARD_SET_SUCCESS:
@@ -29,10 +29,15 @@ const studyGroup = (state = initialState, { type, payload }) => {
       }
 
     case PROFILE_LOAD_SUCCESS:
-      byId = payload.studyGroups.reduce((acc, set) => {
-        const { id } = set;
+      byId = payload.studyGroups.reduce((acc, group) => {
+        const newGroup = { ...group };
+        const { id } = newGroup;
 
-        acc[id] = { ...set };
+        flashCardSetIds = newGroup.flashCardSets.map(({ id }) => id);
+
+        delete newGroup.flashCardSets;
+
+        acc[id] = { ...newGroup, flashCardSetIds };
         return acc;
       }, {});
 
@@ -53,7 +58,7 @@ const studyGroup = (state = initialState, { type, payload }) => {
     case STUDY_GROUP_LOAD_SUCCESS:
       newPayload = { ...payload.studyGroup };
 
-      const flashCardSetIds = newPayload.flashCardSets.map(({ id }) => id);
+      flashCardSetIds = newPayload.flashCardSets.map(({ id }) => id);
 
       delete newPayload.flashCardSets;
 
