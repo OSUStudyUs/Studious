@@ -1,5 +1,6 @@
 import React, { Children, Component, PropTypes } from 'react';
 import { camelCase, noCase } from 'change-case';
+import classNames from 'classnames';
 import keycode from 'keycode';
 
 import './search_and_create.scss';
@@ -148,11 +149,16 @@ class SearchAndCreate extends Component {
   }
 
   renderItem(Item, item) {
+    const divClassNames = classNames({
+      'SearchAndCreateContainer-item': true,
+      'handlesClicks': this.handlesItemClicks
+    });
+
     return (
       <div
-        className={`SearchAndCreateContainer-item${this.handlesItemClicks ? ' handlesClicks' : ''}`}
+        className={divClassNames}
         key={item.id}
-        onClick={(e) => this.handleChooseItemClick(e, item)}
+        onClick={e => this.handleChooseItemClick(e, item)}
       >
         <Item { ...{ [camelCase(this.props.name)]: item } } { ...this.props.itemComponentProps } />
       </div>
@@ -170,23 +176,17 @@ class SearchAndCreate extends Component {
     }
 
     return this.state.items.length > 0
-      ? this.state.items.map((item) => this.renderItem(Item, item))
-      : this.renderNoItems();
-  }
-
-  renderNoItems() {
-    return (
-      <p className="SearchAndCreateContainer-noResults">No results!</p>
-    );
+      ? this.state.items.map(item => this.renderItem(Item, item))
+      : <p className="SearchAndCreateContainer-noResults">No results!</p>;
   }
 
   render() {
     return (
       <div className="SearchAndCreateContainer" ref="searchContainer">
         <input
-          type="text"
           onChange={this.handleSearchChange}
           placeholder={`Search for a ${this.props.name}`}
+          type="text"
         />
         {
           this.state.showDropdown && this.renderDropdown()

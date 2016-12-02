@@ -29,7 +29,6 @@ const profile = (state = initialState, { type, payload }) => {
         ]
       };
     case COURSE_USER_DELETION_SUCCESS:
-      console.log(payload);
       return  {
         ...state,
         courses: state.courses.filter(course => course.id !== payload.courseUser.courseId)
@@ -43,7 +42,10 @@ const profile = (state = initialState, { type, payload }) => {
         studyGroups: (payload.studyGroups || []).map(({ id, name }) => ({ id, name })),
       };
     case STUDY_GROUP_CREATION_SUCCESS:
-      newState.studyGroups = (newState.studyGroups || []).concat(payload.studyGroup.id);
+      newState.studyGroups = (newState.studyGroups || []).concat({
+        id: payload.studyGroup.id,
+        name: payload.studyGroup.name
+      });
       return newState;
     default:
       return state;

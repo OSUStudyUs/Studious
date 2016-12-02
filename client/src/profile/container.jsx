@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import './container.scss';
+import { MatchPassProps, propUtils, sidebarUtils } from '../utils';
 import chat from '../chat';
-import { MatchPassProps, sidebarUtils } from '../utils';
+import Profile from './components/profile';
 import sidebar from '../sidebar';
 import * as actions from './actions';
 import * as selectors from './selectors';
-import Profile from './components/profile';
 
 const { Container: Chat } = chat;
 
@@ -63,7 +63,7 @@ class ProfileContainer extends Component {
   };
 
   componentDidMount() {
-    if (Object.keys(ProfileContainer.propTypes).some((key) => typeof this.props[key] === 'undefined' )) {
+    if (propUtils.notAllReceived(ProfileContainer.propTypes, this.props)) {
       this.props.loadProfile(this.props.params.id);
     } else {
       updateSidebarLinks(this.props);
@@ -75,7 +75,7 @@ class ProfileContainer extends Component {
   }
 
   render() {
-    if (Object.keys(ProfileContainer.propTypes).some((key) => typeof this.props[key] === 'undefined' )) {
+    if (propUtils.notAllReceived(ProfileContainer.propTypes, this.props)) {
       return (
         <div>Loading...</div>
       );
