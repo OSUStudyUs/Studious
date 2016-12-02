@@ -31,7 +31,6 @@ const mapDispatchToProps = (dispatch) => ({
   updateFlashcardSetLinks: bindActionCreators(sidebar.actions.updateFlashcardSetLinks, dispatch),
   updateStudyGroupLinks: bindActionCreators(sidebar.actions.updateStudyGroupLinks, dispatch)
 });
-
 const mapStateToProps = (state) => ({
   ...selectors.profile(state),
   shouldUpdateChatLink: sidebar.selectors.shouldUpdateChatLink.bind(null, state),
@@ -68,7 +67,7 @@ class ProfileContainer extends Component {
   };
 
   componentDidMount() {
-    if (propUtils.notAllReceived(ProfileContainer.propTypes, this.props)) {
+    if (!propUtils.allReceived(ProfileContainer.propTypes, this.props)) {
       this.props.loadProfile(this.props.params.id);
     } else {
       updateSidebarLinks(this.props);
@@ -80,7 +79,7 @@ class ProfileContainer extends Component {
   }
 
   render() {
-    if (propUtils.notAllReceived(ProfileContainer.propTypes, this.props)) {
+    if (!propUtils.allReceived(ProfileContainer.propTypes, this.props)) {
       return (
         <div>Loading...</div>
       );
