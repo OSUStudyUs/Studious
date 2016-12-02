@@ -27,6 +27,7 @@ class FlashCardSet extends Component {
       loading: true
     };
 
+    this.handleCreateClick = this.handleCreateClick.bind(this);
     this.handleLeftClick = this.handleLeftClick.bind(this);
     this.handleNewClick = this.handleNewClick.bind(this);
     this.handleRightClick = this.handleRightClick.bind(this);
@@ -35,7 +36,7 @@ class FlashCardSet extends Component {
   componentDidMount() {
     const cards = (this.props.flashCards || [])
       .map(({ id, ...rest }, index) => ({ id, card: <FlashCard key={id} index={index} {...rest} /> }))
-      .concat({ id: 'add', card: <CreateFlashCard key="add" onCreate={this.props.onCreate}/> });
+      .concat({ id: 'add', card: <CreateFlashCard key="add" onCreate={this.handleCreateClick} /> });
 
     this.setState({
       cards,
@@ -47,7 +48,7 @@ class FlashCardSet extends Component {
   componentWillReceiveProps(nextProps) {
     const cards = (nextProps.flashCards || [])
       .map(({ id, ...rest }, index) => ({ id, card: <FlashCard key={id} index={index} {...rest} /> }))
-      .concat({ id: 'add', card: <CreateFlashCard key="add" onCreate={nextProps.onCreate}/> });
+      .concat({ id: 'add', card: <CreateFlashCard key="add" onCreate={this.handleCreateClick} /> });
 
     const currentIdExists = cards.some(card => card.id === this.state.currentCardId);
     let nextId;
@@ -62,6 +63,14 @@ class FlashCardSet extends Component {
       cards,
       currentCardId: nextId
     });
+  }
+
+  handleCreateClick(flashCard) {
+    this.setState({
+      currentCardId: this.state.cards[0].id
+    });
+
+    this.props.onCreate(flashCard);
   }
 
   handleLeftClick() {
