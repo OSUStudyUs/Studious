@@ -10,6 +10,7 @@ import * as actions from '../actions';
 import * as courseSelectors from '../../courses/selectors';
 import * as flashCardSetSelectors from '../../flash_card_set/selectors';
 import * as selectors from '../selectors';
+import * as userSelectors from '../../user/selectors';
 
 const mapDispatchToProps = (dispatch) => ({
   createStudyGroup: bindActionCreators(actions.createStudyGroup, dispatch),
@@ -23,7 +24,8 @@ const mapStateToProps = (state) => ({
     return {
       ...studyGroup,
       course: studyGroup.courseId && courseSelectors.byId(state, studyGroup.courseId),
-      flashCardSets: studyGroup.flashCardSetIds.map(flashCardSetId => flashCardSetSelectors.byId(state, flashCardSetId))
+      flashCardSets: flashCardSetSelectors.byIds(state, studyGroup.flashCardSetIds),
+      users: userSelectors.byIds(state, studyGroup.userIds)
     };
   },
   studyGroupsLoading: selectors.loading(state),
@@ -96,7 +98,7 @@ class StudyGroupSearch extends Component {
           open={this.state.showStudyGroupDialog}
           onRequestClose={this.handleCloseDialog}
         >
-          <div className="StudyGroupSearchContainer-dialog--">
+          <div className="StudyGroupSearchContainer-dialog-inner">
             {this.state.studyGroup && this.state.studyGroup.name}
           </div>
         </Dialog>

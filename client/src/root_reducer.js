@@ -9,6 +9,7 @@ import flashMessage from './flash_message';
 import profile from './profile';
 import sidebar from './sidebar';
 import studyGroup from './study_group';
+import user from './user';
 
 const appReducer = combineReducers({
   [authentication.constants.NAME]: authentication.reducer,
@@ -19,7 +20,8 @@ const appReducer = combineReducers({
   [flashMessage.constants.NAME]: flashMessage.reducer,
   [profile.constants.NAME]: profile.reducer,
   [sidebar.constants.NAME]: sidebar.reducer,
-  [studyGroup.constants.NAME]: studyGroup.reducer
+  [studyGroup.constants.NAME]: studyGroup.reducer,
+  [user.constants.NAME]: user.reducer
 });
 
 const rootReducer = (state, action) => {
