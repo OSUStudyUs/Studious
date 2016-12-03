@@ -1,1 +1,1 @@
-export const NAME = 'flashMessage';
+export const NAME = 'user';

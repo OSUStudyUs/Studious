@@ -87,7 +87,7 @@ export default class Login extends Component {
   render() {
     const { email, errorFields, password } = this.state;
     const buttonStyle = {
-      'background-color': 'white'
+      'backgroundColor': 'white'
     };
     const textStyle = {
       color: 'white'
