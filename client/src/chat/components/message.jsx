@@ -15,6 +15,6 @@ const Message = ({ createdAt, id, content, user }) => (
       <Chip backgroundColor={cyan500} style={{maxWidth: '40em', overflowX: 'hidden'}} >{content}</Chip>
     </div>
   </div>
-);,
+);
 
 export default Message;
