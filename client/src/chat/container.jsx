@@ -10,7 +10,6 @@ import { chatChannel } from '../utils';
 import * as actions from './actions';
 import * as selectors from './selectors';
 import Message from './components/message';
-import keycode from 'keycode';
 
 const mapDispatchToProps = (dispatch) => ({
   createSubscription: bindActionCreators(actions.createSubscription, dispatch),
@@ -40,7 +39,6 @@ class Chat extends Component {
       messageError: null
     };
     this.handleClick = this.handleClick.bind(this);
-    this.handleEnter = this.handleEnter.bind(this);
     this.handleMessageChange = this.handleMessageChange.bind(this);
   }
 
@@ -67,7 +65,6 @@ class Chat extends Component {
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
       }
     }
-    this.refs.message.input.addEventListener('keydown', this.handleEnter);
   }
 
   componentDidUpdate() {
@@ -91,12 +88,6 @@ class Chat extends Component {
       this.setState({
         messageError: 'Please enter a message'
       });
-    }
-  }
-
-  handleEnter({ keyCode }) {
-    if(keycode(keyCode) === 'enter') {
-      this.handleClick();
     }
   }
 
@@ -148,7 +139,7 @@ class Chat extends Component {
             />
           <div className="Chat-buttonWrapper">
             <div id="Chat-buttonMargin" />
-            <RaisedButton label="Send" onClick={this.handleClick} secondary style={{marginbottom: '5px'}} />
+            <RaisedButton label="Send" onClick={this.handleClick} secondary />
           </div>
           </div>
         </div>
