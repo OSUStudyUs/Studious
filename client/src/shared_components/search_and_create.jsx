@@ -3,6 +3,7 @@ import { camelCase, noCase } from 'change-case';
 import classNames from 'classnames';
 import keycode from 'keycode';
 import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
 
 import './search_and_create.scss';
 
@@ -29,7 +30,8 @@ class SearchAndCreate extends Component {
     this.state = {
       initialItemsLoaded: false,
       items: [],
-      showDropdown: false
+      showDropdown: false,
+      query: ''
     };
 
     this.handlesItemCreation = Children.count(this.props.children) > 0;
@@ -76,7 +78,8 @@ class SearchAndCreate extends Component {
 
       this.props.onItemClick(item);
       this.setState({
-        showDropdown: false
+        showDropdown: false,
+        query: item.name
       });
     }
   }
@@ -92,14 +95,15 @@ class SearchAndCreate extends Component {
   handleFocusChange(e) {
     this.setState({
       showDropdown: this.refs.searchContainer.contains(e.target),
-      items: this.props.searchForItems(this.refs.searchInput.value)
+      items: this.props.searchForItems(this.state.query)
     });
   }
 
   handleSearchChange(e) {
     this.setState({
       items: this.props.searchForItems(e.target.value),
-      showDropdown: true
+      showDropdown: true,
+      query: e.target.value
     });
   }
 
@@ -165,12 +169,11 @@ class SearchAndCreate extends Component {
   render() {
     return (
       <div className="SearchAndCreateContainer" ref="searchContainer">
-        <input
-          className="SearchAndCreateContainer-input"
+        <TextField
+          hintText="Enter your query"
           onChange={this.handleSearchChange}
-          placeholder={`Search for a ${this.props.name}`}
-          ref="searchInput"
           type="text"
+          value={this.state.query}
         />
         {
           this.state.showDropdown && this.renderDropdown()

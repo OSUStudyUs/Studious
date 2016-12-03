@@ -16,12 +16,15 @@ const Profile = ({ isExact }) => {
   return (
     <div className="Profile">
       <div className="Profile-divider">
+        <h3>Join A Course</h3>
         <CoursesJoinAndCreate />
       </div>
       <div className="Profile-divider">
+        <h3>Join A Study Group</h3>
         <StudyGroupSearch />
       </div>
       <div className="Profile-divider">
+        <h3>Create A Study Group</h3>
         <StudyGroupCreate />
       </div>
     </div>

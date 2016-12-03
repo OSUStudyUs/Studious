@@ -78,7 +78,6 @@ class Chat extends Component {
 
   handleClick() {
     const { message } = this.state;
-<<<<<<< HEAD
 
     if (message.length) {
       this.props.subscription.sendMessage(message);
@@ -90,25 +89,6 @@ class Chat extends Component {
       this.setState({
         messageError: 'Please enter a message'
       });
-=======
-
-    if (message.length) {
-      this.props.subscription.sendMessage(message);
-      this.setState({
-        message: '',
-        messageError: null
-      });
-    } else {
-      this.setState({
-        messageError: 'Please enter a message'
-      });
-    }
-  }
-
-  handleEnter({ keyCode }) {
-    if(keycode(keyCode) === 'enter') {
-      this.handleClick();
->>>>>>> client: make chat more pretty
     }
   }
 
@@ -131,13 +111,9 @@ class Chat extends Component {
     return (
       <Paper
         style={{
-<<<<<<< HEAD
           height: '100%',
           margin: '20px',
           padding: '20px'
-=======
-          height: '100%'
->>>>>>> client: make chat more pretty
         }}
       >
         <div className="Chat">
@@ -149,11 +125,8 @@ class Chat extends Component {
           <div className="Chat-inputContainer">
             <TextField
               errorText={messageError}
-<<<<<<< HEAD
               maxLength="65"
               underlineShow={false}
-=======
->>>>>>> client: make chat more pretty
               hintText="message"
               id="Chat-input"
               multiLine={true}
@@ -161,12 +134,8 @@ class Chat extends Component {
               ref="message"
               rowsMax={4}
               style={{
-<<<<<<< HEAD
                 flex: '1',
                 padding: '3px',
-=======
-                flex: '1'
->>>>>>> client: make chat more pretty
               }}
               value={message}
             />
