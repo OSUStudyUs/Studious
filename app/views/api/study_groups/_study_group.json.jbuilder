@@ -9,11 +9,13 @@ json.flashCardSets do
 end
 
 json.users do
-  json.array! study_group.users.each do |user|
-    json.id user.id
-    json.firstName user.first_name
-    json.lastName user.last_name
-    json.email user.email
+  json.array! study_group.memberships.each do |membership|
+    json.id membership.user.id
+    json.firstName membership.user.first_name
+    json.lastName membership.user.last_name
+    json.email membership.user.email
+    json.membershipId membership.id
+    json.pending membership.pending
   end
 end
 

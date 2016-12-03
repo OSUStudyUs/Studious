@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { MatchPassProps, propUtils, sidebarUtils } from '../utils';
 import chat from '../chat';
 import flashCardSet from '../flash_card_set';
+import GroupProfile from './components/group_profile';
 import sidebar from '../sidebar';
 import * as actions from './actions';
 import * as flashCardSetSelectors from '../flash_card_set/selectors';
@@ -57,10 +58,12 @@ class StudyGroupContainer extends Component {
     })).isRequired,
     id: PropTypes.number,
     loadStudyGroup: PropTypes.func.isRequired,
+    memberIds: PropTypes.arrayOf(PropTypes.number.isRequired),
     name: PropTypes.string,
     params: PropTypes.shape({
       id: PropTypes.string.isRequired
     }).isRequired,
+    pendingIds: PropTypes.arrayOf(PropTypes.number.isRequired),
     shouldUpdateChatLink: PropTypes.func.isRequired,
     shouldUpdateFlashCardSetLinks: PropTypes.func.isRequired,
     shouldUpdateStudyGroupLinks: PropTypes.func.isRequired,
@@ -88,15 +91,14 @@ class StudyGroupContainer extends Component {
   render() {
     return (
       <div className="StudyGroupContainer">
-        {propUtils.allReceived(StudyGroupContainer.propTypes, this.props) &&
-          <MatchPassProps
-            component={FlashCardSet}
-            createRoute={`study_groups/${this.props.params.id}`}
-            exactly
-            pattern="/study-groups/:id/flash-card-sets/:flashCardSetId"
-            rootRoute="/study-groups/:id"
-          />
-        }
+        <MatchPassProps component={GroupProfile} exactly pattern="/study-groups/:id" />
+        <MatchPassProps
+          component={FlashCardSet}
+          createRoute={`study_groups/${this.props.params.id}`}
+          exactly
+          pattern="/study-groups/:id/flash-card-sets/:flashCardSetId"
+          rootRoute="/study-groups/:id"
+        />
         {this.props.chatroomId &&
           <MatchPassProps component={Chat} exactly pattern="/study-groups/:id/chat" id={this.props.chatroomId} />
         }

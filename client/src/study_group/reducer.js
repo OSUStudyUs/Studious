@@ -1,5 +1,10 @@
 import {
-  STUDY_GROUP_CREATION_SUCCESS, STUDY_GROUP_LOAD_SUCCESS, STUDY_GROUPS_LOAD_REQUEST, STUDY_GROUPS_LOAD_SUCCESS
+  MEMBERSHIP_APPROVE_SUCCESS,
+  MEMBERSHIP_DENY_SUCCESS,
+  STUDY_GROUP_CREATION_SUCCESS,
+  STUDY_GROUP_LOAD_SUCCESS,
+  STUDY_GROUPS_LOAD_REQUEST,
+  STUDY_GROUPS_LOAD_SUCCESS
 } from './actions';
 import * as profileActions from '../profile/actions';
 import * as flashCardSetActions from '../flash_card_set/actions';
@@ -13,9 +18,36 @@ const initialState = {
 
 const studyGroup = (state = initialState, { type, payload }) => {
   const newState = { ...state };
-  let byId, newPayload, flashCardSetIds, userIds;
+  let byId, newPayload, flashCardSetIds, userIds, memberIds, pendingIds;
 
   switch (type) {
+    case MEMBERSHIP_APPROVE_SUCCESS:
+      let { id: userId, membershipId } = payload.user;
+
+      Object.keys(newState.byId).forEach((id) => {
+        if (newState.byId[id].pendingIds.some(({ id: uId, membershipId: mId}) => uId === userId && mId === membershipId )) {
+          newState.byId[id] = {
+            ...newState.byId[id],
+            memberIds: newState.byId[id].memberIds.concat({ id: userId, membershipId }),
+            pendingIds: newState.byId[id].pendingIds.filter((pId) => pId !== userId)
+          };
+        }
+      });
+      return newState;
+    case MEMBERSHIP_DENY_SUCCESS:
+      userId = payload.user.id;
+      membershipId = payload.user.membershipId;
+
+      Object.keys(newState.byId).forEach((id) => {
+        if (newState.byId[id].pendingIds.some(({ id: uId, membershipId: mId}) => uId === userId && mId === membershipId )) {
+          newState.byId[id] = {
+            ...newState.byId[id],
+            pendingIds: newState.byId[id].pendingIds.filter(({ id: pId}) => pId !== userId)
+          };
+        }
+      });
+      return newState;
+
     case CREATE_FLASH_CARD_SET_SUCCESS:
       const { studyGroupId } = payload.flashCardSet;
 
@@ -57,12 +89,17 @@ const studyGroup = (state = initialState, { type, payload }) => {
       newPayload = { ...payload.studyGroup };
 
       flashCardSetIds = newPayload.flashCardSets.map(({ id }) => id);
+      memberIds = newPayload.users.filter(({ pending }) => !pending).map(({ id, membershipId }) => { id, membershipId });
+      pendingIds = newPayload.users.filter(({ pending }) => pending).map(({ id, membershipId }) => { id, membershipId });
 
       delete newPayload.flashCardSets;
+      delete newPayload.users;
 
       byId = {
         ...newPayload,
-        flashCardSetIds
+        flashCardSetIds,
+        memberIds,
+        pendingIds
       };
 
       newState.byId[newPayload.id] = {
@@ -82,7 +119,9 @@ const studyGroup = (state = initialState, { type, payload }) => {
         const { id } = newGroup;
 
         flashCardSetIds = newGroup.flashCardSets.map(({ id }) => id);
-        userIds = newGroup.users.map(({ id }) => id);
+        memberIds = newPayload.users.filter(({ pending }) => !pending).map(({ id, membershipId }) => { id, membershipId });
+        pendingIds = newPayload.users.filter(({ pending }) => pending).map(({ id, membershipId }) => { id, membershipId });
+
         const courseId = newGroup.course.id;
 
         delete newGroup.flashCardSets;
