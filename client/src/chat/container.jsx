@@ -124,6 +124,7 @@ class Chat extends Component {
           <div className="Chat-inputContainer">
             <TextField
               errorText={messageError}
+              maxLength="65"
               underlineShow={false}
               hintText="message"
               id="Chat-input"
