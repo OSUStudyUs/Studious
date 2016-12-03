@@ -7,7 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SplitPane from 'react-split-pane';
 
 import './App.scss';
-import { LandingPage, Navbar } from './shared_components';
+import { LandingPage, Navbar, NotFound } from './shared_components';
 import authentication from './authentication';
 import flashMessage from './flash_message';
 import profile from './profile';
@@ -91,7 +91,7 @@ class App extends Component {
                       <MatchWhenAuthorized component={RedirectToProfile} id={user.id} isAuthenticated={isAuthenticated} exactly pattern="/" />
                       <CheckForCorrectProfile component={Profile} isAuthenticated={isAuthenticated} pattern="/users/:id" userId={user.id} />
                       <MatchWhenAuthorized component={StudyGroup} isAuthenticated={isAuthenticated} pattern="/study-groups/:id" />
-                      <Miss component={() => <p>404</p>} />
+                      <Miss component={NotFound} />
                     </div>
                   </SplitPane>
                 }
