@@ -20,10 +20,8 @@ const studyGroup = (state = initialState, { type, payload }) => {
       const { studyGroupId } = payload.flashCardSet;
 
       if (newState.byId[studyGroupId]) {
-        newState.byId[studyGroupId].flashCardSets = (newState.byId[studyGroupId].flashCardSets || []).concat({
-          id: payload.flashCardSet.id,
-          name: payload.flashCardSet.name
-        });
+        newState.byId[studyGroupId].flashCardSetIds =
+          (newState.byId[studyGroupId].flashCardSetIds || []).concat(payload.flashCardSet.id);
         return newState;
       } else {
         return newState;

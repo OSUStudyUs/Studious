@@ -6,7 +6,7 @@ import CreateForm from '../../shared_components/create_form';
 
 const refMap = {
   name: {
-    errorText: 'Please enter a name',
+    errorText: 'Name is less than 20 characters',
     type: 'text',
     validate: (val) => 0 < val.length && val.length < 20
   }
