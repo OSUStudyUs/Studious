@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { MatchPassProps, propUtils, sidebarUtils } from '../utils';
 import chat from '../chat';
 import flashCardSet from '../flash_card_set';
+import GroupProfile from './components/group_profile';
 import sidebar from '../sidebar';
 import * as actions from './actions';
 import * as flashCardSetSelectors from '../flash_card_set/selectors';
@@ -88,6 +89,7 @@ class StudyGroupContainer extends Component {
   render() {
     return (
       <div className="StudyGroupContainer">
+        {propUtils.allReceived(StudyGroupContainer.propTypes, this.props) && <MatchPassProps component={GroupProfile} exactly name={this.props.name} pattern="/study-groups/:id" /> }
         {propUtils.allReceived(StudyGroupContainer.propTypes, this.props) &&
           <MatchPassProps
             component={FlashCardSet}

@@ -15,7 +15,11 @@ Rails.application.routes.draw do
       resources :flash_card_sets, only: [:create]
     end
 
-    resources :memberships, only: [:create, :destroy]
+    resources :memberships, only: [:create, :destroy] do
+      member do
+        put :approve
+      end
+    end
 
     resources :course_users, only: [:create, :destroy]
 
