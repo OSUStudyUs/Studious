@@ -5,7 +5,7 @@ import courses from '../../courses';
 import studyGroupContainers from '../../study_group/containers';
 
 const { Container: CoursesJoinAndCreate } = courses;
-const { StudyGroupSearch } = studyGroupContainers;
+const { StudyGroupCreate, StudyGroupSearch } = studyGroupContainers;
 
 const Profile = ({ isExact }) => {
   // This prop is coming from ReactRouter
@@ -20,6 +20,9 @@ const Profile = ({ isExact }) => {
       </div>
       <div className="Profile-divider">
         <StudyGroupSearch />
+      </div>
+      <div className="Profile-divider">
+        <StudyGroupCreate />
       </div>
     </div>
   );
