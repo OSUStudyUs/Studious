@@ -12,7 +12,7 @@ const Message = ({ createdAt, id, content, user }) => (
       <span className="Message-header--time">{moment(createdAt).format("ddd MM/DD/YY h:mm A")}</span>
     </div>
     <div className="Message-content">
-      <Chip backgroundColor={cyan500} style={{maxWidth: '40em', overflowX: 'hidden'}} >{content}</Chip>
+      <Chip backgroundColor={cyan500} style={{maxWidth: '60em', overflowX: 'hidden'}} >{content}</Chip>
     </div>
   </div>
 );
