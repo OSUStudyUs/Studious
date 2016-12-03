@@ -35,10 +35,7 @@ const profile = (state = initialState, { type, payload }) => {
       const { userId } = payload.flashCardSet;
 
       if (userId === newState.id) {
-        newState.flashCardSets = (newState.flashCardSets || []).concat({
-          id: payload.flashCardSet.id,
-          name: payload.flashCardSet.name
-        });
+        newState.flashCardSetIds = (newState.flashCardSetIds || []).concat(payload.flashCardSet.id);
       }
 
       return newState;
@@ -54,7 +51,6 @@ const profile = (state = initialState, { type, payload }) => {
 
       delete newPayload.courses;
       delete newPayload.flashCardSets;
-      delete newPayload.id;
       delete newPayload.studyGroups;
 
       return {
