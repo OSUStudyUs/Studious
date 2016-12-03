@@ -67,7 +67,7 @@ class Api::MembershipsController < ApplicationController
   # Author: Kyle Thompson
   # Revisions:
   #   1: 12/02/16 - Kyle Thompson - initial implementation
-  def ensure_user_has_membership!
+  def ensure_user_in_study_group!
     @membership = Membership.find(params[:id])
     study_group = @membership.study_group
 

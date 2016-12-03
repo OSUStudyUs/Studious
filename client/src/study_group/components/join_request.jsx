@@ -1,10 +1,14 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import { ListItem } from 'material-ui/List';
+import RemoveCircle from 'material-ui/svg-icons/content/remove-circle';
+import { MenuItem } from 'material-ui/Menu';
 
 const StudyGroupJoinRequest = ({ onApprove, onDeny, user }) => (
-  <ListItem
-    primaryText={`${user.firstName} ${user.lastName}`}
+  <MenuItem
+    leftIcon={<ContentAdd onClick={onApprove} />}
+    primaryText={`${user.firstName} ${user.lastName} wants to join`}
+    rightIcon={<RemoveCircle onClick={onDeny} />}
   />
 );
+
+export default StudyGroupJoinRequest;

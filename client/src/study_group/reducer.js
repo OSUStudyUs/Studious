@@ -29,7 +29,7 @@ const studyGroup = (state = initialState, { type, payload }) => {
           newState.byId[id] = {
             ...newState.byId[id],
             memberIds: newState.byId[id].memberIds.concat({ id: userId, membershipId }),
-            pendingIds: newState.byId[id].pendingIds.filter((pId) => pId !== userId)
+            pendingIds: newState.byId[id].pendingIds.filter(({ id: pId}) => pId !== userId)
           };
         }
       });
