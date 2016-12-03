@@ -1,5 +1,6 @@
 import React from 'react';
 
+import './profile.scss';
 import courses from '../../courses';
 import studyGroupContainers from '../../study_group/containers';
 
@@ -14,8 +15,12 @@ const Profile = ({ isExact }) => {
 
   return (
     <div className="Profile">
-      <CoursesJoinAndCreate />
-      <StudyGroupSearch />
+      <div className="Profile-divider">
+        <CoursesJoinAndCreate />
+      </div>
+      <div className="Profile-divider">
+        <StudyGroupSearch />
+      </div>
     </div>
   );
 };
