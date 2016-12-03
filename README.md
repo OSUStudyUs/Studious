@@ -3,6 +3,8 @@
 
 Please be sure to look at our [DOCS](./docs/README.md) for a more thorough explanation of how everything is wired together!
 
+Also, please note that [@kylekthompson](https://github.com/kylekthompson)'s line additions should be about -2700 because he ran `rails new studious` and `create-react-app`.
+
 ## Setup
 
 ### On Ubuntu
