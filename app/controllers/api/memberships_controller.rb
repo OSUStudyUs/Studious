@@ -8,11 +8,12 @@ class Api::MembershipsController < ApplicationController
   #   1: 11/17/16 - Kyle Thompson - skeleton
   #   2: 11/25/16 - Sean Whitehurst - initial implementation
   #   3: 12/01/16 - Kyle Thompson - Add resourse name to errors JSON
+  #   4: 12/02/16 - Kyle Thompson - send back JSON
   def create
     @membership = Membership.new({ user_id: current_user.id, study_group_id: params[:study_group_id] })
 
     if @membership.save
-      head 201
+      render :show, status: 201
     else
       render json: { resource: "membership", errors: @membership.errors }, status: 409
     end
@@ -23,11 +24,12 @@ class Api::MembershipsController < ApplicationController
   #   1: 11/17/16 - Kyle Thompson - skeleton
   #   2: 11/25/16 - Sean Whitehurst - initial implementation
   #   3: 12/01/16 - Kyle Thompson - Add resourse name to errors JSON
+  #   4: 12/02/16 - Kyle Thompson - send back JSON
   def destroy
     membership = Membership.find params[:id]
 
     if membership.destroy
-      head 204
+      render :show, status: 200
     else
       render json: { resource: "membership", errors: errors_hash_for(Membership, "could not be destroyed") }, status: 500
     end
