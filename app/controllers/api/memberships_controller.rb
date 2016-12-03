@@ -1,6 +1,7 @@
 class Api::MembershipsController < ApplicationController
   before_action :authenticate_user
-  before_action :ensure_user_has_membership!, except: [:create]
+  before_action :ensure_user_has_membership!, only: [:destroy]
+  before_action :ensure_user_in_study_group!, only: [:approve]
 
   # Author: Sean Whitehurst
   # Revisions:
@@ -32,8 +33,20 @@ class Api::MembershipsController < ApplicationController
     end
   end
 
-  private
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 12/02/16 - Kyle Thompson - initial implementation
+  def approve
+    @membership = Membership.find params[:id]
 
+    if @membership.update_attributes(pending: false)
+      render :show, status: 200
+    else
+      render json: { resource: "membership", errors: errors_hash_for(Membership, "could not be approved") }, status: 500
+    end
+  end
+
+  private
   # Private: enforces authorization such that the current_user belongs_to the membership in question
   #
   # Author: Sean Whitehurst
@@ -43,6 +56,20 @@ class Api::MembershipsController < ApplicationController
     user_from_membership = Membership.find(params[:id]).user
 
     unless current_user && user_from_membership && current_user.id == user_from_membership.id
+      head 401
+    end
+  end
+
+  # Private: ensures current_user is a member of the study group
+  #
+  # Author: Kyle Thompson
+  # Revisions:
+  #   1: 12/02/16 - Kyle Thompson - initial implementation
+  def ensure_user_has_membership!
+    @membership = Membership.find(params[:id])
+    study_group = @membership.study_group
+
+    unless study_group.has_member?(current_user)
       head 401
     end
   end
