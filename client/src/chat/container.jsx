@@ -119,7 +119,9 @@ class Chat extends Component {
     return (
       <Paper
         style={{
-          height: '100%'
+          height: '100%',
+          margin: '20px',
+          padding: '20px'
         }}
       >
         <div className="Chat">
@@ -131,6 +133,7 @@ class Chat extends Component {
           <div className="Chat-inputContainer">
             <TextField
               errorText={messageError}
+              underlineShow={false}
               hintText="message"
               id="Chat-input"
               multiLine={true}
@@ -138,13 +141,14 @@ class Chat extends Component {
               ref="message"
               rowsMax={4}
               style={{
-                flex: '1'
+                flex: '1',
+                padding: '3px',
               }}
               value={message}
             />
           <div className="Chat-buttonWrapper">
             <div id="Chat-buttonMargin" />
-            <RaisedButton label="Send" onClick={this.handleClick} secondary />
+            <RaisedButton label="Send" onClick={this.handleClick} secondary style={{marginbottom: '5px'}} />
           </div>
           </div>
         </div>

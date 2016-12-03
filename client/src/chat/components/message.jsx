@@ -1,5 +1,7 @@
 import React from 'react';
 import moment from 'moment';
+import Chip from 'material-ui/Chip';
+import {cyan500} from 'material-ui/styles/colors';
 
 import './message.scss';
 
@@ -10,7 +12,7 @@ const Message = ({ createdAt, id, content, user }) => (
       <span className="Message-header--time">{moment(createdAt).format("ddd MM/DD/YY h:mm A")}</span>
     </div>
     <div className="Message-content">
-      <p>{content}</p>
+      <Chip backgroundColor={cyan500} >{content}</Chip>
     </div>
   </div>
 );
