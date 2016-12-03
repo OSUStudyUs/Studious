@@ -119,7 +119,7 @@ export const leaveCourse = (courseUserId) =>
     return api.del(`/course_users/${courseUserId}`)
       .then((deletedCourseUser) => {
         dispatch(onCourseUserDeletionSuccess(deletedCourseUser));
-        return Promise.resolve();
+        return Promise.resolve(deletedCourseUser);
       })
       .catch((errors) => {
         dispatch(onCourseUserDeletionFailure(errors));

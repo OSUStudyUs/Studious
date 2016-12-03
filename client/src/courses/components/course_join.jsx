@@ -32,24 +32,22 @@ class CourseJoin extends Component {
   handleJoinOrLeaveClick() {
     const { course, joinCourse, joinedCourses, leaveCourse } = this.props;
     const joinedCourse = joinedCourses.find(jc => jc.id === course.id);
-    const setLoadingToFalse = (resolveOrReject, data) => {
+    const setLoadingToFalse = (data) => {
       this.setState({
         loadingAction: false
       });
 
-      return resolveOrReject(data);
+      return Promise.resolve(data);
     };
-    const setLoadingToFalseThen = setLoadingToFalse.bind(null, Promise.resolve);
-    const setLoadingToFalseCatch = setLoadingToFalse.bind(null, Promise.reject);
 
     this.setState({
       loadingAction: true
     });
 
     if (joinedCourse) {
-      leaveCourse(joinedCourse.courseUserId).then(setLoadingToFalseThen).catch(setLoadingToFalseCatch);
+      leaveCourse(joinedCourse.courseUserId).then(setLoadingToFalse).catch(setLoadingToFalse);
     } else {
-      joinCourse(course.id).then(setLoadingToFalseThen).catch(setLoadingToFalseCatch);
+      joinCourse(course.id).then(setLoadingToFalse).catch(setLoadingToFalse);
     }
   }
 

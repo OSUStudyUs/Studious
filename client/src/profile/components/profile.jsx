@@ -1,5 +1,11 @@
 import React from 'react';
 
+import courses from '../../courses';
+import studyGroupContainers from '../../study_group/containers';
+
+const { Container: CoursesJoinAndCreate } = courses;
+const { StudyGroupSearch } = studyGroupContainers;
+
 const Profile = ({ isExact }) => {
   // This prop is coming from ReactRouter
   // Basically, it lets us know if this component was rendered because of a direct match or the url
@@ -8,7 +14,8 @@ const Profile = ({ isExact }) => {
 
   return (
     <div className="Profile">
-      Profile!
+      <CoursesJoinAndCreate />
+      <StudyGroupSearch />
     </div>
   );
 };

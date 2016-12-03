@@ -73,6 +73,10 @@ const reducer = (state = initialState, { type, payload }) => {
       };
     case STUDY_GROUPS_LOAD_SUCCESS:
       byId = payload.studyGroups.reduce((acc, group) => {
+        if (!group.course) {
+          return acc;
+        }
+
         const { id } = group.course;
 
         return {

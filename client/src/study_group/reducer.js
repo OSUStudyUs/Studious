@@ -119,10 +119,11 @@ const studyGroup = (state = initialState, { type, payload }) => {
         const { id } = newGroup;
 
         flashCardSetIds = newGroup.flashCardSets.map(({ id }) => id);
-        memberIds = newPayload.users.filter(({ pending }) => !pending).map(({ id, membershipId }) => ({ id, membershipId }));
-        pendingIds = newPayload.users.filter(({ pending }) => pending).map(({ id, membershipId }) => ({ id, membershipId }));
+        memberIds = newGroup.users.filter(({ pending }) => !pending).map(({ id, membershipId }) => ({ id, membershipId }));
+        pendingIds = newGroup.users.filter(({ pending }) => pending).map(({ id, membershipId }) => ({ id, membershipId }));
 
-        const courseId = newGroup.course.id;
+        userIds = newGroup.users.map(({ id }) => id);
+        const courseId = newGroup.course && newGroup.course.id;
 
         delete newGroup.flashCardSets;
         delete newGroup.users;

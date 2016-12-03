@@ -8,12 +8,13 @@ import './search_and_create.scss';
 
 class SearchAndCreate extends Component {
   static propTypes = {
+    creatingItem: PropTypes.bool,
     itemComponent: PropTypes.func.isRequired,
     itemComponentProps: PropTypes.object.isRequired,
     itemsLoading: PropTypes.bool.isRequired,
+    handleCreatingStateSwitch: PropTypes.func,
     loadItems: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
-    onCreateClick: PropTypes.func,
     onItemClick: PropTypes.func,
     searchForItems: PropTypes.func.isRequired
   }
@@ -26,7 +27,6 @@ class SearchAndCreate extends Component {
     super(props);
 
     this.state = {
-      creatingItem: false,
       initialItemsLoaded: false,
       items: [],
       showDropdown: false
@@ -36,10 +36,8 @@ class SearchAndCreate extends Component {
     this.handlesItemClicks = typeof this.props.onItemClick !== 'undefined';
 
     this.handleChooseItemClick = this.handleChooseItemClick.bind(this);
-    this.handleCreateItemClick = this.handleCreateItemClick.bind(this);
     this.handleEscapeKey = this.handleEscapeKey.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
-    this.handleSwitchToCreatingClick = this.handleSwitchToCreatingClick.bind(this);
     this.handleFocusChange = this.handleFocusChange.bind(this);
     this.renderButton = this.renderButton.bind(this);
     this.renderDropdown = this.renderDropdown.bind(this);
@@ -83,15 +81,6 @@ class SearchAndCreate extends Component {
     }
   }
 
-  handleCreateItemClick(e) {
-    e.stopPropagation();
-
-    this.props.onCreateClick();
-    this.setState({
-      creatingItem: false
-    });
-  }
-
   handleEscapeKey(e) {
     if (keycode(e) === 'esc') {
       this.setState({
@@ -102,35 +91,23 @@ class SearchAndCreate extends Component {
 
   handleFocusChange(e) {
     this.setState({
-      showDropdown: this.refs.searchContainer.contains(e.target)
+      showDropdown: this.refs.searchContainer.contains(e.target),
+      items: this.props.searchForItems(this.refs.searchInput.value)
     });
   }
 
   handleSearchChange(e) {
     this.setState({
-      creatingItem: false,
       items: this.props.searchForItems(e.target.value),
       showDropdown: true
     });
   }
 
-  handleSwitchToCreatingClick(e) {
-    e.stopPropagation();
-
-    this.setState({
-      creatingItem: true
-    });
-  }
-
   renderButton() {
-    if (this.handlesItemCreation) {
+    if (this.handlesItemCreation && !this.props.creatingItem) {
       return (
         <div className="SearchAndCreateContainer-dropdown--buttonContainer">
-          {
-            this.state.creatingItem
-            ? <button onClick={this.handleCreateItemClick}>Create this {this.props.name}</button>
-            : <span>Can't find your {noCase(this.props.name)}?&nbsp;<button onClick={this.handleSwitchToCreatingClick}>Add it!</button></span>
-          }
+          <span>Can't find your {noCase(this.props.name)}?&nbsp;<button onClick={this.props.handleCreatingStateSwitch}>Add it!</button></span>
         </div>
       );
     }
@@ -143,7 +120,7 @@ class SearchAndCreate extends Component {
       <Paper className="SearchAndCreateContainer-dropdown">
         <div className="SearchAndCreateContainer-dropdown--mainContainer">
           {
-            this.state.creatingItem
+            this.props.creatingItem
             ? <div className="SearchAndCreateContainer-dropdown--children">{this.props.children}</div>
             : this.renderItems()
           }
@@ -192,6 +169,7 @@ class SearchAndCreate extends Component {
           className="SearchAndCreateContainer-input"
           onChange={this.handleSearchChange}
           placeholder={`Search for a ${this.props.name}`}
+          ref="searchInput"
           type="text"
         />
         {

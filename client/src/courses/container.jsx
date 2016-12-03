@@ -3,13 +3,29 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import './container.scss';
-import { Input, SearchAndCreate } from '../shared_components';
+import { CreateForm, SearchAndCreate } from '../shared_components';
 import components from './components';
 import * as actions from './actions';
 import * as profileSelectors from '../profile/selectors';
 import * as selectors from './selectors';
 
-const courseFromRefs = refs => Object.keys(refs).reduce((acc, key) => ({ ...acc, [key]: refs[key].value() }), {});
+const refMap = {
+  name: {
+    errorText: 'Must be at least 1 character',
+    type: 'text',
+    validate: (val) => val.length > 0
+  },
+  department: {
+    errorText: 'Must be at least 1 character',
+    type: 'text',
+    validate: (val) => val.length > 0
+  },
+  number: {
+    errorText: 'Must be a number',
+    type: 'number',
+    validate: (val) => !isNaN(parseInt(val, 10))
+  }
+};
 
 const mapDispatchToProps = (dispatch) => ({
   createCourse: bindActionCreators(actions.createCourse, dispatch),
@@ -39,12 +55,26 @@ class CoursesJoinAndCreate extends Component {
 
   constructor() {
     super();
-
+    this.state = {
+      creating: false
+    };
     this.handleCreateClick = this.handleCreateClick.bind(this);
+    this.handleCreatingStateSwitch = this.handleCreatingStateSwitch.bind(this);
   }
 
-  handleCreateClick() {
-    this.props.createCourse(courseFromRefs(this.refs));
+  handleCreateClick(course) {
+    this.setState({
+      creating: !this.state.creating
+    });
+    this.props.createCourse(course);
+  }
+
+  handleCreatingStateSwitch(e) {
+    e.stopPropagation();
+
+    this.setState({
+      creating: !this.state.creating
+    });
   }
 
   render() {
@@ -60,6 +90,7 @@ class CoursesJoinAndCreate extends Component {
     return (
       <div>
         <SearchAndCreate
+          creatingItem={this.state.creating}
           itemComponent={components.CourseJoin}
           itemComponentProps={{
             joinCourse: joinCourse,
@@ -67,31 +98,15 @@ class CoursesJoinAndCreate extends Component {
             leaveCourse: leaveCourse
           }}
           itemsLoading={coursesLoading}
+          handleCreatingStateSwitch={this.handleCreatingStateSwitch}
           loadItems={loadCourses}
           name="Course"
-          onCreateClick={this.handleCreateClick}
           searchForItems={searchForCourses}
         >
-          <Input
-            label="Name"
-            hint="Must be at least 1 character"
-            ref="name"
-            type="text"
-            validate={val => val.length > 0}
-          />
-          <Input
-            label="Department"
-            hint="Must be at least 1 character"
-            ref="department"
-            type="text"
-            validate={val => val.length > 0}
-          />
-          <Input
-            label="Number"
-            hint="Must be a number"
-            ref="number"
-            type="number"
-            validate={val => !isNaN(parseInt(val, 10))}
+          <CreateForm
+            label="Create Class"
+            onCreate={this.handleCreateClick}
+            refMap={refMap}
           />
         </SearchAndCreate>
       </div>
