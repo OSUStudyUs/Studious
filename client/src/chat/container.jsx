@@ -1,20 +1,21 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
 
 import './container.scss';
 import { chatChannel } from '../utils';
 import * as actions from './actions';
 import * as selectors from './selectors';
 import Message from './components/message';
-import keycode from 'keycode';
 
 const mapDispatchToProps = (dispatch) => ({
   createSubscription: bindActionCreators(actions.createSubscription, dispatch),
   loadMessages: bindActionCreators(actions.loadMessages, dispatch),
   receiveMessage: bindActionCreators(actions.receiveMessage, dispatch)
 });
-
 const mapStateToProps = (state, { id }) => ({
   consumer: chatChannel.selectors.consumer(state),
   messages: selectors.messagesById(state, id),
@@ -33,8 +34,12 @@ class Chat extends Component {
 
   constructor() {
     super();
+    this.state = {
+      message: '',
+      messageError: null
+    };
     this.handleClick = this.handleClick.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleMessageChange = this.handleMessageChange.bind(this);
   }
 
   componentDidMount() {
@@ -71,18 +76,30 @@ class Chat extends Component {
   }
 
   handleClick() {
-    this.props.subscription.sendMessage(this.refs.message.value);
-    this.refs.message.value = "";
+    const { message } = this.state;
+
+    if (message.length) {
+      this.props.subscription.sendMessage(message);
+      this.setState({
+        message: '',
+        messageError: null
+      });
+    } else {
+      this.setState({
+        messageError: 'Please enter a message'
+      });
+    }
   }
 
-  handleKeyDown(keyCode) {
-    if(keycode(keyCode) === 'enter') {
-      this.handleClick();
-    }
+  handleMessageChange({ target }) {
+    this.setState({
+      message: target.value
+    });
   }
 
   render() {
     const { messages } = this.props;
+    const { message, messageError } = this.state;
 
     if (!messages) {
       return (
@@ -91,17 +108,43 @@ class Chat extends Component {
     }
 
     return (
-      <div className="Chat">
-        <div className="Chat-messages" ref="messagesContainer" >
-          {/* We'll need a <Message /> component here for styling, please :)*/}
-          { messages.map(({ createdAt, id, content, user }) => <Message createdAt={createdAt} id={id} content={content} user={user} />) }
+      <Paper
+        style={{
+          height: '100%',
+          margin: '20px',
+          padding: '20px'
+        }}
+      >
+        <div className="Chat">
+          <div className="Chat-messages" ref="messagesContainer" >
+            {messages.map(({ createdAt, id, content, user }) =>
+              <Message createdAt={createdAt} id={id} key={id} content={content} user={user} />)
+            }
+          </div>
+          <div className="Chat-inputContainer">
+            <TextField
+              errorText={messageError}
+              maxLength="65"
+              underlineShow={false}
+              hintText="message"
+              id="Chat-input"
+              multiLine={true}
+              onChange={this.handleMessageChange}
+              ref="message"
+              rowsMax={4}
+              style={{
+                flex: '1',
+                padding: '3px',
+              }}
+              value={message}
+            />
+          <div className="Chat-buttonWrapper">
+            <div id="Chat-buttonMargin" />
+            <RaisedButton label="Send" onClick={this.handleClick} secondary />
+          </div>
+          </div>
         </div>
-        <div className="Chat-input">
-          {/* This should be a controlled component (form) at some point */}
-          <textarea className="Chat-input--textbox" ref="message" onKeyDown={this.handleKeyDown}/>
-          <button className="Chat-input--sendButton" onClick={this.handleClick}>Send</button>
-        </div>
-      </div>
+      </Paper>
     );
   }
 }

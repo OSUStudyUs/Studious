@@ -2,27 +2,28 @@
   display: flex;
   flex-direction: column;
   height: 90%;
+  padding: 10px;
+}
+
+.Chat-buttonWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.Chat-inputContainer {
+  display: flex;
+  width: 100%;
+  margin-top: 10px;
+  border: 3px solid #efefef;
 }
 
 .Chat-messages {
-  flex: 5;
-  overflow: scroll;
-}
-
-.Chat-input {
   flex: 1;
-}
-
-.Chat-input--textbox {
-  width: 95%;
-  height: 100%;
   overflow: scroll;
-  resize: none;
-  border: none;
+  padding: 8px;
+  border: 3px solid #efefef;
 }
 
-.Chat-input--sendButton {
-  position: absolute;
-  bottom: 1.25%;
-  right: .25em;
+#Chat-buttonMargin {
+  flex: 1;
 }
