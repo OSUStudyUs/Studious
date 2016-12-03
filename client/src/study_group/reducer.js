@@ -89,8 +89,8 @@ const studyGroup = (state = initialState, { type, payload }) => {
       newPayload = { ...payload.studyGroup };
 
       flashCardSetIds = newPayload.flashCardSets.map(({ id }) => id);
-      memberIds = newPayload.users.filter(({ pending }) => !pending).map(({ id, membershipId }) => { id, membershipId });
-      pendingIds = newPayload.users.filter(({ pending }) => pending).map(({ id, membershipId }) => { id, membershipId });
+      memberIds = newPayload.users.filter(({ pending }) => !pending).map(({ id, membershipId }) => ({ id, membershipId }));
+      pendingIds = newPayload.users.filter(({ pending }) => pending).map(({ id, membershipId }) => ({ id, membershipId }));
 
       delete newPayload.flashCardSets;
       delete newPayload.users;
@@ -119,8 +119,8 @@ const studyGroup = (state = initialState, { type, payload }) => {
         const { id } = newGroup;
 
         flashCardSetIds = newGroup.flashCardSets.map(({ id }) => id);
-        memberIds = newPayload.users.filter(({ pending }) => !pending).map(({ id, membershipId }) => { id, membershipId });
-        pendingIds = newPayload.users.filter(({ pending }) => pending).map(({ id, membershipId }) => { id, membershipId });
+        memberIds = newPayload.users.filter(({ pending }) => !pending).map(({ id, membershipId }) => ({ id, membershipId }));
+        pendingIds = newPayload.users.filter(({ pending }) => pending).map(({ id, membershipId }) => ({ id, membershipId }));
 
         const courseId = newGroup.course.id;
 
