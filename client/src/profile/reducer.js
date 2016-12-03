@@ -34,7 +34,6 @@ const profile = (state = initialState, { type, payload }) => {
     case CREATE_FLASH_CARD_SET_SUCCESS:
       const { userId } = payload.flashCardSet;
 
-      console.log(userId, newState.id);
       if (userId === newState.id) {
         newState.flashCardSetIds = (newState.flashCardSetIds || []).concat(payload.flashCardSet.id);
       }
