@@ -59,37 +59,39 @@ class Sidebar extends Component {
     };
 
     return (
-      <List>
-        <DropDownMenu
-          autoWidth={false}
-          id="ProfileLinks"
-          listStyle={listStyle}
-          maxHeight={300}
-          onChange={this.handleChange}
-          value={activePath.split('/').slice(0, 3).join('/')}
-        >
-          {userMenuItem}
+      <div className="SidebarContainer">
+        <List>
+          <DropDownMenu
+            autoWidth={false}
+            id="ProfileLinks"
+            listStyle={listStyle}
+            maxHeight={300}
+            onChange={this.handleChange}
+            value={activePath.split('/').slice(0, 3).join('/')}
+          >
+            {userMenuItem}
+            <Divider />
+            <MenuItem primaryText="Study Groups" disabled />
+            {studyGroupMenuItems}
+          </DropDownMenu>
+          <ListItem
+            onClick={() => router.transitionTo(`${activePath.split('/').slice(0, 3).join('/')}/chat`)}
+            primaryText="CHAT"
+            rightIcon={<CommunicationChatBubble />}
+          />
           <Divider />
-          <MenuItem primaryText="Study Groups" disabled />
-          {studyGroupMenuItems}
-        </DropDownMenu>
-        <ListItem
-          onClick={() => router.transitionTo(`${activePath.split('/').slice(0, 3).join('/')}/chat`)}
-          primaryText="CHAT"
-          rightIcon={<CommunicationChatBubble />}
-        />
-        <Divider />
-        <MenuItem
-          primaryText="Flash Card Sets"
-          disabled
-        />
-        {flashCardSetMenuItems}
-        <ListItem
-          onClick={() => router.transitionTo(`${activePath.split('/').slice(0, 3).join('/')}/flash-card-sets/new`)}
-          primaryText="Create One!"
-          rightIcon={<LibraryAdd />}
-        />
-      </List>
+          <MenuItem
+            primaryText="Flash Card Sets"
+            disabled
+          />
+          {flashCardSetMenuItems}
+          <ListItem
+            onClick={() => router.transitionTo(`${activePath.split('/').slice(0, 3).join('/')}/flash-card-sets/new`)}
+            primaryText="Create One!"
+            rightIcon={<LibraryAdd />}
+          />
+        </List>
+      </div>
     );
   }
 }

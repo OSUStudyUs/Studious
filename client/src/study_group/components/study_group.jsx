@@ -4,13 +4,15 @@ import { Card, CardHeader } from 'material-ui/Card';
 import './study_group.scss';
 
 const StudyGroup = ({ studyGroup }) => (
-  <Card style={{ 'margin-bottom': '10px' }}>
-    <CardHeader
-      title={studyGroup.name}
-      actAsExpander={false}
-      showExpandableButton={false}
-    />
-  </Card>
+  <div className="StudyGroup">
+    <Card>
+      <CardHeader
+        title={studyGroup.name}
+        actAsExpander={false}
+        showExpandableButton={false}
+      />
+    </Card>
+  </div>
 );
 
 StudyGroup.propTypes = {

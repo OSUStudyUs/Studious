@@ -58,10 +58,10 @@ const profile = (state = initialState, { type, payload }) => {
         ...newPayload
       };
     case STUDY_GROUP_CREATION_SUCCESS:
-      newState.studyGroups = (newState.studyGroups || []).concat({
-        id: payload.studyGroup.id,
-        name: payload.studyGroup.name
-      });
+      const { id } = payload.studyGroup;
+
+      newState.studyGroupIds = (newState.studyGroupIds || []).concat(id);
+
       return newState;
     default:
       return state;
