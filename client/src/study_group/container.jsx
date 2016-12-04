@@ -90,7 +90,6 @@ class StudyGroupContainer extends Component {
     return (
       <div className="StudyGroupContainer">
         {propUtils.allReceived(StudyGroupContainer.propTypes, this.props) && <MatchPassProps component={GroupProfile} exactly name={this.props.name} pattern="/study-groups/:id" /> }
-        {propUtils.allReceived(StudyGroupContainer.propTypes, this.props) &&
           <MatchPassProps
             component={FlashCardSet}
             createRoute={`study_groups/${this.props.params.id}`}
@@ -98,7 +97,6 @@ class StudyGroupContainer extends Component {
             pattern="/study-groups/:id/flash-card-sets/:flashCardSetId"
             rootRoute="/study-groups/:id"
           />
-        }
         {this.props.chatroomId &&
           <MatchPassProps component={Chat} exactly pattern="/study-groups/:id/chat" id={this.props.chatroomId} />
         }
