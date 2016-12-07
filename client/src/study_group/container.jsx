@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import './container.scss';
 import { MatchPassProps, propUtils, sidebarUtils } from '../utils';
 import chat from '../chat';
 import flashCardSet from '../flash_card_set';
