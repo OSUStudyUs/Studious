@@ -6,11 +6,14 @@ FactoryGirl.define do
     association :study_group
     user nil
     name "A Flash Card Set"
-    public false
 
     trait :for_a_user do
       study_group nil
       association :user
+    end
+
+    trait :invalid do
+      name nil
     end
 
     trait :with_flash_cards do
