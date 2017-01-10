@@ -73,7 +73,8 @@
     "start": "node client/scripts/start.js",
     "build": "node client/scripts/build.js",
     "lint": "eslint client/src/**/*.{js,jsx}",
-    "test": "node client/scripts/test.js --env=jsdom"
+    "test": "node client/scripts/test.js --env=jsdom",
+    "heroku-postbuild": "node client/scripts/build.js"
   },
   "jest": {
     "moduleFileExtensions": [

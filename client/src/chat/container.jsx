@@ -65,7 +65,6 @@ class Chat extends Component {
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
       }
     }
-    this.refs.message.input.addEventListener('keydown', this.handleEnter);
   }
 
   componentDidUpdate() {

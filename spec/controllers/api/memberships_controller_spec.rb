@@ -43,10 +43,10 @@ RSpec.describe Api::MembershipsController, type: :controller do
     let(:headers) { auth_header(membership.user) }
 
     context "when passed a valid token" do
-      it "has status 204" do
+      it "has status 200" do
         request.headers.merge! headers
         delete :destroy, params: { id: membership.id }, format: :json
-        expect(response).to have_http_status(204)
+        expect(response).to have_http_status(200)
       end
 
       it "destroys the membership" do

@@ -44,7 +44,6 @@ RSpec.describe Api::FlashCardSetsController, type: :controller do
   #   1: 12/01/16 - Kyle Thompson - add tests for 404 paths
   describe "GET #show" do
     let!(:flash_card_set) { FactoryGirl.create(:flash_card_set, :for_a_user) }
-    let!(:public_flash_card_set) { FactoryGirl.create(:flash_card_set, :for_a_user, public: true) }
     let!(:user) { FactoryGirl.create(:user) }
     let(:headers) { auth_header(flash_card_set.user) }
     let(:bad_headers) { auth_header(user) }
@@ -129,7 +128,7 @@ RSpec.describe Api::FlashCardSetsController, type: :controller do
   #   1: 11/23/16 - Mary Zhou - initial implementation
   describe "PATCH #update" do
     let!(:flash_card_set) { FactoryGirl.create(:flash_card_set, :for_a_user) }
-    let(:different_flash_card_set) { FactoryGirl.attributes_for(:flash_card_set, public: true) }
+    let(:different_flash_card_set) { FactoryGirl.attributes_for(:flash_card_set, name: 'different') }
     let(:headers) { auth_header(flash_card_set.user) }
     let!(:user) { FactoryGirl.create(:user) }
     let(:bad_headers) { auth_header(user) }
@@ -153,7 +152,7 @@ RSpec.describe Api::FlashCardSetsController, type: :controller do
           request.headers.merge! headers
           patch :update, params: { id: flash_card_set, flash_card_set: different_flash_card_set }, format: :json
           flash_card_set.reload
-          expect(flash_card_set.public).to eq true
+          expect(flash_card_set.name).to eq 'different'
         end
 
         it "renders the show template" do
